@@ -1,0 +1,113 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
+/*   Updated: 2017/03/09 15:10:36 by sclolus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef __AST_H__
+# define __AST_H__
+# include "libft.h"
+
+typedef uint32_t	t_id;
+
+# define UNRETAINED 0
+# define RETAINED 1
+
+typedef struct	s_parser t_parser;
+typedef enum	e_id
+{
+	UNDEFINED = 0,
+	ONECHAR = 1,
+	STRING  = 2,
+	REGEXP = 3,
+	AND = 4,
+	OR = 5,
+	RANGE = 6,
+	ANY = 7,
+	SATISFY = 8,
+	SATISFY_STR = 9,
+	NOT = 10,
+}				t_e_id;
+
+typedef struct	s_mpc_onechar
+{
+	char	c;
+}				t_mpc_onechar;
+
+typedef struct	s_mpc_any
+{
+	char	padding[8];
+}				t_mpc_any;
+
+typedef struct	s_mpc_str
+{
+	char	*str;
+}				t_mpc_str;
+
+typedef struct	s_mpc_regexp
+{
+	char	*regexp;
+}				t_mpc_regexp;
+
+typedef struct	s_mpc_and_n
+{
+	uint32_t	n;
+	t_parser	**parsers;
+}				t_mpc_and_n;
+
+typedef struct	s_mpc_or_n
+{
+	uint32_t	n;
+	t_parser	**parsers;
+}				t_mpc_or_n;
+
+typedef struct	s_mpc_not
+{
+	t_parser	*parser;
+}				t_mpc_not;
+
+typedef struct	s_mpc_char_range
+{
+	char	start;
+	char	end;
+}				t_mpc_char_range;
+
+typedef struct	s_mpc_satisfy
+{
+	int32_t	(*f)(char);
+}				t_mpc_satisfy;
+
+typedef struct	s_mpc_satisfy_str
+{
+	int32_t	(*f)(char*);
+}				t_mpc_satisfy_str;
+
+typedef union	s_mpc
+{
+	t_mpc_onechar		onechar;
+	t_mpc_str			string;
+	t_mpc_regexp		regexp;
+	t_mpc_and_n			and;
+	t_mpc_or_n			or;
+	t_mpc_char_range	range;
+	t_mpc_any			any;
+	t_mpc_satisfy		satisfy;
+	t_mpc_satisfy_str	satisfy_str;
+	t_mpc_not			not;
+}				t_mpc;
+
+typedef struct	s_parser
+{
+	char	*name;
+	t_e_id	id;
+	char	retained;
+	t_mpc	parser;
+}				t_parser;
+
+#endif
