@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 03:13:00 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/10 05:58:11 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/10 06:14:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int32_t	ft_count_rules(char *grammar)
 }
 
 /*
-/** Not safe, need checks on rule existence
+*** Not safe, need checks on rule existence
 */
 
 uint32_t		ft_count_metachar(char *start, char *end)
@@ -60,7 +60,7 @@ uint32_t		ft_count_metachar(char *start, char *end)
 	return (count);
 }
 
-int32_t			ft_fill_metachar_stack(char *stack, char *start
+int32_t			ft_fill_metachar_stack(t_metachar_stack *stack, char *start
 									   , char *end)
 {
 	uint32_t	i;
@@ -77,28 +77,34 @@ int32_t			ft_fill_metachar_stack(char *stack, char *start
 		if (ft_strchr(MPC_PARSING_METACHAR, *start) && !quotes)
 		{
 			stack[i].c = *start;
+			ft_putchar(*start);
 			stack[i++].offset = end - start;
 		}
 		start++;
 	}
-	stack[i] = 0;
+	stack[i].c = 0;
 	if (quotes)
 		return (-1);
 	return (i);
 }
 
+#include <stdio.h>
 t_parser		*ft_get_next_rule(char *grammar)
 {
-	static char	metachar_stack[METACHAR_STACKSIZE];
-	t_parser	*parser;
-	char		*name;
-	char		*definition;
+	static t_metachar_stack	metachar_stack[METACHAR_STACKSIZE];
+	t_parser				*parser;
+	char					*name;
+	char					*definition;
 
 	parser = ft_get_parser_or_n(1, NULL);
 	name = ft_strchr(grammar, ':');
-	definition = ft_strstr(grammar, ";\n");
+	definition = ft_strstr(grammar, ";\
+");
+//	printf("Start : %p - %p : enD\n", name, definition);
+	// count returned
+	//write(1, name, definition - name);
 	ft_fill_metachar_stack(metachar_stack, name, definition);
-	
+	return (parser);
 }
 
 t_parser	*ft_grammar(char *grammar)
@@ -112,7 +118,7 @@ t_parser	*ft_grammar(char *grammar)
 		exit (EXIT_FAILURE);
 	ft_putnbr(count);
 	parsers[count] = NULL;
-	while (--count >== 0)
-		parsers[count] = ft_get_next_rule(grammar);
+	while (--count >= 0)
+		parsers[count] = ft_get_next_rule(&grammar);
 	return ((void*)1);
 }

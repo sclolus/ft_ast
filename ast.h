@@ -6,20 +6,21 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/10 05:48:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/10 06:14:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef __AST_H__
 # define __AST_H__
 # include "libft.h"
+# include <unistd.h>
 
 typedef uint32_t	t_id;
 
 # define UNRETAINED 0
 # define RETAINED 1
 
-# define MPC_PARSING_METACHAR "\"\'|*+()/<>"
+# define MPC_PARSING_METACHAR "\"\'|*+()/<>[]"
 # define METACHAR_STACKSIZE 4096
 
 typedef struct	s_metachar_stack
@@ -119,6 +120,17 @@ typedef struct	s_parser
 	t_mpc	parser;
 }				t_parser;
 
+
+t_parser		*ft_get_undefined_parser(void);
+t_parser		*ft_get_parser_onechar(char c);
+t_parser		*ft_get_parser_str(char *str);
+t_parser		*ft_get_parser_range(char start, char end);
+t_parser		*ft_get_parser_and_n(uint32_t n, t_parser **parsers);
+t_parser		*ft_get_parser_or_n(uint32_t n, t_parser **parsers);
+t_parser		*ft_get_parser_any(void);
+t_parser		*ft_get_parser_satisfy(int32_t (*f)(char));
+t_parser		*ft_get_parser_satisfy_str(int32_t (*f)(char*));
+t_parser		*ft_get_parser_not(t_parser *parser);
 
 t_parser		*ft_grammar(char *grammar);
 uint32_t		ft_count_metachar(char *start, char *end);
