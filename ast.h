@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/09 15:10:36 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/10 05:48:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ typedef uint32_t	t_id;
 
 # define UNRETAINED 0
 # define RETAINED 1
+
+# define MPC_PARSING_METACHAR "\"\'|*+()/<>"
+# define METACHAR_STACKSIZE 4096
+
+typedef struct	s_metachar_stack
+{
+	char		c;
+	uint32_t	offset;
+}				t_metachar_stack;
 
 typedef struct	s_parser t_parser;
 typedef enum	e_id
@@ -110,4 +119,8 @@ typedef struct	s_parser
 	t_mpc	parser;
 }				t_parser;
 
+
+t_parser		*ft_grammar(char *grammar);
+uint32_t		ft_count_metachar(char *start, char *end);
+int32_t			ft_count_rules(char *grammar);
 #endif

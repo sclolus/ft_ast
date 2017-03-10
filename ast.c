@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/09 15:11:05 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/10 02:10:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_parser	*ft_get_undefined_parser(void)
 	return (parser);
 }
 
-t_parser	*ft_set_parser_onechar(char c)
+t_parser	*ft_get_parser_onechar(char c)
 {
 	t_parser	*parser;
 
