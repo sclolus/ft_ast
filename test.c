@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/10 06:10:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/11 02:37:14 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ expression      : <product> ((\'+\' | \'-\') <product>)* ;\
 product         : <value>   ((\'*\' | \'/\')   <value>)* ;\
 value           : <number> | \'(\' <expression> \')\' ;\
 maths           : /^/ <expression> /$/ ;"))
-		ft_putstr("valid rules");
+		ft_putstr("\n");
 	else
 		ft_putstr("lol");
 //	ft_parser(argv[1]);

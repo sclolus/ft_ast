@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_grammar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 03:13:00 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/10 06:14:30 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/12 02:40:28 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,22 +88,64 @@ int32_t			ft_fill_metachar_stack(t_metachar_stack *stack, char *start
 	return (i);
 }
 
+t_metachar_stack	**ft_find_highest_precedence(t_metachar_stack *stack,
+												uint32_t Plevel)
+{
+	//returns a tab of all the metachar corresponding to Plevel or higher if not found
+	// */+ added when the metachar preceding it is added
+	// null if no metachar to add
+}
+
+t_parser		*ft_generate_parser(t_metachar_stack *start, char *grammar,
+									uint32_t precedence)
+{
+	t_parser	*p;
+
+	if (!(separators = ft_find_separators(start, precedence))) //null if no subnode to make
+	{
+		//need to handle whitespace = && here
+		ft_set_parser_value(p, start, grammar);
+		return (p);
+	}
+	p = ft_set_parser_type(separators);
+	//metaword associated with */+ make adequate type
+	//paren without mod make generic << delete at optimisation
+	//if no separator list, realloc needed to extend parser
+	ft_parser_insert(p, ft_generate_parser(start, grammar, *(separators)->precedence + 1));
+	while (*separators)
+	{
+		if ((*separators)->c == ('+' || '*'))
+		{
+			free(*separators);
+			continue;
+		}
+		ft_parser_insert(p, ft_generate_parser(*separators + 1, grammar,
+						separators->c == '(' ? 0 : separators->precedence + 1));
+		free(*separators);
+		++separators;
+	}
+	free(separators);
+}
+
 #include <stdio.h>
-t_parser		*ft_get_next_rule(char *grammar)
+t_parser		*ft_get_next_rule(char **grammar)
 {
 	static t_metachar_stack	metachar_stack[METACHAR_STACKSIZE];
 	t_parser				*parser;
 	char					*name;
 	char					*definition;
 
-	parser = ft_get_parser_or_n(1, NULL);
-	name = ft_strchr(grammar, ':');
-	definition = ft_strstr(grammar, ";\
+	//parser = ft_get_parser_or_n(1, NULL);
+	name = ft_strchr(*grammar, ':');
+	definition = ft_strstr(*grammar, ";\
 ");
-//	printf("Start : %p - %p : enD\n", name, definition);
-	// count returned
-	//write(1, name, definition - name);
 	ft_fill_metachar_stack(metachar_stack, name, definition);
+	ft_putchar('\n');
+	// parser = ft_generate_parser(metachar_stack, *grammar, 0);
+
+
+	*grammar = ++definition;
+	ft_bzero(metachar_stack, sizeof(metachar_stack));
 	return (parser);
 }
 
@@ -116,7 +158,7 @@ t_parser	*ft_grammar(char *grammar)
 		return (NULL);
 	if (!(parsers = (t_parser**)malloc(sizeof(t_parser*) * (count + 1))))
 		exit (EXIT_FAILURE);
-	ft_putnbr(count);
+	// ft_putnbr(count);
 	parsers[count] = NULL;
 	while (--count >= 0)
 		parsers[count] = ft_get_next_rule(&grammar);
