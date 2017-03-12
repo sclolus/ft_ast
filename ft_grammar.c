@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 03:13:00 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/10 06:14:30 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/11 18:55:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int32_t	ft_count_rules(char *grammar)
 	i = 0;
 	while (grammar[i])
 	{
-		if (grammar[i] == '\'')
+		if (grammar[i] == '\'' && quotes != 0b10)
 			quotes ^= 0b01;
-		else if (grammar[i] == '\"')
+		else if (grammar[i] == '\"' && quotes != 0b01)
 			quotes ^= 0b10;
 		else if (grammar[i] == ':' && !semi_colon && !quotes)
 		{
@@ -89,22 +89,48 @@ int32_t			ft_fill_metachar_stack(t_metachar_stack *stack, char *start
 }
 
 #include <stdio.h>
-t_parser		*ft_get_next_rule(char *grammar)
+t_parser		*ft_get_next_rule(char **grammar)
 {
 	static t_metachar_stack	metachar_stack[METACHAR_STACKSIZE];
 	t_parser				*parser;
 	char					*name;
 	char					*definition;
 
-	parser = ft_get_parser_or_n(1, NULL);
-	name = ft_strchr(grammar, ':');
-	definition = ft_strstr(grammar, ";\
+//	parser = ft_get_parser_or_n(1, NULL);
+	name = ft_strchr(*grammar, ':');
+	definition = ft_strstr(*grammar, ";\
 ");
-//	printf("Start : %p - %p : enD\n", name, definition);
-	// count returned
-	//write(1, name, definition - name);
 	ft_fill_metachar_stack(metachar_stack, name, definition);
+	parser = ft_get_parser_grammar(metachar_stack, *grammar, definition);
+	*grammar = definition + 1;	
 	return (parser);
+}
+
+t_parser	*ft_get_parser_grammar(t_metachar_stack *metachar_stack, char *start, char *end)
+{
+	t_parser	*parser;
+
+	if (metachar_stack && end)
+	{};
+	parser = ft_get_undefined_parser();
+	parser->name = ft_get_rule_name(start);
+	ft_putstr(" ::= ");
+	ft_putstr(parser->name);
+	return (parser);
+}
+
+char		*ft_get_rule_name(char *start)
+{
+	char	*end;
+	char	*start_name;
+	char	*name;
+
+	start_name = ft_strchr(start, '<');
+	end = ft_strchr(start, '>');
+	if (!(name = ft_strsub(start, (unsigned int)(start - start_name + 1)
+							   , (unsigned int)(end - start_name - 1))))
+		exit (EXIT_FAILURE);
+	return (name);
 }
 
 t_parser	*ft_grammar(char *grammar)
@@ -112,6 +138,7 @@ t_parser	*ft_grammar(char *grammar)
 	int32_t		count;
 	t_parser	**parsers;
 
+	ft_putendl(grammar);
 	if ((count = ft_count_rules(grammar)) == -1)
 		return (NULL);
 	if (!(parsers = (t_parser**)malloc(sizeof(t_parser*) * (count + 1))))
@@ -119,6 +146,10 @@ t_parser	*ft_grammar(char *grammar)
 	ft_putnbr(count);
 	parsers[count] = NULL;
 	while (--count >= 0)
+	{
 		parsers[count] = ft_get_next_rule(&grammar);
+		ft_putendl("");
+
+	}
 	return ((void*)1);
 }

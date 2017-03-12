@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/10 06:14:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/11 18:43:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,4 +135,7 @@ t_parser		*ft_get_parser_not(t_parser *parser);
 t_parser		*ft_grammar(char *grammar);
 uint32_t		ft_count_metachar(char *start, char *end);
 int32_t			ft_count_rules(char *grammar);
+t_parser		*ft_get_parser_grammar(t_metachar_stack *metachar_stack
+									   , char *start, char *end);
+char			*ft_get_rule_name(char *start);
 #endif

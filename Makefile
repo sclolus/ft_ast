@@ -2,7 +2,8 @@ NAME= ft_ast
 CC= gcc
 FLAGS= -Wall -Werror -Wextra
 SRC=		ast.c \
-			main.c
+			main.c \
+	ft_grammar.c
 OBJ= $(SRC:.c=.o)
 HDR_PATH= ./libft/includes
 
