@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/10 06:14:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/12 03:55:06 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define __AST_H__
 # include "libft.h"
 # include <unistd.h>
-
+#include <stdio.h>
 typedef uint32_t	t_id;
 
 # define UNRETAINED 0
@@ -27,6 +27,7 @@ typedef struct	s_metachar_stack
 {
 	char		c;
 	uint32_t	offset;
+	uint32_t	prec;
 }				t_metachar_stack;
 
 typedef struct	s_parser t_parser;
