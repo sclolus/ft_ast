@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/14 05:43:37 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/14 07:12:54 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,8 @@ typedef struct	s_parser
 
 t_parser		*ft_get_undefined_parser(void);
 t_parser		*ft_get_parser_str_any(void);
-t_parser		*ft_get_plus_parser(t_parser *parser);
-t_parser		*ft_get_multiply_parser(t_parser *parser);
+t_parser		*ft_get_parser_plus(t_parser *parser);
+t_parser		*ft_get_parser_multiply(t_parser *parser);
 t_parser		*ft_get_parser_onechar(char c);
 t_parser		*ft_get_parser_str(char *str);
 t_parser		*ft_get_parser_range(char start, char end);
@@ -166,6 +166,7 @@ t_parser		*ft_get_parser_satisfy_str(int32_t (*f)(char*));
 t_parser		*ft_get_parser_not(t_parser *parser);
 
 
+t_parser		*ft_get_parser_grammar(void);
 t_parser		*ft_get_parser_literal(void);
 t_parser		*ft_get_parser_rule_name(void);
 t_parser		*ft_get_parser_list(t_parser *term, t_parser *whitespace);
@@ -178,4 +179,10 @@ t_parser		*ft_get_parser_syntax(t_parser *rule);
 t_parser		*ft_grammar(char *grammar);
 uint32_t		ft_count_metachar(char *start, char *end);
 int32_t			ft_count_rules(char *grammar);
+
+int32_t			ft_is_alpha(char c);
+
+
+void			ft_put_parser(t_parser *parser);
+void			ft_put_id(t_parser *parser);
 #endif

@@ -6,14 +6,14 @@
 #    By: aalves <aalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/08 03:04:06 by aalves            #+#    #+#              #
-#    Updated: 2017/03/11 02:25:14 by aalves           ###   ########.fr        #
+#    Updated: 2017/03/14 06:31:17 by sclolus          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 export NAME = libft.a
 export CC = gcc
 export FLAGS = -Werror -Wall -Wextra -g -O0
-export VERBOSE = 1
+export VERBOSE = 0
 SRCS =	ft_memset.c \
 		ft_pow.c \
 		ft_atoi.c \

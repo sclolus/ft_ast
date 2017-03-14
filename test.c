@@ -6,17 +6,18 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/14 01:47:05 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/14 06:32:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include <ast.h>
 
 int main(int argc, char **argv)
 {
 
 	if (argc || argv)
 	{};
+/*
 	if (ft_grammar("number \"number\" : /[0-9]+/ ;\
 expression      : <product> ((\'+\' | \'-\') <product>)* ;\
 product         : <value> ((\'*\' | \'/\') <value>)* ;\
@@ -24,7 +25,8 @@ value           : <number> | \'(\' <expression> \')\' ;\
 maths           : /^/ <expression> /$/ ;"))
 		ft_putstr("\n");
 	else
-		ft_putstr("lol");
+	ft_putstr("lol");*/
 //	ft_parser(argv[1]);
+	ft_get_parser_grammar();
 	return (0);
 }

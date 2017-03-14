@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/14 06:04:25 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/14 07:33:29 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ int32_t		ft_is_metachar(char c)
 		return (1);
 	else
 		return (0);
+}
+
+int32_t		ft_is_alpha(char c)
+{
+	return ((c >= 'a' && c <= 'z')
+			|| (c >= 'A' && c <= 'Z'));
 }
 
 t_parser	*ft_get_parser_literal(void)
@@ -38,7 +44,6 @@ t_parser	*ft_get_parser_rule_name(void)
 
 t_parser	*ft_get_parser_list(t_parser *term, t_parser *whitespace)
 {
-
 	return (ft_get_parser_or_n(2, (t_parser *[]){term,
 					ft_get_parser_multiply(
 						ft_get_parser_and_n(2, (t_parser *[]){term, whitespace}))}));
@@ -62,7 +67,7 @@ t_parser	*ft_get_parser_line_end(t_parser *whitespace)
 t_parser	*ft_get_parser_rule(t_parser *expression, t_parser *rule_name
 								, t_parser *whitespace, t_parser *eol)
 {
-	return (ft_parser_and_n(7, (t_parser *[]){whitespace, rule_name
+	return (ft_get_parser_and_n(7, (t_parser*[]){whitespace, rule_name
 					, whitespace, ft_get_parser_str("::=")
 					, whitespace, expression, eol}));
 }
@@ -87,9 +92,9 @@ t_parser	*ft_get_parser_grammar(void)
 	t_parser	*rule;
 	t_parser	*syntax;
 
-	letter = ft_get_parser_satisfy(&ft_isalpha);
-	symbol = ft_get_parser_satisfy(&ft_is_metachar);
-	character = ft_get_parser_or_n(2, (t_parser *[]){&letter, &symbol});
+	letter = ft_get_parser_satisfy(ft_is_alpha);
+	symbol = ft_get_parser_satisfy(ft_is_metachar);
+	character = ft_get_parser_or_n(2, (t_parser *[]){letter, symbol});
 	whitespace = ft_get_parser_multiply(ft_get_parser_onechar(' '));
 	literal = ft_get_parser_literal();
 	rule_name = ft_get_parser_rule_name();
@@ -99,6 +104,7 @@ t_parser	*ft_get_parser_grammar(void)
 	eol = ft_get_parser_line_end(whitespace);
 	rule = ft_get_parser_rule(expression, rule_name, whitespace, eol);
 	syntax = ft_get_parser_syntax(rule);
+//	ft_put_parser(syntax);
 	return (syntax);
 }
 
@@ -122,24 +128,24 @@ t_parser	*ft_get_parser_str_any(void)
 	return (parser);
 }
 
-t_parser	*ft_get_multiply_parser(t_parser *parser)
+t_parser	*ft_get_parser_multiply(t_parser *parser)
 {
-	t_parser	*parser;
+	t_parser	*new;
 
-	parser = ft_get_undefined_parser();
-	parser->parser.multiply.parser = parser;
-	parser->id = MULTIPLY;
-	return (parser);
+	new = ft_get_undefined_parser();
+	new->parser.multiply.parser = parser;
+	new->id = MULTIPLY;
+	return (new);
 }
 
-t_parser	*ft_get_plus_parser(t_parser *parser)
+t_parser	*ft_get_parser_plus(t_parser *parser)
 {
-	t_parser	*parser;
+	t_parser	*new;
 
-	parser = ft_get_undefined_parser();
-	parser->parser.plus.parser = parser;
-	parser->id = PLUS;
-	return (parser);
+	new = ft_get_undefined_parser();
+	new->parser.plus.parser = parser;
+	new->id = PLUS;
+	return (new);
 }
 
 t_parser	*ft_get_parser_onechar(char c)
@@ -177,10 +183,18 @@ t_parser	*ft_get_parser_range(char start, char end)
 t_parser	*ft_get_parser_and_n(uint32_t n, t_parser **parsers)
 {
 	t_parser	*parser;
+	uint32_t	i;
 
+	i = 0;
 	parser = ft_get_undefined_parser();
+	if (!(parser->parser.and.parsers = (t_parser**)malloc(sizeof(t_parser*) * n)))
+		exit (EXIT_FAILURE);
 	parser->parser.and.n = n;
-	parser->parser.and.parsers = parsers;
+	while (i < n)
+	{
+		parser->parser.and.parsers[i] = parsers[i];
+		i++;
+	}
 	parser->id = AND;
 	return (parser);
 }
@@ -188,10 +202,18 @@ t_parser	*ft_get_parser_and_n(uint32_t n, t_parser **parsers)
 t_parser	*ft_get_parser_or_n(uint32_t n, t_parser **parsers)
 {
 	t_parser	*parser;
+	uint32_t	i;
 
+	i = 0;
 	parser = ft_get_undefined_parser();
-	parser->parser.and.n = n;
-	parser->parser.and.parsers = parsers;
+	if (!(parser->parser.or.parsers = (t_parser**)malloc(sizeof(t_parser*) * n)))
+		exit (EXIT_FAILURE);
+	parser->parser.or.n = n;
+	while (i < n)
+	{
+		parser->parser.or.parsers[i] = parsers[i];
+		i++;
+	}
 	parser->id = OR;
 	return (parser);
 }
@@ -212,7 +234,6 @@ t_parser	*ft_get_parser_satisfy(int32_t (*f)(char))
 	parser = ft_get_undefined_parser();
 	parser->id = SATISFY;
 	parser->parser.satisfy.f = f;
-	parser->parser.satisfy.c = c;
 	return (parser);
 }
 
