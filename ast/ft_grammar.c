@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 03:13:00 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/12 07:40:18 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/14 03:43:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ uint32_t		ft_count_metachar(char *start, char *end)
 	return (count);
 }
 
-uint32_t ft_assign_prec(char c)
+uint32_t		 ft_assign_prec(char c)
 {
 	if (c == '(' || c == ')')
 		return (0);
@@ -106,6 +106,23 @@ int32_t			ft_fill_metachar_stack(t_metachar_stack *stack, char *start
 		return (-1);
 	return (i);
 }
+#if 0
+t_metachar_stack		*ft_find_separators(t_metachar_stack *stack)
+{
+	uint32_t	i;
+	uint32_t	level;
+
+	i = 0;
+	level = 0;
+	while (stack[i].c)
+	{
+		if (stack[i].prec > level)
+			level = stack[i].prec;
+		i++;
+	}
+}
+#endif
+#if 0
 t_metachar_stack	**ft_find_separators(t_metachar_stack *stack,
 												uint32_t prec_range)
 {
@@ -165,6 +182,7 @@ t_metachar_stack	**ft_find_separators(t_metachar_stack *stack,
 	}
 	return (ret);
 }
+# endif
 // t_metachar_stack	**ft_find_separators(t_metachar_stack *stack,
 // 												uint32_t prec_level)
 // {
@@ -230,57 +248,109 @@ t_metachar_stack	**ft_find_separators(t_metachar_stack *stack,
 // 	return (ret);
 // }
 
-void	ft_parser_insert(t_parser *main, t_parser *sub)
+/*void	ft_parser_insert(t_parser *main, t_parser *sub)
 {
 	return;
+	}*/
+
+uint32_t		ft_find_logical_and(t_metachar_stack *start, uint32_t i)
+{
+	if (i == 0)
+		return (0);
+	else
+	{
+		if (!ft_strchr("*+|", start[i - 1].c)
+			&& !ft_strchr("|", start[i].c))
+		{
+			start[i].used = TO_BE_USED;
+			return (1);
+		}
+	}
+	return (0);
 }
 
-t_parser		*ft_generate_parser(t_metachar_stack *start, char *grammar,
-									uint32_t prec)
+uint32_t		ft_find_logical_metachar(t_metachar_stack *start)
+{
+	uint32_t	i;
+	uint32_t	brackets;
+	uint32_t	bool;
+
+	i = 0;
+	brackets = 0;
+	bool = 0;
+	while (start[i].c && start[i].used != USED)
+	{
+		if (start[i].c == '(')
+			brackets++;
+		else if (start[i].c == ')')
+			brackets--;
+		if (brackets == 0 && start[i].c == '|')
+		{
+			start[i].used = TO_BE_USED;
+			bool = 2;
+		}
+		else if (bool != 2 && brackets == 0 && ft_find_logical_and(start, i))
+		{
+			start[i].used = TO_BE_USED;
+			bool = 1;
+		}
+		i++;
+	}
+	return (bool);
+}
+
+uint32_t		ft_get_operande_count(t_metachar_stack *start, char c)
+{
+	uint32_t	i;
+	uint32_t	count;
+
+	i = 0;
+	count++;
+	while (start[i].c && start[i].used != USED)
+	{
+		if (start[i].c == c)
+		{
+			start[i].used = USED;
+		}
+		i++;
+	}
+}
+
+t_parser		*ft_generate_parser(t_metachar_stack *start, char *grammar)
 {
 	t_parser	*p;
-	t_metachar_stack	**separators;
+	uint32_t	type;
+	uint32_t	ret;
+	uint32_t	count;
+	uint32_t	i;
 
+	
 	p = NULL;
-
-	if (!(separators = ft_find_separators(start, prec))) //null if no subnode to make
+	type = 0;
+	if (grammar)
+	{};
+# if 1
+	if ((ret = ft_find_logical_metachar(start)) == 2)
 	{
-		//need to handle whitespace = && here
-		// ft_set_parser_value(p, start, grammar);
-		printf("leaf at c%u %c\n", start->offset, start->c);
-		return (p);
+		// |
+		count = ft_get_operande_count(start, '|');
+		p = ft_get_parser_or_n(count, NULL);
+		ft_set_used(start, '|');
+		while (i < count)
+			p->parser.or.parsers[i++] = ft_generate_parser(start, grammar);
 	}
-	for (size_t i = 0; separators[i]; i++) {
-		printf("%c", separators[i]->c);
-	}
-	printf("\n");
-	// p = ft_set_parser_type(separators);
-	// //metaword associated with */+ make adequate type
-	// //paren without mod make generic << delete at optimisation
-	// //if no separator list, realloc needed to extend parser
-	while (*separators)
-	{
-		printf("toto\n" );
-		// if ((*separators)->c == ('+' || '*'))
-		if (*separators != start)
+		else if (ret == 1)
 		{
-			printf("parsing start %p, %p,\n", *separators + 1, start);
-			ft_parser_insert(p, ft_generate_parser(start, grammar, (*separators)->prec));
+			// &
+			ft_generate_parser(start, grammar);
 		}
-		else
-		{
-			if (*separators + 1 == *(separators + 1))
-
-			printf("parsing %p\n", *separators + 1);
-			ft_parser_insert(p, ft_generate_parser(*separators + 1, grammar,
-			(*separators)->c == '(' ? 0 : (*separators)->prec));
-
-		}	// 	continue;
-		// free(*separators);
-		++separators;
+	else
+	{
+		start = ft_find_next_subexpression(start, grammar);
+		ft_generate_parser();
 	}
-
-	// free(separators);
+	p = NULL;
+#endif
 	return (p);
 }
 
@@ -298,7 +368,7 @@ t_parser		*ft_get_next_rule(char **grammar)
 ");
 	ft_fill_metachar_stack(metachar_stack, name, definition);
 	ft_putchar('\n');
-	parser = ft_generate_parser(metachar_stack, *grammar, 0);
+	parser = ft_generate_parser(metachar_stack, *grammar);
 
 	*grammar = ++definition;
 	ft_bzero(metachar_stack, sizeof(metachar_stack));
@@ -316,7 +386,10 @@ t_parser	*ft_grammar(char *grammar)
 		exit (EXIT_FAILURE);
 	// ft_putnbr(count);
 	parsers[count] = NULL;
-	// while (--count >= 0)
-		parsers[count] = ft_get_next_rule(&grammar);
+	 while (--count >= 0)
+	 {
+		 parsers[count] = ft_get_next_rule(&grammar);
+		 ft_putendl("");
+	 }
 	return ((void*)1);
 }
