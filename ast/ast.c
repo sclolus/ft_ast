@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/14 07:33:29 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/15 10:03:28 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,53 @@ int32_t		ft_is_alpha(char c)
 
 t_parser	*ft_get_parser_literal(void)
 {
-	return (ft_get_parser_or_n(2, (t_parser *[]){
+	t_parser	*parser;
+
+	parser = ft_get_parser_or_n(2, (t_parser *[]){
 				ft_get_parser_and_n(3, (t_parser *[]){ft_get_parser_onechar('\"')
 							, ft_get_parser_str_any(), ft_get_parser_onechar('\"')})
 					, ft_get_parser_and_n(3, (t_parser *[]){ft_get_parser_onechar('\'')
-								, ft_get_parser_any(), ft_get_parser_onechar('\'')})}));
+								, ft_get_parser_any(), ft_get_parser_onechar('\'')})});
+	if (!(parser->name = ft_strdup("<parser_literal>")))
+		exit(EXIT_FAILURE);
+	return (parser);
 }
 
 t_parser	*ft_get_parser_rule_name(void)
 {
-	return (ft_get_parser_or_n(3, (t_parser *[]){ft_get_parser_onechar('<')
+	t_parser	*parser;
+
+	parser = ft_get_parser_and_n(3, (t_parser *[]){ft_get_parser_onechar('<')
 					, ft_get_parser_str_any()
-					, ft_get_parser_onechar('>')}));
+					, ft_get_parser_onechar('>')});
+	if (!(parser->name = ft_strdup("<rule_name>")))
+		exit(EXIT_FAILURE);
+	return (parser);
 }
 
+// list optimisable
 t_parser	*ft_get_parser_list(t_parser *term, t_parser *whitespace)
 {
-	return (ft_get_parser_or_n(2, (t_parser *[]){term,
+	t_parser	*parser;
+
+	parser = ft_get_parser_or_n(2, (t_parser *[]){term,
 					ft_get_parser_multiply(
-						ft_get_parser_and_n(2, (t_parser *[]){term, whitespace}))}));
+						ft_get_parser_and_n(2, (t_parser *[]){term, whitespace}))});
+	if (!(parser->name = ft_strdup("<list>")))
+		exit(EXIT_FAILURE);
+	return (parser);
 }
 
 t_parser	*ft_get_parser_expression(t_parser *list, t_parser *whitespace)
 {
-	return (ft_get_parser_or_n(2, (t_parser *[]){list
+	t_parser	*parser;
+
+	parser = ft_get_parser_or_n(2, (t_parser *[]){list
 					, ft_get_parser_multiply(ft_get_parser_and_n(4, (t_parser *[]){list, whitespace
-									, ft_get_parser_onechar('|'), whitespace}))}));
+									, ft_get_parser_onechar('|'), whitespace}))});
+	if (!(parser->name = ft_strdup("<expression>")))
+		exit(EXIT_FAILURE);
+	return (parser);
 }
 
 t_parser	*ft_get_parser_line_end(t_parser *whitespace)
@@ -61,20 +82,32 @@ t_parser	*ft_get_parser_line_end(t_parser *whitespace)
 	t_parser	*eol;
 
 	eol = ft_get_parser_and_n(2, (t_parser *[]){whitespace, ft_get_parser_onechar('\n')});
+	if (!(eol->name = ft_strdup("<eol>")))
+		exit(EXIT_FAILURE);
 	return (ft_get_parser_plus(eol));
 }
 
 t_parser	*ft_get_parser_rule(t_parser *expression, t_parser *rule_name
 								, t_parser *whitespace, t_parser *eol)
 {
-	return (ft_get_parser_and_n(7, (t_parser*[]){whitespace, rule_name
+	t_parser	*parser;
+
+	parser = ft_get_parser_and_n(7, (t_parser*[]){whitespace, rule_name
 					, whitespace, ft_get_parser_str("::=")
-					, whitespace, expression, eol}));
+					, whitespace, expression, eol}); 
+	if (!(parser->name = ft_strdup("<rule>")))
+		exit(EXIT_FAILURE);
+	return (parser);
 }
 
 t_parser	*ft_get_parser_syntax(t_parser *rule)
 {
-	return (ft_get_parser_plus(rule));
+	t_parser	*parser;
+
+	parser = ft_get_parser_plus(rule);
+	if (!(parser->name = ft_strdup("<syntax>")))
+		exit(EXIT_FAILURE);
+	return (parser);
 }
 
 t_parser	*ft_get_parser_grammar(void)
@@ -93,10 +126,15 @@ t_parser	*ft_get_parser_grammar(void)
 	t_parser	*syntax;
 
 	letter = ft_get_parser_satisfy(ft_is_alpha);
+	ft_set_name_parser(letter, "letter");
 	symbol = ft_get_parser_satisfy(ft_is_metachar);
+	ft_set_name_parser(symbol, "symbol");
 	character = ft_get_parser_or_n(2, (t_parser *[]){letter, symbol});
+	ft_set_name_parser(character, "character");
 	whitespace = ft_get_parser_multiply(ft_get_parser_onechar(' '));
+	ft_set_name_parser(whitespace, "whitespace");
 	literal = ft_get_parser_literal();
+	ft_set_name_parser(literal, "literal");
 	rule_name = ft_get_parser_rule_name();
 	term = ft_get_parser_or_n(2, (t_parser *[]){literal, rule_name});
 	list = ft_get_parser_list(term, whitespace);
@@ -116,6 +154,7 @@ t_parser	*ft_get_undefined_parser(void)
 		exit (EXIT_FAILURE);
 	parser->id = UNDEFINED;
 	parser->retained = UNRETAINED;
+	parser->name = NULL;
 	return (parser);
 }
 
@@ -124,6 +163,8 @@ t_parser	*ft_get_parser_str_any(void)
 	t_parser	*parser;
 
 	parser = ft_get_undefined_parser();
+	parser->parser.str_any.len = 0;
+	parser->parser.str_any.str = NULL;
 	parser->id = STR_ANY;
 	return (parser);
 }
@@ -165,6 +206,7 @@ t_parser	*ft_get_parser_str(char *str)
 	parser = ft_get_undefined_parser();
 	if (!(parser->parser.string.str = ft_strdup(str)))
 		exit(EXIT_FAILURE);
+	parser->parser.string.len = ft_strlen(str);
 	parser->id = STRING;
 	return (parser);
 }
