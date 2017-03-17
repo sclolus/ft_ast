@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/15 04:59:30 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/17 14:31:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@ maths           : /^/ <expression> /$/ ;"))
 	}
 	else
 	{
-		string = base;
-		ft_putstr("nope");
+		//string = base;
+		ft_putstr("nope : \n");
+		ft_putstr(string);
 	}
 	return (0);
 }
