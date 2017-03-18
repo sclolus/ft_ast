@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/17 14:31:24 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/18 03:15:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,16 @@ maths           : /^/ <expression> /$/ ;"))
 //	ft_parser(argv[1]);
 //	ft_get_parser_grammar();
 	t_parser	*parser;
+
+	parser = ft_get_parser_grammar();
+	ft_put_parser_tree(parser);
+# if 0
 	char		*base;
 	char		*string;
 
 
-	string = ft_strdup("<expression> ::= <loli> | \"loli\" \
-						<loli> ::= \"fbi is coming\"");
+	string = ft_strdup("<expression> ::= <loli> | \"loli\"\n"
+					   "<loli> ::= \"fbi is coming\"");
 	base = string;
 	parser = ft_get_parser_grammar();
 	if (ft_eval_parser(parser, &string))
@@ -49,5 +53,6 @@ maths           : /^/ <expression> /$/ ;"))
 		ft_putstr("nope : \n");
 		ft_putstr(string);
 	}
+#endif 
 	return (0);
 }

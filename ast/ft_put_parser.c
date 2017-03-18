@@ -6,16 +6,112 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/15 10:03:59 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/18 05:42:40 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 
-void	ft_set_name_parser(t_parser *parser, char *str)
+uint32_t	ft_count_depth(t_parser *parser)
 {
-	if (!(parser->name = ft_strdup(str)))
-		exit (EXIT_FAILURE);
+	uint32_t	ret;
+	uint32_t	tmp;
+	uint32_t	i;
+
+	ret = 0;
+	i = 0;
+	if (parser->id >= AND)
+	{
+		if (parser->id == AND || parser->id == OR)
+		{
+			while (i < parser->parser.and.n)
+			{
+/*				ft_putnbr(i);
+				ft_putchar(' ');*/
+				tmp = ft_count_depth(parser->parser.and.parsers[i]);
+				ret = ret < tmp ? tmp : ret;
+				i++;
+			}
+			return (ret + 1);
+		}
+		else
+			return (ft_count_depth(parser->parser.plus.parser) + 1);
+	}
+	else
+		return (1);
+}
+
+void	ft_put_tree_level(t_parser *parser, uint32_t level)
+{
+	uint32_t	i;
+
+	i = 0;
+	if (level > 0)
+	{
+		if (parser->id >= AND)
+		{
+			if (parser->name)
+				if (!ft_strcmp(parser->name, "<whitespace>"))
+					return ;
+			if (parser->id == AND || parser->id == OR)
+			{
+				if (level == 1)
+					ft_putchar('(');
+				while (i < parser->parser.and.n)
+				{
+					ft_put_tree_level(parser->parser.and.parsers[i], level - 1);
+					i++;
+				}
+				if (level == 1)
+					ft_putchar(')');
+			}
+			else
+				ft_put_tree_level(parser->parser.plus.parser, level - 1);
+		}
+	}
+	else
+	{
+		if (parser->name)
+			ft_putstr(parser->name);
+		else if (parser->id == ONECHAR)
+		{
+			if (parser->parser.onechar.c == ' ')
+				ft_putchar('_');
+			else if (parser->parser.onechar.c == '\t')
+				ft_putstr("tab");
+			else if (parser->parser.onechar.c == '\n')
+				ft_putstr("\\n");
+			else
+				ft_putchar(parser->parser.onechar.c);
+		}
+		else if (parser->id == STRING)
+			ft_putstr(parser->parser.string.str);
+		else
+			ft_put_id(parser);
+		ft_putchar('\t');
+	}
+}
+
+void	ft_put_parser_tree(t_parser *parser)
+{
+	uint32_t		max_depth;
+	uint32_t		i;
+	uint32_t		u;
+
+	max_depth = ft_count_depth(parser);
+	i = 0;
+	while (i < max_depth)
+	{
+		u = 0;
+		while (u++ + i< max_depth / 2)
+			ft_putchar('\t');
+		ft_put_tree_level(parser, i);
+		u = 0;
+		while (u++ + i < max_depth / 2)
+			ft_putchar('\t');
+		ft_putchar('\n');
+		i++;
+	}
 }
 
 void	ft_put_id(t_parser *parser)
@@ -24,6 +120,7 @@ void	ft_put_id(t_parser *parser)
 	{
 	case ONECHAR:
 		ft_putstr("ONECHAR");
+		ft_putchar(parser->parser.onechar.c);
 		break;
 	case STRING:
 		ft_putstr("STRING");

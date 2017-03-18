@@ -6,7 +6,7 @@
 #    By: aalves <aalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/08 03:04:06 by aalves            #+#    #+#              #
-#    Updated: 2017/03/14 06:31:17 by sclolus          ###   ########.fr        #
+#    Updated: 2017/03/18 05:01:44 by sclolus          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,7 @@ SRCS =	ft_memset.c \
 		get_next_line.c \
 		ft_stack.c \
 		ft_error.c \
+		ft_strndup.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/15 10:03:50 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/18 03:17:21 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,19 @@ typedef struct	s_parser t_parser;
 typedef enum	e_id
 {
 	UNDEFINED = 0,
-	ONECHAR = 1,
-	STRING  = 2,
-	REGEXP = 3,
-	AND = 4,
-	OR = 5,
-	RANGE = 6,
-	ANY = 7,
-	SATISFY = 8,
-	SATISFY_STR = 9,
-	NOT = 10,
-	STR_ANY = 11,
-	PLUS = 12,
-	MULTIPLY = 13,
+	ONECHAR,
+	STRING,
+	REGEXP,
+	RANGE,
+	ANY,
+	SATISFY,
+	SATISFY_STR,
+	STR_ANY,
+	AND,
+	OR,
+	NOT,
+	PLUS,
+	MULTIPLY,
 }				t_e_id;
 
 typedef struct	s_mpc_onechar
@@ -125,11 +125,15 @@ typedef struct	s_mpc_satisfy_str
 typedef struct	s_mpc_plus
 {
 	t_parser	*parser;
+	t_parser	**parsers;
+	uint32_t	n;
 }				t_mpc_plus;
 
 typedef struct	s_mpc_multiply
 {
 	t_parser	*parser;
+	t_parser	**parsers;
+	uint32_t	n;
 }				t_mpc_multiply;
 
 typedef union	s_mpc
@@ -214,5 +218,5 @@ int32_t			ft_is_alpha(char c);
 void			ft_put_parser(t_parser *parser);
 void			ft_put_id(t_parser *parser);
 void			ft_set_name_parser(t_parser *parser, char *str);
-
+void			ft_put_parser_tree(t_parser *parser);
 #endif

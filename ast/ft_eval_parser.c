@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/17 14:40:52 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/18 05:02:56 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ uint32_t		ft_eval_parser_str_any(t_parser *parser, char **string)
 		if (ret)
 			(*string)--;
 		parser->parser.str_any.len = count;
+		parser->parser.str_any.str = ft_strndup(*string, count);
 	}
 	else
 	{
@@ -99,14 +100,14 @@ uint32_t		ft_eval_parser_or(t_parser	*parser, char **string)
 	i = 0;
 	while (!ret && i < parser->parser.or.n)
 	{
-		if (parser->parser.or.parsers[i]->retained == UNRETAINED)
-		{
+/*		if (parser->parser.or.parsers[i]->retained == UNRETAINED)
+		{*/
 			if (parser->parser.or.parsers[i]->id == STR_ANY)
 				parser->parser.or.parsers[i]->parser.str_any.end
 					= i + 1 < parser->parser.or.n ? parser->parser.or.parsers[i + i]
 					: NULL;
 			ret |= ft_eval_parser(parser->parser.or.parsers[i], string);
-		}
+/*		}*/
 		i++;
 	}
 	return (ret);
@@ -173,11 +174,17 @@ uint32_t		ft_eval_parser_satisfy_str(t_parser *parser, char **string)
 
 uint32_t		ft_eval_parser_plus(t_parser *parser, char **string)
 {
-	uint32_t used;
+	uint32_t	used;
+	uint32_t	count;
 
+	count = 0;
 	used = 0;
 	while (ft_eval_parser(parser->parser.plus.parser, string))
+	{
+//		count++;
 		used = 1;
+	}
+//	if (!(parser->parser.plus.parsers = 
 	return (used);
 }
 
@@ -190,6 +197,9 @@ uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string)
 		used = 1;
 	return (used);
 }
+
+
+t_parser		*ft_eval_grammar(t_parser *bnf, 
 
 uint32_t		ft_eval_parser(t_parser *parser, char **string)
 {
@@ -236,7 +246,9 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 	if (parser->name)
 	{
 		ft_putstr(parser->name);
-		ft_putendl(" exited");
+		ft_putstr(" exited with status: ");
+		ft_putnbr(ret);
+		ft_putendl("");
 	}
 	if (ret)
 		parser->retained = RETAINED;
