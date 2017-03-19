@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/18 05:02:56 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/19 05:14:13 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,24 +198,72 @@ uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string)
 	return (used);
 }
 
+uint32_t		ft_eval_parser_oneof(t_parser *parser, char **string)
+{
+	if (ft_strchr(parser->parser.oneof.charset, **string))
+	{
+		parser->parser.oneof.c = **string;
+		(*string)++;
+		return (1);
+	}
+	else
+		return (0);
+}
 
-t_parser		*ft_eval_grammar(t_parser *bnf, 
+uint32_t		ft_eval_parser_invocations(t_parser *parser, char **string)
+{
+	uint32_t	i;
+
+	i = 0;
+	while (i < 2)
+	{
+		if (!ft_eval_parser(parser->parser.and.parsers[i], string))
+			return (0);
+		i++;
+	}
+	parser->parser.and.parsers[i] = ft_get_parser_expression();
+	while (i < 6)
+	{
+		if (!(ft_eval_parser(parser->parser.and.parsers[i], string)))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+uint32_t		ft_eval_parser_func(t_parser *parser, char **string)
+{
+	return (parser->parser.func.f(parser->parser.func.parser, string));
+}
+/*
+uint32_t		ft_eval_parser_invocation(t_parser *parser, char **string)
+{
+	uint32_t	i;
+	uint32_t	i;
+
+	i = 0;
+	while (parser->parser.and
+}
+*/
+t_parser		*ft_eval_grammar(t_parser *bnf);
 
 uint32_t		ft_eval_parser(t_parser *parser, char **string)
 {
-	static const t_eval_parser	eval_parsers[14] = {
+	static const t_eval_parser	eval_parsers[16] = {
 		{&ft_eval_parser_undefined},
 		{&ft_eval_parser_onechar},
 		{&ft_eval_parser_str},
 		{&ft_eval_parser_undefined},
-		{&ft_eval_parser_and},
-		{&ft_eval_parser_or},
 		{&ft_eval_parser_char_range},
 		{&ft_eval_parser_any},
 		{&ft_eval_parser_satisfy},
 		{&ft_eval_parser_satisfy_str},
-		{&ft_eval_parser_not},
 		{&ft_eval_parser_str_any},
+		{&ft_eval_parser_oneof},
+		{&ft_eval_parser_func},
+		{&ft_eval_parser_and},
+		{&ft_eval_parser_or},
+		{&ft_eval_parser_not},
 		{&ft_eval_parser_plus},
 		{&ft_eval_parser_multiply}};
 	char		*base;

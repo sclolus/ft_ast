@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/18 03:17:21 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/19 10:37:47 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef enum	e_id
 	SATISFY,
 	SATISFY_STR,
 	STR_ANY,
+	ONEOF,
+	FUNC,
 	AND,
 	OR,
 	NOT,
@@ -119,7 +121,7 @@ typedef struct	s_mpc_satisfy
 
 typedef struct	s_mpc_satisfy_str
 {
-	int32_t	(*f)(char*);
+	int32_t		(*f)(char*);
 }				t_mpc_satisfy_str;
 
 typedef struct	s_mpc_plus
@@ -136,6 +138,18 @@ typedef struct	s_mpc_multiply
 	uint32_t	n;
 }				t_mpc_multiply;
 
+typedef struct	s_mpc_oneof
+{
+	char	*charset;
+	char	c;
+}				t_mpc_oneof;
+
+typedef struct	s_mpc_func
+{
+	t_parser	*parser;
+	uint32_t	(*f)(t_parser*, char **);
+}				t_mpc_func;
+
 typedef union	s_mpc
 {
 	t_mpc_onechar		onechar;
@@ -149,6 +163,8 @@ typedef union	s_mpc
 	t_mpc_satisfy_str	satisfy_str;
 	t_mpc_not			not;
 	t_mpc_plus			plus;
+	t_mpc_func			func;
+	t_mpc_oneof			oneof;
 	t_mpc_multiply		multiply;
 	t_mpc_str_any		str_any;
 	
@@ -181,17 +197,20 @@ t_parser		*ft_get_parser_any(void);
 t_parser		*ft_get_parser_satisfy(int32_t (*f)(char));
 t_parser		*ft_get_parser_satisfy_str(int32_t (*f)(char*));
 t_parser		*ft_get_parser_not(t_parser *parser);
+t_parser		*ft_get_parser_oneof(char *charset);
+t_parser		*ft_get_parser_func(t_parser *parser, uint32_t (*f)(t_parser*, char **));
 
 
+t_parser		*ft_get_parser_whitespace(void);
 t_parser		*ft_get_parser_grammar(void);
+t_parser		*ft_get_parser_term(void);
 t_parser		*ft_get_parser_literal(void);
 t_parser		*ft_get_parser_rule_name(void);
-t_parser		*ft_get_parser_list(t_parser *term, t_parser *whitespace);
-t_parser		*ft_get_parser_expression(t_parser *list, t_parser *whitespace);
-t_parser		*ft_get_parser_line_end(t_parser *whitespace);
-t_parser		*ft_get_parser_rule(t_parser *expression, t_parser *rule_name
-								, t_parser *whitespace, t_parser *eol);
-t_parser		*ft_get_parser_syntax(t_parser *rule);
+t_parser		*ft_get_parser_list(void);
+t_parser		*ft_get_parser_expression(void);
+t_parser		*ft_get_parser_line_end(void);
+t_parser		*ft_get_parser_rule(void);
+t_parser		*ft_get_parser_syntax(void);
 
 uint32_t		ft_eval_parser(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_onechar(t_parser *parser, char **string);
@@ -207,13 +226,16 @@ uint32_t		ft_eval_parser_satisfy(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_satisfy_str(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_plus(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string);
+uint32_t		ft_eval_parser_oneof(t_parser *parser, char **string);
+
+uint32_t		ft_eval_parser_invocations(t_parser *parser, char **string);
+int32_t			ft_is_alpha(char c);
 
 t_parser		*ft_grammar(char *grammar);
 uint32_t		ft_count_metachar(char *start, char *end);
 int32_t			ft_count_rules(char *grammar);
 
-int32_t			ft_is_alpha(char c);
-
+t_parser		*ft_dup_parser(t_parser *parser);
 
 void			ft_put_parser(t_parser *parser);
 void			ft_put_id(t_parser *parser);

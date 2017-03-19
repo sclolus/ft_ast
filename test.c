@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/18 03:15:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/19 10:38:37 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,20 @@ maths           : /^/ <expression> /$/ ;"))
 //	ft_get_parser_grammar();
 	t_parser	*parser;
 
-	parser = ft_get_parser_grammar();
-	ft_put_parser_tree(parser);
+//	parser = ft_get_parser_grammar();
+
+	parser = ft_get_parser_and_n(3, (t_parser*[]){ft_get_parser_and_n(2, (t_parser*[]){ft_get_parser_whitespace(), ft_get_parser_onechar('g')})
+	, ft_get_parser_str("loli"), ft_get_parser_str("#tor")});
+//	ft_dup_parser(parser);
+	ft_put_parser_tree(	ft_dup_parser(parser));
 # if 0
 	char		*base;
 	char		*string;
 
 
-	string = ft_strdup("<expression> ::= <loli> | \"loli\"\n"
-					   "<loli> ::= \"fbi is coming\"");
+	string = ft_strdup("<expression> ::= \"test\" \'+\' <value> \n"
+					   "<value> ::= (<digit>)* \n"
+					   "<digit> ::= \'1\' | \'2\' | \'3\' | \'4\' \n");
 	base = string;
 	parser = ft_get_parser_grammar();
 	if (ft_eval_parser(parser, &string))
