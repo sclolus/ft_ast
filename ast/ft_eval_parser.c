@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/20 03:25:29 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/20 05:57:17 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,28 +174,86 @@ uint32_t		ft_eval_parser_satisfy_str(t_parser *parser, char **string)
 
 uint32_t		ft_eval_parser_plus(t_parser *parser, char **string)
 {
-	uint32_t	used;
-	uint32_t	count;
-
-	count = 0;
-	used = 0;
-	while (ft_eval_parser(parser->parser.plus.parser, string))
+	t_list		*head;
+	t_list		*link;
+	uint32_t	n;
+	uint32_t	i;
+	n = 0;
+	i = 0;
+	head = NULL;
+	while (1)
 	{
-//		count++;
-		used = 1;
+		if (!(link = ft_lstnew(NULL, sizeof(t_parser*))))
+			exit(EXIT_FAILURE);
+		link->content = ft_dup_parser(parser->parser.multiply.parser);
+		// ft_put_parser_tree(link->content);
+		if (!ft_eval_parser(link->content, string))
+		{
+			printf("toto\n");
+			free(link); //free le parser
+			break;
+		}
+		ft_lstadd(&head, link);
+		++n;
 	}
-//	if (!(parser->parser.plus.parsers =
-	return (used);
+	if (n)
+	{
+		if (!(parser->parser.multiply.parsers = (t_parser**)malloc(n * sizeof(t_parser*))))
+			exit(EXIT_FAILURE);
+		while (head)
+		{
+			parser->parser.multiply.parsers[i] = head->content;
+			link = head;
+			head = head->next;
+			printf("link = %p\n", link);
+			free(link);
+			++i;
+		}
+	}
+	return (n != 0);
 }
 
 uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string)
 {
-	uint32_t used;
+	t_list		*head;
+	t_list		*link;
+	uint32_t	n;
+	uint32_t	i;
 
-	used = 1;
-	while (ft_eval_parser(parser->parser.multiply.parser, string))
-		used = 1;
-	return (used);
+	n = 0;
+	i = 0;
+	head = NULL;
+	while (1)
+	{
+		if (!(link = ft_lstnew(NULL, sizeof(t_parser*))))
+			exit(EXIT_FAILURE);
+		link->content = ft_dup_parser(parser->parser.multiply.parser);
+		// ft_put_parser_tree(link->content);
+		if (!ft_eval_parser(link->content, string))
+		{
+			printf("toto\n");
+			free(link); //free le parser
+			break;
+		}
+		ft_lstadd(&head, link);
+		++n;
+	}
+	if (n)
+	{
+		if (!(parser->parser.multiply.parsers = (t_parser**)malloc(n * sizeof(t_parser*))))
+			exit(EXIT_FAILURE);
+		while (head)
+		{
+			parser->parser.multiply.parsers[i] = head->content;
+			link = head;
+			head = head->next;
+			printf("link = %p\n", link);
+
+			free(link);
+			++i;
+		}
+	}
+	return (1);
 }
 
 uint32_t		ft_eval_parser_oneof(t_parser *parser, char **string)

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 06:35:55 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/20 02:59:22 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/20 05:44:22 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,13 @@ static t_parser		*ft_assign_parsers(t_parser *parser, t_parser *new_parser)
 	if (!parser)
 	{
 		printf("try again\n");
-		return (new_parser); // or change the implematation of +/*
+		return (new_parser + 1); // or change the implematation of +/*
 	}
-	ft_put_id(parser);
-	ft_putchar('\n');
+	// ft_put_id(parser);
+	// ft_putchar('\n');
 	ft_memcpy(new_parser, parser, sizeof(t_parser));
 	if (parser->id >= FUNC)
-	{
-		// if (parser->id == FUNC)
-		// 	return (ft_assign_parser_data(parser, new_parser));
-		// else if (parser->id == AND || parser->id == OR)
-		// 	return (ft_assign_parser_data(parser, new_parser));
-		// else
-		// 	return (ft_assign_parser_data(parser, new_parser));
-			return (ft_assign_parser_data(parser, new_parser));
-	}
+		return (ft_assign_parser_data(parser, new_parser));
 	else
 	{
 		if (parser->id == STRING)
@@ -116,8 +108,6 @@ static t_parser		*ft_assign_parsers(t_parser *parser, t_parser *new_parser)
 			if (!(new_parser->parser.string.str = ft_strdup(parser->parser.string.str)))
 				exit (EXIT_FAILURE);
 		}
-		// else if (parser->id == STR_ANY)
-			//new_parser->parser.str_any.end = ft_dup_parser(parser->parser.str_any.end);
 		else if (parser->id == ONEOF)
 		{
 			if (!(new_parser->parser.oneof.charset = ft_strdup(parser->parser.oneof.charset)))
