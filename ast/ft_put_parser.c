@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_put_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/19 10:36:53 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/20 02:58:19 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	ft_put_parser_tree(t_parser *parser)
 	uint32_t		u;
 
 	max_depth = ft_count_depth(parser);
-	ft_putchar('g');
 	i = 0;
 	while (i < max_depth)
 	{
@@ -146,6 +145,9 @@ void	ft_put_id(t_parser *parser)
 		break;
 	case MULTIPLY:
 		ft_putstr("*");
+		break;
+	case FUNC:
+		ft_putstr("FUNC");
 		break;
 /*	case ONECHAR:
 		ft_putstr(ONECHAR);
@@ -210,7 +212,7 @@ void	ft_put_parser(t_parser *parser)
 		ft_put_parser(parser->parser.plus.parser);
 		ft_putchar('\n');
 	}
-	else 
+	else
 //		ft_putstr("node ");
 		;
 }

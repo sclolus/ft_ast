@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_eval_parser.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/19 05:14:13 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/20 03:25:29 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ uint32_t		ft_eval_parser_plus(t_parser *parser, char **string)
 //		count++;
 		used = 1;
 	}
-//	if (!(parser->parser.plus.parsers = 
+//	if (!(parser->parser.plus.parsers =
 	return (used);
 }
 
@@ -275,7 +275,7 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 	{
 		ft_putstr(parser->name);
 		ft_putendl(": ");
-		
+
 	}
 	else
 	{
@@ -306,5 +306,8 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 /*		ft_putendl("returned origin string value");
  *string = base;*/
 	}
+
+	//assembly here ?
+	//dup neccesary ? || dup only if retained ?
 	return (ret);
 }
