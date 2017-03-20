@@ -6,15 +6,15 @@
 #    By: aalves <aalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/11 02:24:19 by aalves            #+#    #+#              #
-#    Updated: 2017/03/19 10:09:34 by sclolus          ###   ########.fr        #
+#    Updated: 2017/03/20 08:34:23 by sclolus          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS=		ast.c \
 			ft_put_parser.c \
 			ft_eval_parser.c \
-			ft_dup_parser.c
-#			ft_get_grammar.c
+			ft_dup_parser.c \
+			ft_get_grammar.c
 
 OBJS= $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/19 10:37:47 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/20 08:39:25 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct	s_parser t_parser;
 typedef enum	e_id
 {
 	UNDEFINED = 0,
+	REF,
 	ONECHAR,
 	STRING,
 	REGEXP,
@@ -60,6 +61,11 @@ typedef enum	e_id
 	PLUS,
 	MULTIPLY,
 }				t_e_id;
+
+typedef struct	s_mpc_ref
+{
+	char	*rule_name;
+}				t_mpc_ref;
 
 typedef struct	s_mpc_onechar
 {
@@ -153,6 +159,7 @@ typedef struct	s_mpc_func
 typedef union	s_mpc
 {
 	t_mpc_onechar		onechar;
+	t_mpc_ref			ref;
 	t_mpc_str			string;
 	t_mpc_regexp		regexp;
 	t_mpc_and_n			and;
@@ -198,6 +205,7 @@ t_parser		*ft_get_parser_satisfy(int32_t (*f)(char));
 t_parser		*ft_get_parser_satisfy_str(int32_t (*f)(char*));
 t_parser		*ft_get_parser_not(t_parser *parser);
 t_parser		*ft_get_parser_oneof(char *charset);
+t_parser		*ft_get_parser_ref(char *rule_name);
 t_parser		*ft_get_parser_func(t_parser *parser, uint32_t (*f)(t_parser*, char **));
 
 
@@ -227,6 +235,15 @@ uint32_t		ft_eval_parser_satisfy_str(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_plus(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_oneof(t_parser *parser, char **string);
+
+t_parser		*ft_get_grammar_literal(t_parser *literal);
+t_parser		*ft_get_grammar_term(t_parser *term);
+t_parser		*ft_get_grammar_list(t_parser *list);
+t_parser		*ft_get_grammar_or_n(uint32_t n, t_parser *first, t_parser **parsers);
+t_parser		*ft_get_grammar_sub_expression(t_parser *sub_expression);
+t_parser		*ft_get_grammar_expression(t_parser *expression);
+t_parser		*ft_get_grammar_rule(t_parser *rule);
+t_parser		*ft_get_grammar_syntax(t_parser *syntax);
 
 uint32_t		ft_eval_parser_invocations(t_parser *parser, char **string);
 int32_t			ft_is_alpha(char c);

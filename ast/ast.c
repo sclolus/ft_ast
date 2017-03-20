@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/19 06:35:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/20 09:35:07 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,26 @@ int32_t		ft_is_alpha(char c)
 {
 	return ((c >= 'a' && c <= 'z')
 			|| (c >= 'A' && c <= 'Z'));
+}
+
+t_parser	*ft_get_parser_whitespace(void)
+{
+	t_parser	*parser;
+
+	parser = ft_get_parser_multiply(ft_get_parser_or_n(2
+													   , (t_parser *[]){ft_get_parser_onechar(' ')
+															   , ft_get_parser_onechar('\t')}));
+	ft_set_name_parser(parser, "<whitespace>");
+	return (parser);
+}
+
+t_parser	*ft_get_parser_term(void)
+{
+	t_parser	*parser;
+
+	parser = ft_get_parser_or_n(2, (t_parser *[]){ft_get_parser_literal(), ft_get_parser_rule_name()});
+	ft_set_name_parser(parser, "<term>");
+	return (parser);
 }
 
 t_parser	*ft_get_parser_literal(void)
@@ -68,9 +88,9 @@ t_parser	*ft_get_parser_invocations(void)
 {
 	t_parser	*parser;
 
-	parser = ft_get_parser_func(ft_get_parser_and_n(6, (t_parser *[]){ft_get_parser_onechar('(')
+	parser = ft_get_parser_func(ft_get_parser_and_n(8, (t_parser *[]){ft_get_parser_whitespace(), ft_get_parser_onechar('(')
 					, ft_get_parser_whitespace(), NULL
-					, ft_get_parser_whitespace(), ft_get_parser_onechar(')'), ft_get_parser_oneof("+*")}), &ft_eval_parser_invocations);
+					, ft_get_parser_whitespace(), ft_get_parser_onechar(')'), ft_get_parser_oneof("+*"), ft_get_parser_whitespace()}), &ft_eval_parser_invocations);
 	ft_set_name_parser(parser, "<invocations>");
 	return (parser);
 }
@@ -79,9 +99,9 @@ t_parser	*ft_get_parser_expression(void)
 {
 	t_parser	*parser;
 	
-	parser = ft_get_parser_or_n(2, (t_parser *[]){ft_get_parser_invocations(), ft_get_parser_and_n(2, (t_parser *[]){ft_get_parser_list(),
+	parser = ft_get_parser_plus(ft_get_parser_or_n(2, (t_parser *[]){ft_get_parser_invocations(), ft_get_parser_and_n(2, (t_parser *[]){ft_get_parser_list(),
 						ft_get_parser_multiply(ft_get_parser_and_n(4, (t_parser *[]){ft_get_parser_whitespace()
-										, ft_get_parser_onechar('|'), ft_get_parser_whitespace(), ft_get_parser_list()}))})});
+										, ft_get_parser_onechar('|'), ft_get_parser_whitespace(), ft_get_parser_list()}))})}));
 	if (!(parser->name = ft_strdup("<expression>")))
 		exit(EXIT_FAILURE);
 	return (parser);
@@ -118,26 +138,6 @@ t_parser	*ft_get_parser_syntax(void)
 	return (parser);
 }
 		
-t_parser	*ft_get_parser_whitespace(void)
-{
-	t_parser	*parser;
-
-	parser = ft_get_parser_multiply(ft_get_parser_or_n(2
-													   , (t_parser *[]){ft_get_parser_onechar(' ')
-															   , ft_get_parser_onechar('\t')}));
-	ft_set_name_parser(parser, "<whitespace>");
-	return (parser);
-}
-
-t_parser	*ft_get_parser_term(void)
-{
-	t_parser	*parser;
-
-	parser = ft_get_parser_or_n(2, (t_parser *[]){ft_get_parser_literal(), ft_get_parser_rule_name()});
-	ft_set_name_parser(parser, "<term>");
-	return (parser);
-}
-
 t_parser	*ft_get_parser_grammar(void)
 {
 	t_parser	*syntax;
@@ -320,6 +320,16 @@ t_parser	*ft_get_parser_func(t_parser *parser, uint32_t (*f)(t_parser*, char **)
 	new_parser->parser.func.f = f;
 	new_parser->parser.func.parser = parser;
 	return (new_parser);
+}
+
+t_parser	*ft_get_parser_ref(char *rule_name)
+{
+	t_parser	*parser;
+
+	parser = ft_get_undefined_parser();
+	parser->id = REF;
+	parser->parser.ref.rule_name = rule_name;
+	return (parser);
 }
 
 void	ft_set_name_parser(t_parser *parser, char *str)

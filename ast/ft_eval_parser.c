@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/20 05:57:17 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/20 09:30:45 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ uint32_t		ft_eval_parser_str_any(t_parser *parser, char **string)
 		if (ret)
 			(*string)--;
 		parser->parser.str_any.len = count;
-		parser->parser.str_any.str = ft_strndup(*string, count);
+		parser->parser.str_any.str = ft_strndup(parser->parser.str_any.str, count);
+		CHECK(EVAL STR_ANY);
+		ft_putstr(parser->parser.str_any.str);
+		CHECK(EXITED STR_ANY);
 	}
 	else
 	{
@@ -189,7 +192,6 @@ uint32_t		ft_eval_parser_plus(t_parser *parser, char **string)
 		// ft_put_parser_tree(link->content);
 		if (!ft_eval_parser(link->content, string))
 		{
-			printf("toto\n");
 			free(link); //free le parser
 			break;
 		}
@@ -198,16 +200,17 @@ uint32_t		ft_eval_parser_plus(t_parser *parser, char **string)
 	}
 	if (n)
 	{
+		parser->parser.plus.n = n;
 		if (!(parser->parser.multiply.parsers = (t_parser**)malloc(n * sizeof(t_parser*))))
 			exit(EXIT_FAILURE);
+		i = n - 1;
 		while (head)
 		{
 			parser->parser.multiply.parsers[i] = head->content;
 			link = head;
 			head = head->next;
-			printf("link = %p\n", link);
 			free(link);
-			++i;
+			--i;
 		}
 	}
 	return (n != 0);
@@ -231,7 +234,6 @@ uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string)
 		// ft_put_parser_tree(link->content);
 		if (!ft_eval_parser(link->content, string))
 		{
-			printf("toto\n");
 			free(link); //free le parser
 			break;
 		}
@@ -240,17 +242,17 @@ uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string)
 	}
 	if (n)
 	{
+		parser->parser.multiply.n = n;
 		if (!(parser->parser.multiply.parsers = (t_parser**)malloc(n * sizeof(t_parser*))))
 			exit(EXIT_FAILURE);
+		i = n - 1;
 		while (head)
 		{
 			parser->parser.multiply.parsers[i] = head->content;
 			link = head;
 			head = head->next;
-			printf("link = %p\n", link);
-
 			free(link);
-			++i;
+			--i;
 		}
 	}
 	return (1);
@@ -273,14 +275,14 @@ uint32_t		ft_eval_parser_invocations(t_parser *parser, char **string)
 	uint32_t	i;
 
 	i = 0;
-	while (i < 2)
+	while (i < 3)
 	{
 		if (!ft_eval_parser(parser->parser.and.parsers[i], string))
 			return (0);
 		i++;
 	}
 	parser->parser.and.parsers[i] = ft_get_parser_expression();
-	while (i < 6)
+	while (i < 8)
 	{
 		if (!(ft_eval_parser(parser->parser.and.parsers[i], string)))
 			return (0);
@@ -307,7 +309,8 @@ t_parser		*ft_eval_grammar(t_parser *bnf);
 
 uint32_t		ft_eval_parser(t_parser *parser, char **string)
 {
-	static const t_eval_parser	eval_parsers[16] = {
+	static const t_eval_parser	eval_parsers[17] = {
+		{&ft_eval_parser_undefined},
 		{&ft_eval_parser_undefined},
 		{&ft_eval_parser_onechar},
 		{&ft_eval_parser_str},
