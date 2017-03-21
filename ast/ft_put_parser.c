@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/21 03:42:54 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/21 06:39:53 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,11 +158,11 @@ void	ft_put_id(t_parser *parser)
 	case FUNC:
 		ft_putstr("FUNC");
 		break;
-/*	case ONECHAR:
-		ft_putstr(ONECHAR);
-	case ONECHAR:
-	ft_putstr(ONECHAR);*/
+	case REF:
+		ft_putstr("REF");
+		break;
 	default :
+	ft_putstr("broken");
 		ft_putnbr(parser->id);
 		break;
 	}

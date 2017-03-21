@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 03:13:00 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/14 03:43:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/21 06:12:07 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,7 @@ t_parser		*ft_generate_parser(t_metachar_stack *start, char *grammar)
 	uint32_t	count;
 	uint32_t	i;
 
-	
+
 	p = NULL;
 	type = 0;
 	if (grammar)

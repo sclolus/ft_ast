@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/20 08:39:25 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/21 08:20:04 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ typedef union	s_mpc
 	t_mpc_oneof			oneof;
 	t_mpc_multiply		multiply;
 	t_mpc_str_any		str_any;
-	
+
 }				t_mpc;
 
 typedef struct	s_parser
@@ -220,6 +220,7 @@ t_parser		*ft_get_parser_line_end(void);
 t_parser		*ft_get_parser_rule(void);
 t_parser		*ft_get_parser_syntax(void);
 
+uint32_t		ft_eval_input(t_parser *parser, char **string);
 uint32_t		ft_eval_parser(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_onechar(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_str(t_parser *parser, char **string);
@@ -244,6 +245,8 @@ t_parser		*ft_get_grammar_sub_expression(t_parser *sub_expression);
 t_parser		*ft_get_grammar_expression(t_parser *expression);
 t_parser		*ft_get_grammar_rule(t_parser *rule);
 t_parser		*ft_get_grammar_syntax(t_parser *syntax);
+t_parser		*ft_find_rule_name(t_parser **ruleset, char *name);
+void			ft_link_rule_name(t_parser **ruleset, t_parser **node);
 
 uint32_t		ft_eval_parser_invocations(t_parser *parser, char **string);
 int32_t			ft_is_alpha(char c);

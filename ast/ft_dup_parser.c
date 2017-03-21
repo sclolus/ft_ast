@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 06:35:55 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/21 03:54:31 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/21 08:33:16 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,13 @@ static uint32_t	ft_count_parsers(t_parser *parser)
 
 	i = 0;
 	count = 0;
-	if (!parser)
-		return (0);
+	// ft_put_id(parser);
+	// ft_putchar('\n');
+	if (parser == NULL)
+	{
+		// printf("fjnodfln\n");
+		return (1);
+	}
 	if (parser->id >= FUNC)
 	{
 		if (parser->id == FUNC)
@@ -33,6 +38,7 @@ static uint32_t	ft_count_parsers(t_parser *parser)
 		{
 			while (i < parser->parser.and.n)
 			{
+				// printf("i = %u >>%p\n",i, parser->parser.and.parsers[i]);
 				count += ft_count_parsers(parser->parser.and.parsers[i]);
 				i++;
 			}
@@ -53,7 +59,7 @@ static t_parser		*ft_assign_parser_data(t_parser *parser, t_parser *new_parser)
 	i = 0;
 	if (!parser)
 	{
-		printf("lol ntm\n");
+		// printf("lol ntm\n");
 		return (NULL);
 	}
 	if (parser->id == FUNC)
@@ -68,7 +74,10 @@ static t_parser		*ft_assign_parser_data(t_parser *parser, t_parser *new_parser)
 		tmp = new_parser;
 		while (i < parser->parser.and.n)
 		{
-			new_parser->parser.and.parsers[i] = tmp + 1;
+			if (!parser->parser.and.parsers[i])
+				new_parser->parser.and.parsers[i] = NULL;
+			else
+				new_parser->parser.and.parsers[i] = tmp + 1;
 			tmp = ft_assign_parsers(parser->parser.and.parsers[i++], tmp + 1);
 		}
 		return (tmp);
@@ -94,12 +103,12 @@ static t_parser		*ft_assign_parsers(t_parser *parser, t_parser *new_parser)
 	i = 0;
 	if (!parser)
 	{
-		printf("try again\n");
-		return (new_parser + 1); // or change the implematation of +/*
+		// printf("try again\n");
+		return (new_parser); // or change the implematation of +/*
 	}
 	// ft_put_id(parser);
-	// ft_putchar('\n');
 	ft_memcpy(new_parser, parser, sizeof(t_parser));
+	// ft_putchar('\n');
 	if (parser->id >= FUNC)
 		return (ft_assign_parser_data(parser, new_parser));
 	else
@@ -113,6 +122,10 @@ static t_parser		*ft_assign_parsers(t_parser *parser, t_parser *new_parser)
 		{
 			if (!(new_parser->parser.oneof.charset = ft_strdup(parser->parser.oneof.charset)))
 				exit(EXIT_FAILURE);
+		}
+		else if (parser->id == REF)
+		{
+			// printf("DRGOSDOGSRDGJRSODFNODR\n");
 		}
 		else if (parser->id == REGEXP)
 		{
@@ -129,8 +142,10 @@ t_parser		*ft_dup_parser(t_parser *parser)
 	uint32_t	size;
 
 	size = ft_count_parsers(parser);
-	ft_put_id(parser);
-	printf(" allocated, size = %u\n", size);
+	// ft_put_id(parser);
+	// if (parser->name)
+	// 	printf("dupped %s\n", parser->name);
+	// printf("allocated, size = %u\n", size);
 	if (!(new_parser = (t_parser*)malloc(size * sizeof(t_parser))))
 		exit (EXIT_FAILURE);
 	ft_assign_parsers(parser, new_parser);

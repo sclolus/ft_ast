@@ -6,13 +6,13 @@
 #    By: aalves <aalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/08 03:04:06 by aalves            #+#    #+#              #
-#    Updated: 2017/03/18 05:01:44 by sclolus          ###   ########.fr        #
+#    Updated: 2017/03/21 06:28:58 by aalves           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 export NAME = libft.a
 export CC = gcc
-export FLAGS = -Werror -Wall -Wextra -g -O0
+export FLAGS = -Werror -Wall -Wextra -g -O0 -fsanitize=address
 export VERBOSE = 0
 SRCS =	ft_memset.c \
 		ft_pow.c \
@@ -139,7 +139,7 @@ $(NAME): $(OBJS) modules
 	@ranlib $@
 
 test: all
-	gcc -I./includes -o test test.c libft.a
+	gcc $(FLAGS) -I./includes -o test test.c libft.a
 clean:
 	@$(ECHO) "$(CYAN)Cleaning objects $(NC)"
 	@$(foreach mod, $(MODULES), make -C $(mod) clean;)

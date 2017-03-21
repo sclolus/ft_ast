@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/21 04:26:28 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/21 07:14:55 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ t_parser	*ft_get_parser_multiply(t_parser *parser)
 
 	new = ft_get_undefined_parser();
 	new->parser.multiply.parser = parser;
+	new->parser.multiply.n = 0;
 	new->id = MULTIPLY;
 	return (new);
 }
@@ -185,6 +186,7 @@ t_parser	*ft_get_parser_plus(t_parser *parser)
 
 	new = ft_get_undefined_parser();
 	new->parser.plus.parser = parser;
+	new->parser.plus.n = 0;
 	new->id = PLUS;
 	return (new);
 }

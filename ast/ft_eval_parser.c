@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/21 04:33:09 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/21 08:45:46 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ uint32_t		ft_eval_parser_str_any(t_parser *parser, char **string)
 			(*string)--;
 		parser->parser.str_any.len = count;
 		parser->parser.str_any.str = ft_strndup(parser->parser.str_any.str, count);
-		CHECK(EVAL STR_ANY);
-		ft_putstr(parser->parser.str_any.str);
-		CHECK(EXITED STR_ANY);
+		// ft_putstr(parser->parser.str_any.str);
 	}
 	else
 	{
@@ -76,8 +74,6 @@ uint32_t		ft_eval_parser_str_any(t_parser *parser, char **string)
 		parser->parser.str_any.len = ft_strlen(*string);
 		(*string) += parser->parser.str_any.len;
 	}
-	ft_putstr("str_any matched: ");
-	write(1, parser->parser.str_any.str, parser->parser.str_any.len);
 	return (1);
 }
 
@@ -242,6 +238,7 @@ uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string)
 	}
 	if (n)
 	{
+		// printf("multi size => %u\n", n);
 		parser->parser.multiply.n = n;
 		if (!(parser->parser.multiply.parsers = (t_parser**)malloc(n * sizeof(t_parser*))))
 			exit(EXIT_FAILURE);
