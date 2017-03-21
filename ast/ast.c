@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/20 09:35:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/21 04:26:28 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_parser	*ft_get_parser_invocations(void)
 t_parser	*ft_get_parser_expression(void)
 {
 	t_parser	*parser;
-	
+
 	parser = ft_get_parser_plus(ft_get_parser_or_n(2, (t_parser *[]){ft_get_parser_invocations(), ft_get_parser_and_n(2, (t_parser *[]){ft_get_parser_list(),
 						ft_get_parser_multiply(ft_get_parser_and_n(4, (t_parser *[]){ft_get_parser_whitespace()
 										, ft_get_parser_onechar('|'), ft_get_parser_whitespace(), ft_get_parser_list()}))})}));
@@ -123,7 +123,7 @@ t_parser	*ft_get_parser_rule(void)
 
 	parser = ft_get_parser_and_n(7, (t_parser*[]){ft_get_parser_whitespace(), ft_get_parser_rule_name()
 					, ft_get_parser_whitespace(), ft_get_parser_str("::=")
-				, ft_get_parser_whitespace(), ft_get_parser_expression(), ft_get_parser_line_end()}); 
+				, ft_get_parser_whitespace(), ft_get_parser_expression(), ft_get_parser_line_end()});
 	if (!(parser->name = ft_strdup("<rule>")))
 		exit(EXIT_FAILURE);
 	return (parser);
@@ -137,7 +137,7 @@ t_parser	*ft_get_parser_syntax(void)
 	ft_set_name_parser(parser, "<syntax>");
 	return (parser);
 }
-		
+
 t_parser	*ft_get_parser_grammar(void)
 {
 	t_parser	*syntax;

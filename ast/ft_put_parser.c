@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/20 02:58:19 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/21 03:42:54 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,11 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 			else if (parser->parser.onechar.c == '\n')
 				ft_putstr("\\n");
 			else
+			{
+				if (parser->retained)
+					ft_putchar('~');
 				ft_putchar(parser->parser.onechar.c);
+			}
 		}
 		else if (parser->id == STRING)
 			ft_putstr(parser->parser.string.str);
@@ -116,6 +120,11 @@ void	ft_put_parser_tree(t_parser *parser)
 
 void	ft_put_id(t_parser *parser)
 {
+	if (!parser)
+	{
+		ft_putstr("NULL");
+		return;
+	}
 	switch (parser->id)
 	{
 	case ONECHAR:

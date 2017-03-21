@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 06:35:55 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/20 05:44:22 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/21 03:54:31 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static t_parser		*ft_assign_parser_data(t_parser *parser, t_parser *new_parser)
 	else
 	{
 		printf("wtf\n");
+		ft_put_id(parser);
 		return (ft_assign_parsers(parser->parser.not.parser, new_parser + 1));
 	}
 
@@ -128,7 +129,8 @@ t_parser		*ft_dup_parser(t_parser *parser)
 	uint32_t	size;
 
 	size = ft_count_parsers(parser);
-	printf("size = %u\n", size);
+	ft_put_id(parser);
+	printf(" allocated, size = %u\n", size);
 	if (!(new_parser = (t_parser*)malloc(size * sizeof(t_parser))))
 		exit (EXIT_FAILURE);
 	ft_assign_parsers(parser, new_parser);
