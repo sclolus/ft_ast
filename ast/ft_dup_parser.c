@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 06:35:55 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/21 08:33:16 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/22 05:10:45 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static uint32_t	ft_count_parsers(t_parser *parser)
 	if (parser->id >= FUNC)
 	{
 		if (parser->id == FUNC)
-			return (ft_count_parsers(parser->parser.func.parser) + 1);
+			return (1);
 		else if (parser->id == AND || parser->id == OR)
 		{
 			while (i < parser->parser.and.n)
@@ -64,8 +64,7 @@ static t_parser		*ft_assign_parser_data(t_parser *parser, t_parser *new_parser)
 	}
 	if (parser->id == FUNC)
 	{
-		new_parser->parser.func.parser = new_parser + 1;
-			return (ft_assign_parsers(parser->parser.func.parser, new_parser + 1));
+			return (new_parser);
 	}
 	else if (parser->id == AND || parser->id == OR)
 	{

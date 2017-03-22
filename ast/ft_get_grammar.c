@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 04:43:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/21 08:34:11 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/22 05:10:35 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ t_parser	*ft_get_grammar_term(t_parser *term)
 {
 	if (term->parser.or.parsers[0]->retained)
 		return (ft_get_grammar_literal(term->parser.or.parsers[0]));
-	else
+	else if (term->parser.or.parsers[1]->retained)
 	{
 		// printf("ref created = %s\n", term->parser.or.parsers[1]->parser.and.parsers[1]->parser.str_any.str);
 		return (ft_get_parser_ref(
@@ -122,6 +122,8 @@ t_parser	*ft_get_grammar_term(t_parser *term)
 //		parser = ft_get_grammar_rule_name(term->parser.or.parsers[1]);
 //		ft_putstr_fd("rule_name not implemented", 2);
 	}
+	else
+		return (ft_get_grammar_expression(term->parser.or.parsers[2]->parser.and.parsers[3]->parser.func.parser));
 
 }
 
@@ -173,31 +175,28 @@ t_parser	*ft_get_grammar_or_n(uint32_t n, t_parser *first, t_parser **parsers)
 
 t_parser	*ft_get_grammar_sub_expression(t_parser *sub_expression)
 {
-	t_parser	*tmp;
 	uint32_t	size;
 
 
-	if (sub_expression->parser.or.parsers[0]->retained) // factorise plz
-	{
-		if (sub_expression->parser.or.parsers[0]->parser.func.parser->parser.and.parsers[6]->parser.oneof.c == '+')
-			return (ft_get_parser_plus(ft_get_grammar_expression(
-													sub_expression->parser.or.parsers[0]->parser.func.parser->parser.and.parsers[3])));
-		else
-			return (ft_get_parser_multiply(ft_get_grammar_expression(
-													sub_expression->parser.or.parsers[0]->parser.func.parser->parser.and.parsers[3])));
-	}
-	else
-	{
+	// if (sub_expression->parser.or.parsers[0]->retained) // factorise plz
+	// {
+	// 	if (sub_expression->parser.or.parsers[0]->parser.func.parser->parser.and.parsers[6]->parser.oneof.c == '+')
+	// 		return (ft_get_parser_plus(ft_get_grammar_expression(
+	// 												sub_expression->parser.or.parsers[0]->parser.func.parser->parser.and.parsers[3])));
+	// 	else
+	// 		return (ft_get_parser_multiply(ft_get_grammar_expression(
+	// 												sub_expression->parser.or.parsers[0]->parser.func.parser->parser.and.parsers[3])));
+	// }
+	// else
+	// {
 		// ft_put_id(sub_expression->parser.or.parsers[1]->parser.and.parsers[1]);
-		size = sub_expression->parser.or.parsers[1]->parser.and.parsers[1]->parser.multiply.n;
-		tmp = sub_expression->parser.or.parsers[1];
+		size = sub_expression->parser.and.parsers[1]->parser.multiply.n;
 		if (size)
 		{
-			return (ft_get_grammar_or_n(size + 1, tmp->parser.and.parsers[0], tmp->parser.and.parsers[1]->parser.multiply.parsers));
+			return (ft_get_grammar_or_n(size + 1, sub_expression->parser.and.parsers[0], sub_expression->parser.and.parsers[1]->parser.multiply.parsers));
 		}
 		else
-			return (ft_get_grammar_list(tmp->parser.and.parsers[0]));
-	}
+			return (ft_get_grammar_list(sub_expression->parser.and.parsers[0]));
 }
 
 t_parser	*ft_get_grammar_expression(t_parser *expression)

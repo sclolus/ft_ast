@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/21 08:45:46 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/22 05:10:38 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,6 +287,12 @@ uint32_t		ft_eval_parser_invocations(t_parser *parser, char **string)
 	}
 	return (1);
 }
+
+uint32_t		ft_eval_delayed(t_parser *parser, char **string)
+{
+	return (ft_eval_parser(parser, string));
+}
+
 uint32_t		ft_eval_input(t_parser *parser, char **string)
 {
 	if (ft_eval_parser(parser, string) && !**string)
@@ -296,6 +302,7 @@ uint32_t		ft_eval_input(t_parser *parser, char **string)
 
 uint32_t		ft_eval_parser_func(t_parser *parser, char **string)
 {
+	parser->parser.func.parser = parser->parser.func.gene();
 	return (parser->parser.func.f(parser->parser.func.parser, string));
 }
 

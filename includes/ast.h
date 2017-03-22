@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/21 08:20:04 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/22 02:42:15 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ typedef struct	s_mpc_oneof
 typedef struct	s_mpc_func
 {
 	t_parser	*parser;
+	t_parser	*(*gene)(void);
 	uint32_t	(*f)(t_parser*, char **);
 }				t_mpc_func;
 
@@ -206,13 +207,14 @@ t_parser		*ft_get_parser_satisfy_str(int32_t (*f)(char*));
 t_parser		*ft_get_parser_not(t_parser *parser);
 t_parser		*ft_get_parser_oneof(char *charset);
 t_parser		*ft_get_parser_ref(char *rule_name);
-t_parser		*ft_get_parser_func(t_parser *parser, uint32_t (*f)(t_parser*, char **));
+t_parser		*ft_get_parser_func(t_parser *(*generator)(void), uint32_t (*f)(t_parser*, char **));
 
 
 t_parser		*ft_get_parser_whitespace(void);
 t_parser		*ft_get_parser_grammar(void);
 t_parser		*ft_get_parser_term(void);
 t_parser		*ft_get_parser_literal(void);
+t_parser		*ft_get_parser_invocations(void);
 t_parser		*ft_get_parser_rule_name(void);
 t_parser		*ft_get_parser_list(void);
 t_parser		*ft_get_parser_expression(void);
@@ -236,6 +238,7 @@ uint32_t		ft_eval_parser_satisfy_str(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_plus(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_oneof(t_parser *parser, char **string);
+uint32_t		ft_eval_delayed(t_parser *parser, char **string);
 
 t_parser		*ft_get_grammar_literal(t_parser *literal);
 t_parser		*ft_get_grammar_term(t_parser *term);

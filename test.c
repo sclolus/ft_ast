@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/21 08:45:29 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/22 05:10:42 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ maths           : /^/ <expression> /$/ ;"))
 //	ft_get_parser_grammar();
 	t_parser	*parser;
 
+	printf("ft_strlol\n");
 	parser = ft_get_parser_grammar();
 
 /*	parser = ft_get_parser_and_n(3, (t_parser*[]){ft_get_parser_and_n(2, (t_parser*[]){ft_get_parser_whitespace(), ft_get_parser_onechar('g')})
@@ -56,6 +57,7 @@ maths           : /^/ <expression> /$/ ;"))
 	base = string;
 	if (ft_eval_input(parser, &string))
 	{
+
 /*		ft_putstr(" current string:-");
 		ft_putstr(string);
 		ft_putchar('\n');*/
@@ -69,6 +71,7 @@ maths           : /^/ <expression> /$/ ;"))
 			exit(EXIT_FAILURE);
 		}
 		printf("str = <%s>\n", input);
+		ft_put_parser_tree(new_parser);
 		// for (size_t k = 0; k < new_parser->parser.plus.n; k++) {
 		// 	ft_put_parser_tree(new_parser->parser.plus.parsers[k]);
 		// 	printf("-_-_-_-\n");
