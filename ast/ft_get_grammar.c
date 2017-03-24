@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 04:43:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/24 15:11:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/24 15:28:23 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_parser	*ft_get_grammar_term(t_parser *term)
 		return (ft_get_parser_ref(
 					term->parser.or.parsers[1]->parser.and.parsers[1]->parser.str_any.str));
 	}
-	else
+	else if (term->parser.or.parsers[2]->retained)
 	{
 		if (term->parser.or.parsers[2]->parser.and.parsers[6]->parser.oneof.c == '*')
 		{
@@ -102,7 +102,6 @@ t_parser	*ft_get_grammar_term(t_parser *term)
 										   term->parser.or.parsers[2]->parser.and.parsers[3]->parser.func.parser)));
 		}
 	}
-
 }
 
 t_parser	*ft_get_grammar_list(t_parser *list)

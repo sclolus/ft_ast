@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/24 15:06:28 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/24 15:25:55 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,16 @@ maths           : /^/ <expression> /$/ ;"))
 	// <sp> ::= (' ' | '\t')*\n");
 	string = ft_strdup("<expression> ::= (<spe> <subexpr> <spe> <op> <spe>)+ | <number> \n\
 						<op>	     ::= \'+\' | \'-\' | \'/\' | \'*\' \n\
-						<number>     ::= (\'1\' | \'2\' | \'3\' | \'4\' |\'5\' |\'6\' |\'7\' |\'8\' |\'9\' |\'0\' | \'a\')+ \n\
+						<number>     ::= (\'1\' | \'2\' | \'3\' | \'4\' |\'5\' |\'6\' |\'7\' |\'8\' |\'9\' |\'0\')+ \n\
 						<subexpr>    ::=  <number> <spe> <op> <spe> <number> \n\
-					   <spe>          ::= (\' \' | \'\t\')* \n\
-						<eof> ::= (<spe> '\n')+");
-	char	*input = ft_strdup("1a23 + 123 - 123 / 785 * 45 / 78 - 45");
+					   <spe>          ::= (\' \' | \'\t\')* \n");
+	char	*input = ft_strdup("123 + 123 - 123 / 785 * 45 / 78 - 45");
 	base = string;
 	if (ft_eval_input(parser, &string))
 	{
 		CHECK(eval terminated);
+		ft_put_parser_tree(parser);
+		CHECK()
 /*		ft_putstr(" current string:-");
 		ft_putstr(string);
 		ft_putchar('\n');*/
