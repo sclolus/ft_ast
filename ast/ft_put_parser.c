@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/22 05:10:37 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/24 14:18:49 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 	i = 0;
 	if (level > 0)
 	{
+/*		if (parser->name)
+		ft_putstr(parser->name);*/
 		if (parser->id >= AND)
 		{
 			if (parser->name)
-				if (!ft_strcmp(parser->name, "<whitespace>"))
+				if (!ft_strcmp(parser->name, "<sp>"))
 					return ;
 			if (parser->id == AND || parser->id == OR)
 			{
@@ -73,7 +75,7 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 	{
 		if (parser->name)
 			ft_putstr(parser->name);
-		else if (parser->id == ONECHAR)
+		if (parser->id == ONECHAR)
 		{
 			if (parser->parser.onechar.c == ' ')
 				ft_putchar('_');
@@ -90,6 +92,12 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 		}
 		else if (parser->id == STRING)
 			ft_putstr(parser->parser.string.str);
+		else if (parser->id == FUNC)
+		{
+			ft_put_id(parser);
+			if (!parser->parser.func.parser)
+				ft_putchar(';');
+		}
 		else
 			ft_put_id(parser);
 		ft_putchar('\t');
@@ -160,6 +168,9 @@ void	ft_put_id(t_parser *parser)
 		break;
 	case REF:
 		ft_putstr("REF");
+		break;
+	case ONEOF:
+		ft_putstr("ONEOF");
 		break;
 	default :
 	ft_putstr("broken");

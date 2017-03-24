@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 04:43:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/22 05:10:35 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/24 15:11:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,15 @@ t_parser	*ft_get_grammar_literal(t_parser *literal)
 	t_parser	*parser;
 	t_parser	*tmp;
 
-	// dup str_any.str
 	if (literal->parser.or.parsers[0]->retained)
 	{
 		tmp = literal->parser.or.parsers[0]->parser.and.parsers[1];
 		parser = ft_get_parser_str(tmp->parser.str_any.str);
-		// ft_putstr(parser->parser.string.str);
 	}
 	else if (literal->parser.or.parsers[1]->retained)
 	{
 		tmp = literal->parser.or.parsers[1]->parser.and.parsers[1];
 		parser = ft_get_parser_onechar(tmp->parser.any.matched);
-		// ft_putchar(parser->parser.onechar.c);
 	}
 	else
 	{
@@ -38,30 +35,6 @@ t_parser	*ft_get_grammar_literal(t_parser *literal)
 	return (parser);
 }
 
-/*t_parser	*ft_get_grammar_rule_name(t_parser *rule_name)
-{
-	t_parser	*parser;
-	t_parser	*tmp;
-
-	// dup str_any.str
-	if (literal->parser.or.parsers[0]->retained)
-	{
-		tmp = literal->parser.or.parsers[0]->parser.and.parsers[1];
-		parser = ft_get_parser_str(tmp->parser.str_any.str);
-	}
-	else if (literal->parser.or.parsers[1]->retained)
-	{
-		tmp = literal->parser.or.parsers[1]->parser.and.parsers[1];
-		parser = ft_get_parser_onechar(tmp->parser.any.matched);
-	}
-	else
-	{
-		ft_putstr_fd("Error\n", 2);
-		return (NULL);
-	}
-	return (parser);
-	}*/
-
 t_parser	*ft_find_rule_name(t_parser **ruleset, char *name)
 {
 	uint32_t			i;
@@ -69,13 +42,8 @@ t_parser	*ft_find_rule_name(t_parser **ruleset, char *name)
 	i = 0;
 	while (ruleset[i])
 	{
-		// printf("looking at %s\n", ruleset[i]->name);
 		if (!ft_strcmp(ruleset[i]->name, name))
-		{
-			// ft_put_id(ruleset[i]);
-			// printf("\n rule %s assigned\n", name);
 			return (ruleset[i]);
-		}
 		++i;
 	}
 	exit(EXIT_FAILURE);
@@ -116,14 +84,24 @@ t_parser	*ft_get_grammar_term(t_parser *term)
 		return (ft_get_grammar_literal(term->parser.or.parsers[0]));
 	else if (term->parser.or.parsers[1]->retained)
 	{
-		// printf("ref created = %s\n", term->parser.or.parsers[1]->parser.and.parsers[1]->parser.str_any.str);
 		return (ft_get_parser_ref(
 					term->parser.or.parsers[1]->parser.and.parsers[1]->parser.str_any.str));
-//		parser = ft_get_grammar_rule_name(term->parser.or.parsers[1]);
-//		ft_putstr_fd("rule_name not implemented", 2);
 	}
 	else
-		return (ft_get_grammar_expression(term->parser.or.parsers[2]->parser.and.parsers[3]->parser.func.parser));
+	{
+		if (term->parser.or.parsers[2]->parser.and.parsers[6]->parser.oneof.c == '*')
+		{
+			return (ft_get_parser_multiply(ft_get_grammar_expression(
+											   term->parser
+											   .or.parsers[2]->parser.and.parsers[3]->parser.func.parser)));
+		}
+		else
+		{
+			ft_putnbr((long)term->parser.or.parsers[2]->parser.and.parsers[3]->parser.func.parser);
+			return (ft_get_parser_plus(ft_get_grammar_expression(
+										   term->parser.or.parsers[2]->parser.and.parsers[3]->parser.func.parser)));
+		}
+	}
 
 }
 
@@ -155,7 +133,6 @@ t_parser	*ft_get_grammar_or_n(uint32_t n, t_parser *first, t_parser **parsers)
 	uint32_t	i;
 
 	i = 0;
-	// printf("N= %u\n", n);
 	parser = ft_get_undefined_parser();
 	parser->id = OR;
 	if (!(parser->parser.or.parsers = (t_parser**)malloc(sizeof(t_parser*) * n)))
@@ -164,9 +141,6 @@ t_parser	*ft_get_grammar_or_n(uint32_t n, t_parser *first, t_parser **parsers)
 	parser->parser.or.parsers[0] = ft_get_grammar_list(first);
 	while (i + 1 < n)
 	{
-/*		ft_put_id(parsers[0]->parser.and.parsers[3]->parser.plus.parsers[0]);
-		while (1)
-		;*/
 		parser->parser.or.parsers[i + 1] = ft_get_grammar_list(parsers[i]->parser.and.parsers[3]);
 		i++;
 	}
@@ -178,25 +152,13 @@ t_parser	*ft_get_grammar_sub_expression(t_parser *sub_expression)
 	uint32_t	size;
 
 
-	// if (sub_expression->parser.or.parsers[0]->retained) // factorise plz
-	// {
-	// 	if (sub_expression->parser.or.parsers[0]->parser.func.parser->parser.and.parsers[6]->parser.oneof.c == '+')
-	// 		return (ft_get_parser_plus(ft_get_grammar_expression(
-	// 												sub_expression->parser.or.parsers[0]->parser.func.parser->parser.and.parsers[3])));
-	// 	else
-	// 		return (ft_get_parser_multiply(ft_get_grammar_expression(
-	// 												sub_expression->parser.or.parsers[0]->parser.func.parser->parser.and.parsers[3])));
-	// }
-	// else
-	// {
-		// ft_put_id(sub_expression->parser.or.parsers[1]->parser.and.parsers[1]);
-		size = sub_expression->parser.and.parsers[1]->parser.multiply.n;
-		if (size)
-		{
-			return (ft_get_grammar_or_n(size + 1, sub_expression->parser.and.parsers[0], sub_expression->parser.and.parsers[1]->parser.multiply.parsers));
-		}
-		else
-			return (ft_get_grammar_list(sub_expression->parser.and.parsers[0]));
+	size = sub_expression->parser.and.parsers[1]->parser.multiply.n;
+	if (size)
+	{
+		return (ft_get_grammar_or_n(size + 1, sub_expression->parser.and.parsers[0], sub_expression->parser.and.parsers[1]->parser.multiply.parsers));
+	}
+	else
+		return (ft_get_grammar_list(sub_expression->parser.and.parsers[0]));
 }
 
 t_parser	*ft_get_grammar_expression(t_parser *expression)

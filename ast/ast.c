@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/22 05:16:16 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/24 06:00:02 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ t_parser	*ft_get_parser_rule(void)
 t_parser	*ft_get_parser_syntax(void)
 {
 	t_parser	*parser;
+
 	parser = ft_get_parser_plus(ft_get_parser_rule());
 	ft_set_name_parser(parser, "<syntax>");
 	return (parser);
@@ -147,7 +148,8 @@ t_parser	*ft_get_parser_syntax(void)
 t_parser	*ft_get_parser_grammar(void)
 {
 	t_parser	*syntax;
-
+	ft_putstr("dafuw");
+	CHECK(bruh);
 	syntax = ft_get_parser_syntax();
 	return (syntax);
 }

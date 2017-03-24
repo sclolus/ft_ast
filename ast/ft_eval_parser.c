@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/22 05:10:38 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/24 15:04:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ uint32_t		ft_eval_parser_str_any(t_parser *parser, char **string)
 			(*string)--;
 		parser->parser.str_any.len = count;
 		parser->parser.str_any.str = ft_strndup(parser->parser.str_any.str, count);
-		// ft_putstr(parser->parser.str_any.str);
 	}
 	else
 	{
@@ -99,14 +98,11 @@ uint32_t		ft_eval_parser_or(t_parser	*parser, char **string)
 	i = 0;
 	while (!ret && i < parser->parser.or.n)
 	{
-/*		if (parser->parser.or.parsers[i]->retained == UNRETAINED)
-		{*/
 			if (parser->parser.or.parsers[i]->id == STR_ANY)
 				parser->parser.or.parsers[i]->parser.str_any.end
 					= i + 1 < parser->parser.or.n ? parser->parser.or.parsers[i + i]
 					: NULL;
 			ret |= ft_eval_parser(parser->parser.or.parsers[i], string);
-/*		}*/
 		i++;
 	}
 	return (ret);
@@ -227,7 +223,6 @@ uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string)
 		if (!(link = ft_lstnew(NULL, sizeof(t_parser*))))
 			exit(EXIT_FAILURE);
 		link->content = ft_dup_parser(parser->parser.multiply.parser);
-		// ft_put_parser_tree(link->content);
 		if (!ft_eval_parser(link->content, string))
 		{
 			free(link); //free le parser
@@ -238,7 +233,6 @@ uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string)
 	}
 	if (n)
 	{
-		// printf("multi size => %u\n", n);
 		parser->parser.multiply.n = n;
 		if (!(parser->parser.multiply.parsers = (t_parser**)malloc(n * sizeof(t_parser*))))
 			exit(EXIT_FAILURE);
@@ -330,44 +324,9 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 	uint32_t	ret;
 
 	base = *string;
-
-	if (parser->name)
-	{
-		ft_putstr(parser->name);
-		ft_putendl(": ");
-
-	}
-	else
-	{
-		ft_putstr(" current parser == ");
-		ft_put_id(parser);
-		ft_putchar('\t');
-		ft_putchar('-');
-		ft_putendl(*string);
-	}
 	ret = eval_parsers[parser->id].f(parser, string);
-	ft_putstr("parser returned: ");
-	ft_put_id(parser);
-	ft_putstr(": ");
-	ft_putnbr(ret);
-	ft_putchar('\n');
-	if (parser->name)
-	{
-		ft_putstr(parser->name);
-		ft_putstr(" exited with status: ");
-		ft_putnbr(ret);
-		ft_putendl("");
-	}
 	if (ret)
 		parser->retained = RETAINED;
-	else
-	{
-		parser->retained = UNRETAINED;
-/*		ft_putendl("returned origin string value");
- *string = base;*/
-	}
-
-	//assembly here ?
-	//dup neccesary ? || dup only if retained ?
+	parser->retained = UNRETAINED;
 	return (ret);
 }
