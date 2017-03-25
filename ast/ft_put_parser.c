@@ -6,11 +6,85 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/24 14:18:49 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/25 08:38:02 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
+
+void		ft_put_ast_tokens(t_parser *parser)
+{
+	uint32_t	i;
+
+	i = 0;
+	if (!parser->retained)
+		return ;
+	if (parser->id == OR)
+	{
+		while (i < parser->parser.or.n)
+		{
+			ft_put_ast_tokens(parser->parser.or.parsers[i]);
+			i++;
+		}
+	}
+	else if (parser->id == AND)
+	{
+		while (i < parser->parser.and.n)
+		{
+			ft_put_ast_tokens(parser->parser.or.parsers[i]);
+			ft_putchar(' ');
+			i++;
+		}
+	}
+	else if (parser->id == PLUS)
+	{
+		while (i < parser->parser.plus.n)
+		{
+			ft_put_ast_tokens(parser->parser.plus.parsers[i]);
+			ft_putchar(' ');
+			i++;
+		}
+	}
+	else if (parser->id == MULTIPLY)
+	{
+		while (i < parser->parser.plus.n)
+		{
+			ft_put_ast_tokens(parser->parser.plus.parsers[i]);
+			ft_putchar(' ');
+			i++;
+		}
+	}
+	else if (parser->id == FUNC)
+		ft_put_ast_tokens(parser->parser.func.parser);
+	else
+	{
+		switch (parser->id)
+		{
+		case ONECHAR:
+			ft_putchar(parser->parser.onechar.c);
+			break;
+		case STRING:
+			ft_putstr(parser->parser.string.str);
+			break;
+		case ANY:
+			ft_putchar(parser->parser.any.matched);
+			break;
+		case SATISFY:
+			ft_putstr("SATISFY");
+			break;
+		case STR_ANY:
+			ft_putstr(parser->parser.str_any.str);
+			break;
+		case ONEOF:
+			ft_putchar(parser->parser.oneof.c);
+			break;
+		default :
+			ft_putstr("broken");
+			ft_putnbr(parser->id);
+			break;		
+		}
+	}
+}
 
 uint32_t	ft_count_depth(t_parser *parser)
 {
@@ -67,13 +141,21 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 				if (level == 1)
 					ft_putchar(')');
 			}
+			else if (parser->id == PLUS || parser->id == MULTIPLY)
+			{
+				while (i < parser->parser.plus.n)
+				{
+					ft_put_tree_level(parser->parser.plus.parsers[i], level - 1);
+					i++;
+				}
+			}
 			else
 				ft_put_tree_level(parser->parser.plus.parser, level - 1);
 		}
 	}
 	else
 	{
-		if (parser->name)
+/*		if (parser->name)
 			ft_putstr(parser->name);
 		if (parser->id == ONECHAR)
 		{
@@ -100,7 +182,8 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 		}
 		else
 			ft_put_id(parser);
-		ft_putchar('\t');
+			ft_putchar('\t');*/
+		ft_putnbr(parser->retained);
 	}
 }
 

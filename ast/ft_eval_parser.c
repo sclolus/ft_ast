@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/24 15:04:01 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/25 08:55:43 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ uint32_t		ft_eval_parser_plus(t_parser *parser, char **string)
 	t_list		*link;
 	uint32_t	n;
 	uint32_t	i;
+
 	n = 0;
 	i = 0;
 	head = NULL;
@@ -180,7 +181,7 @@ uint32_t		ft_eval_parser_plus(t_parser *parser, char **string)
 	{
 		if (!(link = ft_lstnew(NULL, sizeof(t_parser*))))
 			exit(EXIT_FAILURE);
-		link->content = ft_dup_parser(parser->parser.multiply.parser);
+		link->content = ft_dup_parser(parser->parser.plus.parser);
 		// ft_put_parser_tree(link->content);
 		if (!ft_eval_parser(link->content, string))
 		{
@@ -193,12 +194,12 @@ uint32_t		ft_eval_parser_plus(t_parser *parser, char **string)
 	if (n)
 	{
 		parser->parser.plus.n = n;
-		if (!(parser->parser.multiply.parsers = (t_parser**)malloc(n * sizeof(t_parser*))))
+		if (!(parser->parser.plus.parsers = (t_parser**)malloc(n * sizeof(t_parser*))))
 			exit(EXIT_FAILURE);
 		i = n - 1;
 		while (head)
 		{
-			parser->parser.multiply.parsers[i] = head->content;
+			parser->parser.plus.parsers[i] = head->content;
 			link = head;
 			head = head->next;
 			free(link);
@@ -289,8 +290,15 @@ uint32_t		ft_eval_delayed(t_parser *parser, char **string)
 
 uint32_t		ft_eval_input(t_parser *parser, char **string)
 {
-	if (ft_eval_parser(parser, string) && !**string)
+	uint32_t	ret;
+
+	if ((ret = ft_eval_parser(parser, string)) && !**string)
+	{
+		ft_put_parser_tree(parser);
+		ft_putnbr(parser->retained);
+		CHECK(RET);
 		return (1);
+	}
 	return (0);
 }
 
@@ -324,9 +332,46 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 	uint32_t	ret;
 
 	base = *string;
+	ft_putstr("\nentered :");
+
+	if (parser->name)
+	{
+		ft_putstr(parser->name);
+		ft_put_id(parser);
+		
+	}
+	else
+		ft_put_id(parser);
 	ret = eval_parsers[parser->id].f(parser, string);
 	if (ret)
 		parser->retained = RETAINED;
-	parser->retained = UNRETAINED;
+	else
+	{
+		if (parser->retained)
+		{
+			while (1)
+				;
+			ft_putstr("fuck");
+		}
+		parser->retained = UNRETAINED;
+		*string = base;
+	}
+	ft_putstr("parser");
+	if (parser->name)
+	{
+		ft_putstr(parser->name);
+		ft_put_id(parser);
+		
+	}
+	else
+		ft_put_id(parser);
+
+			  ft_putstr("returned = ");
+	ft_putnbr(ret);
+	ft_putstr(" || current parser :");
+	ft_putstr(*string);
+
+	ft_putchar('\n');
+//	ft_put_parser_tree(parser);
 	return (ret);
 }

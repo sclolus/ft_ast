@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/24 15:25:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/25 08:46:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,15 @@ maths           : /^/ <expression> /$/ ;"))
 						<op>	     ::= \'+\' | \'-\' | \'/\' | \'*\' \n\
 						<number>     ::= (\'1\' | \'2\' | \'3\' | \'4\' |\'5\' |\'6\' |\'7\' |\'8\' |\'9\' |\'0\')+ \n\
 						<subexpr>    ::=  <number> <spe> <op> <spe> <number> \n\
-					   <spe>          ::= (\' \' | \'\t\')* \n");
-	char	*input = ft_strdup("123 + 123 - 123 / 785 * 45 / 78 - 45");
+		   <spe>          ::= (\' \' | \'\t\')* \n");
+	char	*input = ft_strdup("111111111111111111111111111111111111111111111111111111111111111111112 + 1");
 	base = string;
 	if (ft_eval_input(parser, &string))
 	{
 		CHECK(eval terminated);
-		ft_put_parser_tree(parser);
-		CHECK()
-/*		ft_putstr(" current string:-");
-		ft_putstr(string);
-		ft_putchar('\n');*/
-		// CHECK(GRAMMAR ENTERED);
 		new_parser = ft_get_grammar_syntax(parser);
-		CHECK(test);
 		ft_put_parser_tree(new_parser);
+		CHECK(test);
 		CHECK(get_grammar_syntax terminated);
 		// ft_put_parser_tree(new_parser);
 		if (!ft_eval_input(new_parser, &input))
@@ -77,13 +71,17 @@ maths           : /^/ <expression> /$/ ;"))
 			ft_putstr(input);
 			exit(EXIT_FAILURE);
 		}
+		while (1)
+			;
 		CHECK(EVAL_INPUT TERMINATED);
 		printf("str = <%s>\n", input);
+
 		ft_put_parser_tree(new_parser);
-		// for (size_t k = 0; k < new_parser->parser.plus.n; k++) {
-		// 	ft_put_parser_tree(new_parser->parser.plus.parsers[k]);
-		// 	printf("-_-_-_-\n");
-		// }
+		ft_put_ast_tokens(new_parser);
+/*		 for (size_t k = 0; k < new_parser->parser.plus.n; k++) {
+		 	ft_put_parser_tree(new_parser->parser.plus.parsers[k]);
+		 	printf("-_-_-_-\n");
+			}*/
 	}
 	else
 	{
