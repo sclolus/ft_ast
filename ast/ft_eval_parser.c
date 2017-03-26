@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/25 08:55:43 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/26 20:10:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,6 +286,26 @@ uint32_t		ft_eval_parser_invocations(t_parser *parser, char **string)
 uint32_t		ft_eval_delayed(t_parser *parser, char **string)
 {
 	return (ft_eval_parser(parser, string));
+}
+
+uint32_t		ft_eval_input_file(uint32_t fd, t_parser *parser)
+{
+	char		*string;
+	static char	buf[2048];
+	int32_t		ret;
+
+	ret = 0;
+	if (!(string = ft_strnew(0)))
+		exit (EXIT_FAILURE);
+	while ((ret = read(fd, buf, 2047)) > 0)
+	{
+		buf[ret] = 0;
+		if (!(string = ft_strjoin_f(string, buf, 0)))
+			exit (EXIT_FAILURE);
+	}
+	ret = ft_eval_input(parser, &string);
+	free(string);
+	return (ret);
 }
 
 uint32_t		ft_eval_input(t_parser *parser, char **string)

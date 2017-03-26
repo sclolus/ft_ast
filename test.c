@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/26 17:26:44 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/26 19:10:54 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,21 @@ maths           : /^/ <expression> /$/ ;"))
 	t_parser	*parser;
 
 //	ft_putstr("salut");
+	int32_t	fd;
+
+	if ((fd = open("grammar.txt", O_RDONLY)) < 0)
+	{
+		ft_putnbr(fd);
+		exit (EXIT_FAILURE);
+	}
 	parser = ft_get_parser_grammar();
-	CHECK(DAFUQ);
 
 /*	parser = ft_get_parser_and_n(3, (t_parser*[]){ft_get_parser_and_n(2, (t_parser*[]){ft_get_parser_whitespace(), ft_get_parser_onechar('g')})
 	s, ft_get_parser_str("loli"), ft_get_parser_str("#tor")});*/
 //	ft_dup_parser(parser);
 	// ft_put_parser_tree(ft_dup_parser(parser));
-# if 1
+	ft_eval_input_file(fd, parser);
+# if 0
 	char		*base;
 	char		*string;
 	char		*shell_syntax;

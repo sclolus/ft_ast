@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/25 06:22:21 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/26 19:07:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "libft.h"
 # include <unistd.h>
 # include <stdio.h>
+# include <fcntl.h>
 
 typedef uint32_t	t_id;
 
@@ -223,6 +224,7 @@ t_parser		*ft_get_parser_rule(void);
 t_parser		*ft_get_parser_syntax(void);
 
 uint32_t		ft_eval_input(t_parser *parser, char **string);
+uint32_t		ft_eval_input_file(uint32_t fd, t_parser *parser);
 uint32_t		ft_eval_parser(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_onechar(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_str(t_parser *parser, char **string);
