@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 10:11:24 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/27 11:11:22 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 	}
 	else
 	{
-/*		if (parser->name)
+		if (parser->name)
 			ft_putstr(parser->name);
 		if (parser->id == ONECHAR)
 		{
@@ -182,8 +182,8 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 		}
 		else
 			ft_put_id(parser);
-			ft_putchar('\t');*/
 		ft_putnbr(parser->retained);
+			ft_putchar('\t');
 	}
 }
 
@@ -254,6 +254,9 @@ void	ft_put_id(t_parser *parser)
 		break;
 	case ONEOF:
 		ft_putstr("ONEOF");
+		break;
+	case STR_ANY_OF:
+		ft_putstr("STR_ANY_OF");
 		break;
 	default :
 	ft_putstr("broken");

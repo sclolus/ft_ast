@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 10:22:45 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/27 11:11:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ maths           : /^/ <expression> /$/ ;"))
 	char	*input = ft_strdup("ls && test || lol");
 	if (ft_eval_input(parser, &test))
 	{
+		ft_put_parser_tree(parser);
 		CHECK(PARSER RETURNED);
 		new_parser = ft_get_grammar_syntax(parser);
 		if (ft_eval_input(new_parser, &input))
@@ -125,47 +126,8 @@ maths           : /^/ <expression> /$/ ;"))
 						<linebreak>        ::= <newline_list> \n\
 						<separator_op>     ::= '&' | ';' \n\
 						<separator>        ::= <separator_op> <linebreak> | <newline_list> \n\
-					 <sequential_sep>   ::= ';' <linebreak>\n");*/*/ */*
+					 <sequential_sep>   ::= ';' <linebreak>\n");*/*/ */
 
-	string = ft_strdup("<expression> ::= (<spe> <subexpr> <spe> <op> <spe>)+ | <number> \n\
-						<op>	     ::= \'+\' | \'-\' | \'/\' | \'*\' \n\
-						<number>     ::= (\'1\' | \'2\' | \'3\' | \'4\' |\'5\' |\'6\' |\'7\' |\'8\' |\'9\' |\'0\')+ \n\
-						<subexpr>    ::=  <number> <spe> <op> <spe> <number> \n\
-		   <spe>          ::= (\' \' | \'\t\')* \n");
-	char	*input = ft_strdup("111111111111111111111111111111111111111111111111111111111111111111112 + 1");
-	base = string;
-	if (ft_eval_input(parser, &string))
-	{
-		CHECK(eval terminated);
-		new_parser = ft_get_grammar_syntax(parser);
-		ft_put_parser_tree(new_parser);
-		CHECK(test);
-		CHECK(get_grammar_syntax terminated);
-		// ft_put_parser_tree(new_parser);
-		if (!ft_eval_input(new_parser, &input))
-		{
-			ft_putstr("omg bad input retard ::= ");
-			ft_putstr(input);
-			exit(EXIT_FAILURE);
-		}
-		while (1)
-			;
-		CHECK(EVAL_INPUT TERMINATED);
-		printf("str = <%s>\n", input);
-
-		ft_put_parser_tree(new_parser);
-		ft_put_ast_tokens(new_parser);
-/*		 for (size_t k = 0; k < new_parser->parser.plus.n; k++) {
-		 	ft_put_parser_tree(new_parser->parser.plus.parsers[k]);
-		 	printf("-_-_-_-\n");
-			}*/
-	}
-	else
-	{
-		//string = base;
-		ft_putstr("nope ::= \n");
-		ft_putstr(string);
-	}
 #endif
 	return (0);
 }

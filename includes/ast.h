@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 10:18:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/27 10:47:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,6 @@ t_parser		*ft_get_parser_oneof(char *charset);
 t_parser		*ft_get_parser_ref(char *rule_name);
 t_parser		*ft_get_parser_func(t_parser *(*generator)(void), uint32_t (*f)(t_parser*, char **));
 
-
 t_parser		*ft_get_parser_whitespace(void);
 t_parser		*ft_get_parser_grammar(void);
 t_parser		*ft_get_parser_term(void);
@@ -247,6 +246,7 @@ uint32_t		ft_eval_parser_char_range(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_undefined(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_not(t_parser	*parser, char **string);
 uint32_t		ft_eval_parser_str_any(t_parser *parser, char **string);
+uint32_t		ft_eval_parser_str_any_of(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_or(t_parser	*parser, char **string);
 uint32_t		ft_eval_parser_and(t_parser	*parser, char **string);
 uint32_t		ft_eval_parser_satisfy(t_parser *parser, char **string);

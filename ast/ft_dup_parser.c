@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 06:35:55 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/22 05:10:45 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/27 10:31:06 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ static uint32_t	ft_count_parsers(t_parser *parser)
 
 	i = 0;
 	count = 0;
-	// ft_put_id(parser);
-	// ft_putchar('\n');
 	if (parser == NULL)
 	{
-		// printf("fjnodfln\n");
 		return (1);
 	}
 	if (parser->id >= FUNC)
@@ -38,7 +35,6 @@ static uint32_t	ft_count_parsers(t_parser *parser)
 		{
 			while (i < parser->parser.and.n)
 			{
-				// printf("i = %u >>%p\n",i, parser->parser.and.parsers[i]);
 				count += ft_count_parsers(parser->parser.and.parsers[i]);
 				i++;
 			}

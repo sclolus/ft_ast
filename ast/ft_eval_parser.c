@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 03:15:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/27 10:54:08 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,32 @@ uint32_t		ft_eval_input_file(uint32_t fd, t_parser *parser)
 	return (ret);
 }
 
+uint32_t		ft_eval_parser_str_any_of(t_parser *parser, char **string)
+{
+	uint32_t		bool;
+	static char		buf[2] = "\0\0";
+
+	bool = 0;
+	if (!(parser->parser.str_any_of.str = ft_strnew(0)))
+		exit(EXIT_FAILURE);
+	while (**string)
+	{
+		/* optimisable*/
+		if (ft_strchr(parser->parser.str_any_of.charset, **string))
+		{
+			bool |= 1;
+			buf[0] = **string;
+			(*string)++;
+			if (!(parser->parser.str_any_of.str
+				  = ft_strjoin_f(parser->parser.str_any_of.str, buf, 0)))
+				exit(EXIT_FAILURE);
+		}
+		else
+			break ;
+	}
+	return (bool);
+}
+
 uint32_t		ft_eval_input(t_parser *parser, char **string)
 {
 	uint32_t	ret;
@@ -332,7 +358,7 @@ uint32_t		ft_eval_parser_func(t_parser *parser, char **string)
 
 uint32_t		ft_eval_parser(t_parser *parser, char **string)
 {
-	static const t_eval_parser	eval_parsers[17] = {
+	static const t_eval_parser	eval_parsers[18] = {
 		{&ft_eval_parser_undefined},
 		{&ft_eval_parser_undefined},
 		{&ft_eval_parser_onechar},
@@ -340,6 +366,7 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 		{&ft_eval_parser_undefined},
 		{&ft_eval_parser_char_range},
 		{&ft_eval_parser_any},
+		{&ft_eval_parser_str_any_of},
 		{&ft_eval_parser_satisfy},
 		{&ft_eval_parser_satisfy_str},
 		{&ft_eval_parser_str_any},
@@ -363,7 +390,11 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 		
 	}
 	else
+	{
 		ft_put_id(parser);
+		if (parser->id == OR)
+			ft_putstr("yo");
+	}
 	ret = eval_parsers[parser->id].f(parser, string);
 	if (parser->name)
 	{
