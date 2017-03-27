@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/28 01:02:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/28 01:06:30 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,7 +326,6 @@ uint32_t		ft_eval_parser_str_any_of(t_parser *parser, char **string)
 			if (offset < 4096)
 			{
 				buf[offset++] = (*(*string)++);
-				(*string)++;
 			}
 		}
 		else
