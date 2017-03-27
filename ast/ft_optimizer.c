@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 09:38:43 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 10:23:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/27 22:47:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ uint32_t	ft_is_case_str_any_of(t_parser *parser)
 void		ft_optimize_case_str_any_of(t_parser *parser)
 {
 	char		*charset;
-	t_parser	*str_any_of;
 	uint32_t	i;
 	uint32_t	n;
 
@@ -42,9 +41,11 @@ void		ft_optimize_case_str_any_of(t_parser *parser)
 		charset[i] = parser->parser.plus.parser->parser.or.parsers[i]->parser.onechar.c;
 		i++;
 	}
-	str_any_of = ft_get_parser_str_any_of(charset);
-	ft_free_parser(parser->parser.plus.parser);
-	parser->parser.plus.parser = str_any_of;
+//	ft_free_parser(parser->parser.plus.parser);
+	parser->id = STR_ANY_OF;
+	parser->parser.str_any_of.charset = charset;
+	parser->retained = UNRETAINED;
+	parser->parser.str_any_of.str = NULL;
 }
 
 void	ft_optimizer(t_parser *parser)
@@ -52,17 +53,9 @@ void	ft_optimizer(t_parser *parser)
 	uint32_t	i;
 
 	i = 0;
-	if (parser->id == OR)
+	if (parser->id == OR || parser->id == AND)
 	{
 		while (i < parser->parser.or.n)
-		{
-			ft_optimizer(parser->parser.or.parsers[i]);
-			i++;
-		}
-	}
-	else if (parser->id == AND)
-	{
-		while (i < parser->parser.and.n)
 		{
 			ft_optimizer(parser->parser.or.parsers[i]);
 			i++;
@@ -77,4 +70,6 @@ void	ft_optimizer(t_parser *parser)
 	}
 	else if (parser->id == MULTIPLY)
 		ft_optimizer(parser->parser.plus.parser);
+	else if (parser->id == FUNC)
+		ft_optimizer(parser->parser.func.parser);
 }

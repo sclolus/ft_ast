@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 10:47:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/27 22:41:46 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,6 +287,8 @@ void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_undefined(t_parser *parser);
 
+
+void			ft_optimizer(t_parser *parser);
 
 uint32_t		ft_eval_parser_invocations(t_parser *parser, char **string);
 int32_t			ft_is_alpha(char c);
