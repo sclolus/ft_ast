@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/26 20:10:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/27 03:15:26 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,6 +291,7 @@ uint32_t		ft_eval_delayed(t_parser *parser, char **string)
 uint32_t		ft_eval_input_file(uint32_t fd, t_parser *parser)
 {
 	char		*string;
+	char		*tmp;
 	static char	buf[2048];
 	int32_t		ret;
 
@@ -303,8 +304,9 @@ uint32_t		ft_eval_input_file(uint32_t fd, t_parser *parser)
 		if (!(string = ft_strjoin_f(string, buf, 0)))
 			exit (EXIT_FAILURE);
 	}
+	tmp = string;
 	ret = ft_eval_input(parser, &string);
-	free(string);
+	free(tmp);
 	return (ret);
 }
 
@@ -363,20 +365,6 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 	else
 		ft_put_id(parser);
 	ret = eval_parsers[parser->id].f(parser, string);
-	if (ret)
-		parser->retained = RETAINED;
-	else
-	{
-		if (parser->retained)
-		{
-			while (1)
-				;
-			ft_putstr("fuck");
-		}
-		parser->retained = UNRETAINED;
-		*string = base;
-	}
-	ft_putstr("parser");
 	if (parser->name)
 	{
 		ft_putstr(parser->name);
@@ -390,8 +378,16 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 	ft_putnbr(ret);
 	ft_putstr(" || current parser :");
 	ft_putstr(*string);
-
 	ft_putchar('\n');
+
+	if (ret)
+		parser->retained = RETAINED;
+	else
+	{
+		parser->retained = UNRETAINED;
+		*string = base;
+	}
+	ft_putstr("parser");
 //	ft_put_parser_tree(parser);
 	return (ret);
 }

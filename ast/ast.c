@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/25 06:04:39 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/27 10:11:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,4 +348,15 @@ void	ft_set_name_parser(t_parser *parser, char *str)
 {
 	if (!(parser->name = ft_strdup(str)))
 		exit (EXIT_FAILURE);
+}
+
+t_parser	*ft_get_parser_str_any_of(char *charset)
+{
+	t_parser	*parser;
+
+	parser = ft_get_undefined_parser();
+	parser->id = STR_ANY_OF;
+	parser->parser.str_any_of.charset = charset;
+	parser->parser.str_any_of.str = NULL;
+	return (parser);
 }

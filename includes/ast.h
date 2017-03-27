@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/26 19:07:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/27 10:18:39 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef enum	e_id
 	REGEXP,
 	RANGE,
 	ANY,
+	STR_ANY_OF,
 	SATISFY,
 	SATISFY_STR,
 	STR_ANY,
@@ -72,6 +73,12 @@ typedef struct	s_mpc_onechar
 {
 	char	c;
 }				t_mpc_onechar;
+
+typedef struct	s_mpc_str_any_of
+{
+	char	*charset;
+	char	*str;
+}				t_mpc_str_any_of;
 
 typedef struct	s_mpc_any
 {
@@ -161,6 +168,7 @@ typedef struct	s_mpc_func
 typedef union	s_mpc
 {
 	t_mpc_onechar		onechar;
+	t_mpc_str_any_of	str_any_of;
 	t_mpc_ref			ref;
 	t_mpc_str			string;
 	t_mpc_regexp		regexp;
@@ -193,11 +201,17 @@ typedef struct	s_eval_parser
 	uint32_t	(*f)(t_parser*, char **);
 }				t_eval_parser;
 
+typedef struct	s_free_parser
+{
+	void	(*f)(t_parser*);
+}				t_free_parser;
+
 t_parser		*ft_get_undefined_parser(void);
 t_parser		*ft_get_parser_str_any(void);
 t_parser		*ft_get_parser_plus(t_parser *parser);
 t_parser		*ft_get_parser_multiply(t_parser *parser);
 t_parser		*ft_get_parser_onechar(char c);
+t_parser		*ft_get_parser_str_any_of(char *charset);
 t_parser		*ft_get_parser_str(char *str);
 t_parser		*ft_get_parser_range(char start, char end);
 t_parser		*ft_get_parser_and_n(uint32_t n, t_parser **parsers);
@@ -252,6 +266,27 @@ t_parser		*ft_get_grammar_rule(t_parser *rule);
 t_parser		*ft_get_grammar_syntax(t_parser *syntax);
 t_parser		*ft_find_rule_name(t_parser **ruleset, char *name);
 void			ft_link_rule_name(t_parser **ruleset, t_parser **node);
+
+void			ft_free_parser(t_parser *parser);
+void			ft_free_parser_onechar(t_parser *parser);
+void			ft_free_parser_ref(t_parser *parser);
+void			ft_free_parser_str_any_of(t_parser *parser);
+void			ft_free_parser_any(t_parser *parser);
+void			ft_free_parser_str_any(t_parser *parser);
+void			ft_free_parser_str(t_parser *parser);
+void			ft_free_parser_regexp(t_parser *parser);
+void			ft_free_parser_and_n(t_parser *parser);
+void			ft_free_parser_or_n(t_parser *parser);
+void			ft_free_parser_plus(t_parser *parser);
+void			ft_free_parser_multiply(t_parser *parser);
+void			ft_free_parser_char_range(t_parser *parser);
+void			ft_free_parser_satisfy(t_parser *parser);
+void			ft_free_parser_satisfy_str(t_parser *parser);
+void			ft_free_parser_oneof(t_parser *parser);
+void			ft_free_parser_func(t_parser *parser);
+void			ft_free_parser_func(t_parser *parser);
+void			ft_free_parser_undefined(t_parser *parser);
+
 
 uint32_t		ft_eval_parser_invocations(t_parser *parser, char **string);
 int32_t			ft_is_alpha(char c);
