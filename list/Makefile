@@ -6,7 +6,7 @@
 #    By: aalves <aalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/07 05:34:22 by aalves            #+#    #+#              #
-#    Updated: 2017/03/11 02:27:59 by aalves           ###   ########.fr        #
+#    Updated: 2017/03/28 01:42:53 by aalves           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,6 @@ all: $(OBJS)
 
 clean:
 	@$(RM) $(OBJS)
-	@$(ECHO) "$(CYAN)List module cleaned $(NC)"
+	@$(ECHO) "$(BLUE)List module cleaned $(NC)"
 
 re: clean all
