@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/08 05:09:17 by aalves            #+#    #+#             */
-/*   Updated: 2017/03/08 06:13:20 by aalves           ###   ########.fr       */
+/*   Created: 2017/03/14 05:47:06 by sclolus           #+#    #+#             */
+/*   Updated: 2017/03/27 21:31:45 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
-void	ft_error(char *msg, char *file, const char *func)
+void	ft_putnbr_tab(uint32_t n, int32_t *tab)
 {
-	ft_putstr("error : ");
-	ft_putstr(msg);
-	ft_putstr("\nfunction ");
-	ft_putstr(func);
-	ft_putstr(" in ");
-	ft_putendl(file);
-	exit(EXIT_FAILURE);
+	while (n--)
+	{
+		ft_putnbr(tab[n]);
+	}
+}
+
+int main(void)
+{
+	char	*tab;
+
+	tab = (int[]){12, 11, 13};
+	ft_putnbr_tab(3, tab);
+	return (0);
 }

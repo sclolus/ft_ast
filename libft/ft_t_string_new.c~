@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_t_string_new.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/05 17:08:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/03 04:53:58 by sclolus          ###   ########.fr       */
+/*   Created: 2017/03/28 01:24:11 by sclolus           #+#    #+#             */
+/*   Updated: 2017/03/28 01:26:44 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
+t_string	*ft_t_string_new(uint32_t capacity)
 {
-	new->next = *alst;
-	*alst = new;
-	if (new->next)
-		new->next->prev = new;
-	(*alst)->prev = NULL;
+	t_string	*string;
+
+	if (!(string = (t_string*)malloc(sizeof(t_string))))
+		exit(EXIT_FAILURE);
+	string->capacity = capacity;
+	if (!(string->string = (char*)malloc(sizeof(char) * capacity)))
+		exit(EXIT_FAILURE);
+	ft_memset(string->string, 0, capacity);
+	string->len = 0;
+	return (string);
 }

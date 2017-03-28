@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 11:35:25 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/28 01:53:16 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/08 06:06:23 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,23 @@
 # include <string.h>
 # include <stdint.h>
 # include <stdlib.h>
-
+# include <list.h>
 # define PHASZERO(x) ((((x + (0x7f7f7f7f7f7f7f7f)) ^ ~x) & 0x818080808080808080)
 # define PHASN(x, n) (Phaszero(x ^ ((~0UL / 255L) * n)))
-# define STATIC_BUF_SIZE 4096
-# define STATIC_PUT_FLUSH 1
+# define STACK_SIZE 4096
 
 typedef struct	s_list
 {
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
-	struct s_list	*prev;
 }				t_list;
 
-typedef struct	s_string
+typedef struct	s_stack
 {
-	uint64_t	capacity;
-	uint64_t	len;
-	char		*string;
-}				t_string;
+	void			*content[STACK_SIZE];
+	uint32_t		n_elem;
+}				t_stack;
 
 void			*ft_memset(void *b, int c, size_t len);
 void			ft_bzero(void *s, size_t n);
@@ -45,7 +42,6 @@ void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 size_t			ft_strlen(const char *s);
 char			*ft_strdup(const char *s1);
-char			*ft_strndup(char *str, uint32_t len);
 char			*ft_strcpy(char *dst, const char *src);
 char			*ft_strncpy(char *dst, const char *src, size_t len);
 char			*ft_strcat(char *s1, const char *s2);
@@ -72,7 +68,7 @@ void			ft_memdel(void **ap);
 char			*ft_strnew(size_t size);
 void			ft_strdel(char **as);
 char			*ft_strreplace(char const *str, uint32_t start
-						, uint32_t end, char const *src);
+						   , uint32_t end, char const *src);
 void			ft_strclr(char *s);
 void			ft_striter(char *s, void (*f)(char *));
 void			ft_striteri(char *s, void (*f)(unsigned int, char *));
@@ -94,6 +90,7 @@ void			ft_putchar_fd(char c, int fd);
 void			ft_putstr_fd(char const *s, int fd);
 void			ft_putendl_fd(char const *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
+void			ft_error(char *msg, char *file, const char *func);
 
 t_list			*ft_lstnew(void const *content, size_t content_size);
 unsigned int	ft_lstlen(t_list *lst);
@@ -107,7 +104,6 @@ void			*ft_lsttotab(t_list *lst, unsigned int len);
 unsigned long	ft_pow(int nbr, unsigned int exponent);
 
 void			ft_print_page(void *addr);
-uint32_t		ft_static_put(char *str, uint32_t len, uint32_t flags);
 unsigned int	ft_strchr_index(char *str, char c);
 
 unsigned int	ft_log2(unsigned long long nbr);
@@ -120,11 +116,4 @@ uint64_t		ft_random(void);
 void			ft_sort(int64_t	*tab, uint32_t len);
 
 int				get_next_line(const int fd, char **line);
-void			ft_get_cancer(char *str);
-
-void			ft_t_string_expand(t_string *string);
-t_string		*ft_t_string_concat(t_string *string, char *str);
-t_string		*ft_t_string_new(uint32_t capacity);
-t_string		*ft_t_string_concat_len(t_string *string
-									, char *str, uint32_t str_len);
 #endif

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/12 02:08:07 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/08 03:45:38 by aalves           ###   ########.fr       */
+/*   Updated: 2016/12/20 23:30:27 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <get_next_line.h>
+#include "get_next_line.h"
 
 static t_list	*ft_goto_fd_lst(int fd, t_list *lst)
 {

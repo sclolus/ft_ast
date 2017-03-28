@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_t_string_concat.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/05 17:08:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/03 04:53:58 by sclolus          ###   ########.fr       */
+/*   Created: 2017/03/28 01:19:16 by sclolus           #+#    #+#             */
+/*   Updated: 2017/03/28 01:52:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
+t_string	*ft_t_string_concat(t_string *string, char *str)
 {
-	new->next = *alst;
-	*alst = new;
-	if (new->next)
-		new->next->prev = new;
-	(*alst)->prev = NULL;
+	uint64_t	total_len;
+	uint64_t	str_len;
+
+	if (!str || !string)
+		return (NULL);
+	str_len = ft_strlen(str);
+	total_len = string->len + str_len;
+	if (total_len >= string->capacity)
+	{
+		ft_t_string_expand(string);
+		return (ft_t_string_concat(string, str));
+	}
+	else
+	{
+		ft_strcat(string->string, str);
+		string->len = total_len;
+	}
+	return (string);
 }

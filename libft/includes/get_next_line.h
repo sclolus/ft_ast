@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/05 17:08:18 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/03 04:53:58 by sclolus          ###   ########.fr       */
+/*   Created: 2016/11/12 02:04:34 by sclolus           #+#    #+#             */
+/*   Updated: 2016/12/20 23:31:55 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# define BUFF_SIZE 2
 
-void	ft_lstadd(t_list **alst, t_list *new)
+# include <stdlib.h>
+# include <unistd.h>
+
+typedef struct	s_fd_data
 {
-	new->next = *alst;
-	*alst = new;
-	if (new->next)
-		new->next->prev = new;
-	(*alst)->prev = NULL;
-}
+	int		fd;
+	char	buf[BUFF_SIZE + 1];
+	char	*current;
+}				t_fd_data;
+
+#endif

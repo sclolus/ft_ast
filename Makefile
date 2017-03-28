@@ -6,14 +6,13 @@
 #    By: aalves <aalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/08 03:04:06 by aalves            #+#    #+#              #
-#    Updated: 2017/03/28 01:44:04 by aalves           ###   ########.fr        #
+#    Updated: 2017/03/28 04:44:56 by sclolus          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 export NAME = libft.a
 export CC = gcc
-export FLAGS = -Werror -Wall -Wextra -g -O0 -fsanitize=address
-# -fsanitize-blacklist=my_ignores.txt
+export FLAGS = -Werror -Wall -Wextra -g -O0 -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 export VERBOSE = 0
 
 SRCS =
@@ -62,7 +61,7 @@ $(NAME): $(OBJS) modules
 	@ranlib $@
 
 test: all
-	gcc $(FLAGS) -I./includes -o test test.c libft.a
+	gcc $(FLAGS) -I./includes -o test test.c -L. -lft
 clean:
 	@$(ECHO) "$(CYAN)Cleaning objects $(NC)"
 	@$(foreach mod, $(MODULES), make -C $(mod) clean;)

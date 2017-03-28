@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/13 15:33:53 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/24 08:29:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2016/12/21 02:06:33 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,4 @@ size_t			ft_strlen(const char *s)
 		if (((longword + magicbit) ^ ~longword) & tester)
 			return (ft_sus_addr(longword_ptr, s));
 	}
-}
-
-//Je trouve que ca va un peu trop vite quand meme
-size_t			ft_strlol(const char *s)
-{
-	size_t		i = 0;
-	char		*p = (char *)s;
-
-	while (*p++)
-		i++;
-	return i;
 }
