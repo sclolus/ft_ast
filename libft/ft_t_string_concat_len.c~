@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/28 01:51:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/28 01:53:17 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/28 04:23:24 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_string	*ft_t_string_concat_len(t_string *string
 	}
 	else
 	{
-		ft_strcat(string->string, str);
+		ft_strncat(string->string, str, str_len);
 		string->len = total_len;
 	}
 	return (string);

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 22:41:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/28 07:30:13 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,4 +304,6 @@ void			ft_put_id(t_parser *parser);
 void			ft_set_name_parser(t_parser *parser, char *str);
 void			ft_put_parser_tree(t_parser *parser);
 void			ft_put_ast_tokens(t_parser *parser);
+
+int32_t			ft_save_parser(char	*filename, t_parser *parser);
 #endif

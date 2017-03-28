@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 11:11:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/27 20:23:55 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ void		ft_put_ast_tokens(t_parser *parser)
 			break;
 		case ONEOF:
 			ft_putchar(parser->parser.oneof.c);
+			break;
+		case STR_ANY_OF:
+			ft_putstr(parser->parser.str_any_of.str);
 			break;
 		default :
 			ft_putstr("broken");
