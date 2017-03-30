@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/28 07:30:13 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/30 00:56:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,14 @@ typedef struct	s_mpc_regexp
 
 typedef struct	s_mpc_and_n
 {
-	uint32_t	n;
 	t_parser	**parsers;
+	uint32_t	n;
 }				t_mpc_and_n;
 
 typedef struct	s_mpc_or_n
 {
-	uint32_t	n;
 	t_parser	**parsers;
+	uint32_t	n;
 }				t_mpc_or_n;
 
 typedef struct	s_mpc_not
@@ -165,6 +165,12 @@ typedef struct	s_mpc_func
 	uint32_t	(*f)(t_parser*, char **);
 }				t_mpc_func;
 
+typedef struct	s_mpc_recursive
+{
+	t_parser	*ref;
+	t_parser	*parser;
+}				t_mpc_recursive;
+
 typedef union	s_mpc
 {
 	t_mpc_onechar		onechar;
@@ -189,10 +195,10 @@ typedef union	s_mpc
 
 typedef struct	s_parser
 {
+	t_mpc	parser;
 	char	*name;
 	t_e_id	id;
 	char	retained;
-	t_mpc	parser;
 }				t_parser;
 
 

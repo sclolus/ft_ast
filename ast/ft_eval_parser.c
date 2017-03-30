@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/28 06:01:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/30 01:10:35 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,6 @@ uint32_t		ft_eval_parser_str_any_of(t_parser *parser, char **string)
 	bool = 0;
 	offset = 0;
 	str = ft_t_string_new(32);
-	CHECK(STR_ANY_OFF);
 	while (**string)
 	{
 		if (ft_strchr(parser->parser.str_any_of.charset, **string))
@@ -333,9 +332,7 @@ uint32_t		ft_eval_parser_str_any_of(t_parser *parser, char **string)
 			}
 			else
 			{
-				CHECK(CONCAT_LEN);
 				ft_t_string_concat_len(str, buf, 4096);
-				CHECK(EXITED CONCAT_LEN);
 				offset = 0; 
 			}
 		}
@@ -346,7 +343,6 @@ uint32_t		ft_eval_parser_str_any_of(t_parser *parser, char **string)
 		ft_t_string_concat_len(str, buf, offset);
 	parser->parser.str_any_of.str = str->string;
 	free(str);
-	CHECK(END);
 	return (bool);
 }
 

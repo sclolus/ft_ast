@@ -6,7 +6,7 @@
 #    By: aalves <aalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/11 02:24:19 by aalves            #+#    #+#              #
-#    Updated: 2017/03/28 01:42:19 by aalves           ###   ########.fr        #
+#    Updated: 2017/03/29 14:16:09 by sclolus          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ SRCS=		ast.c \
 			ft_eval_parser.c \
 			ft_dup_parser.c \
 			ft_get_grammar.c \
-			ft_free_parser.c \
 			ft_optimizer.c
+#			ft_free_parser.c \
 
 OBJS= $(SRCS:.c=.o)
 

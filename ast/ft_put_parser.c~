@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 20:23:55 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/30 01:01:49 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ void	ft_put_parser_tree(t_parser *parser)
 	uint32_t		u;
 
 	max_depth = ft_count_depth(parser);
+	ft_putnbr(max_depth);
 	i = 0;
 	while (i < max_depth)
 	{

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 04:43:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/24 15:37:43 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/29 14:28:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,20 +87,15 @@ t_parser	*ft_get_grammar_term(t_parser *term)
 		return (ft_get_parser_ref(
 					term->parser.or.parsers[1]->parser.and.parsers[1]->parser.str_any.str));
 	}
-	else if (term->parser.or.parsers[2]->retained)
+	else
 	{
 		if (term->parser.or.parsers[2]->parser.and.parsers[6]->parser.oneof.c == '*')
-		{
 			return (ft_get_parser_multiply(ft_get_grammar_expression(
 											   term->parser
 											   .or.parsers[2]->parser.and.parsers[3]->parser.func.parser)));
-		}
 		else
-		{
-			ft_putnbr((long)term->parser.or.parsers[2]->parser.and.parsers[3]->parser.func.parser);
 			return (ft_get_parser_plus(ft_get_grammar_expression(
 										   term->parser.or.parsers[2]->parser.and.parsers[3]->parser.func.parser)));
-		}
 	}
 }
 
@@ -208,6 +203,7 @@ t_parser	*ft_get_grammar_syntax(t_parser *syntax)
 	}
 	parsers[i] = NULL;
 	parser = ft_get_parser_plus(parsers[0]);
+	ft_set_name_parser(parser, "syntax");
 	i = 0;
 	while (parsers[i])
 		ft_link_rule_name(parsers, &parsers[i++]);

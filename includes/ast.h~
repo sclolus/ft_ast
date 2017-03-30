@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 22:41:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/29 16:42:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,12 @@ typedef struct	s_mpc_func
 	uint32_t	(*f)(t_parser*, char **);
 }				t_mpc_func;
 
+typedef struct	s_mpc_recursive
+{
+	t_parser	*ref;
+	t_parser	*parser;
+}				t_mpc_recursive;
+
 typedef union	s_mpc
 {
 	t_mpc_onechar		onechar;
@@ -304,4 +310,6 @@ void			ft_put_id(t_parser *parser);
 void			ft_set_name_parser(t_parser *parser, char *str);
 void			ft_put_parser_tree(t_parser *parser);
 void			ft_put_ast_tokens(t_parser *parser);
+
+int32_t			ft_save_parser(char	*filename, t_parser *parser);
 #endif

@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/28 07:31:23 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/30 01:13:10 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,14 +144,14 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 				if (level == 1)
 					ft_putchar(')');
 			}
-			else if (parser->id == PLUS || parser->id == MULTIPLY)
+/*			else if (parser->id == PLUS || parser->id == MULTIPLY)
 			{
 				while (i < parser->parser.plus.n)
 				{
 					ft_put_tree_level(parser->parser.plus.parsers[i], level - 1);
 					i++;
 				}
-			}
+				}*/
 			else
 				ft_put_tree_level(parser->parser.plus.parser, level - 1);
 		}
@@ -197,6 +197,7 @@ void	ft_put_parser_tree(t_parser *parser)
 	uint32_t		u;
 
 	max_depth = ft_count_depth(parser);
+	ft_putnbr(max_depth);
 	i = 0;
 	while (i < max_depth)
 	{

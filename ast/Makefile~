@@ -6,7 +6,7 @@
 #    By: aalves <aalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/11 02:24:19 by aalves            #+#    #+#              #
-#    Updated: 2017/03/22 05:10:47 by aalves           ###   ########.fr        #
+#    Updated: 2017/03/28 01:42:19 by aalves           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ SRCS=		ast.c \
 			ft_put_parser.c \
 			ft_eval_parser.c \
 			ft_dup_parser.c \
-			ft_get_grammar.c
+			ft_get_grammar.c \
+			ft_free_parser.c \
+			ft_optimizer.c
 
 OBJS= $(SRCS:.c=.o)
 
@@ -33,6 +35,6 @@ all: $(OBJS)
 
 clean:
 	@$(RM) $(OBJS)
-	@$(ECHO) "$(CYAN)Parsing module cleaned $(NC)"
+	@$(ECHO) "$(BLUE)Parsing module cleaned $(NC)"
 
 re: clean all
