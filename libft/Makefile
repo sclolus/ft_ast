@@ -6,7 +6,7 @@
 #    By: aalves <aalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/07 05:34:22 by aalves            #+#    #+#              #
-#    Updated: 2017/03/28 04:50:40 by aalves           ###   ########.fr        #
+#    Updated: 2017/03/31 01:20:31 by aalves           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,11 +103,11 @@ else
 endif
 
 all: $(OBJS)
-	@$(ECHO) "$(CYAN)List module done $(NC)"
+	@$(ECHO) "$(CYAN)Main module done $(NC)"
 	@ar r ../$(NAME) $^
 
 clean:
 	@$(RM) $(OBJS)
-	@$(ECHO) "$(BLUE)List module cleaned $(NC)"
+	@$(ECHO) "$(BLUE)Main module cleaned $(NC)"
 
 re: clean all

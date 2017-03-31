@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/30 00:56:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/31 01:19:31 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ ft_putendl("____");		} while (0);
 
 # define TO_BE_USED 1
 # define USED 2
+
+# define ALONE 0
+# define GROUPED 1
 
 typedef struct	s_metachar_stack
 {
@@ -199,6 +202,7 @@ typedef struct	s_parser
 	char	*name;
 	t_e_id	id;
 	char	retained;
+	char	alloc;
 }				t_parser;
 
 

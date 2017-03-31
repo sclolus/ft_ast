@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/30 01:17:42 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/31 02:28:36 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ maths           : /^/ <expression> /$/ ;"))
 							   <separator>		::= \'&\' | \';\' \n")))
 		exit(EXIT_FAILURE);
 	char	*input;
-	if (!(input = ft_strdup("ls les gens")))
+	if (!(input = ft_strdup("ls les gens &&  super toto du ; turfu")))
 		exit (EXIT_FAILURE);
 	if (ft_eval_input(parser, &test))
 	{
@@ -73,27 +73,30 @@ maths           : /^/ <expression> /$/ ;"))
 		if (ft_eval_input(new_parser, &input))
 		{
 			ft_put_parser_tree(new_parser);
+			printf("\n\n\n\n");
 			ft_put_ast_tokens(new_parser);
-			
+
 		}
 		else
 		{
 			ft_putstr("\nfail\n");
 			exit(EXIT_FAILURE);
 		}
+		ft_free_parser(new_parser);
 	}
 	else
 	{
 		ft_putstr("lol");
 		exit(EXIT_FAILURE);
 	}
+	ft_free_parser(parser);
 # if 0
 	char		*base;
 	char		*string;
 	char		*shell_syntax;
 	t_parser	*new_parser;
 
-	
+
 	// string = ft_strdup("<expression> ::= \"loli\" \"is for seb\" | \"fbi is coming\" '1' \n");
 	// string = ft_strdup("<expr> ::= <num><sp>\"toto\"<sp><loli>\n\
 	// <num> ::= ('1' | '2' | '3' | '4' |'5' |'6' |'7' |'8' |'9' |'0' | <hexa>)+ \n\
@@ -131,7 +134,7 @@ maths           : /^/ <expression> /$/ ;"))
 						<do_group>         ::= \"do\" <compound_list> \"done\"           \n\
 						<simple_command>   ::= <cmd_prefix> <cmd_word> <cmd_suffix> | <cmd_prefix> <cmd_word> | <cmd_prefix> | <cmd_name> <cmd_suffix> | <cmd_name> \n\
 						<cmd_name>         ::= WORD                   \n\
-						<cmd_word>         ::= WORD                    \n\ 
+						<cmd_word>         ::= WORD                    \n\
 						<cmd_prefix>       ::= <io_redirect> | <cmd_prefix> <io_redirect> |            ASSIGNMENT_WORD | <cmd_prefix> ASSIGNMENT_WORD \n\
 						<cmd_suffix>       ::= <io_redirect> | <cmd_suffix> <io_redirect> |            WORD | <cmd_suffix> WORD \n\
 						<redirect_list>    ::= <io_redirect> | <redirect_list> <io_redirect> \n\

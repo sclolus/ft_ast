@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 09:49:33 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/28 07:46:09 by aalves           ###   ########.fr       */
+/*   Updated: 2017/03/31 02:47:04 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ void	ft_free_parser_ref(t_parser *parser)
 
 void	ft_free_parser_str_any_of(t_parser *parser)
 {
+
 	free(parser->parser.str_any_of.charset);
-	free(parser->parser.str_any_of.str);
+	if (parser->parser.str_any_of.str)
+		free(parser->parser.str_any_of.str);
 	ft_free_parser_struct(parser);
 }
 
@@ -73,9 +75,8 @@ void	ft_free_parser_and_n(t_parser *parser)
 		ft_free_parser(parser->parser.and.parsers[i]);
 		i++;
 	}
-	if (parser->retained)
-		free(parser->parser.and.parsers);
-	free(parser);
+	free(parser->parser.and.parsers);
+	ft_free_parser_struct(parser);
 }
 
 void	ft_free_parser_or_n(t_parser *parser)
@@ -88,10 +89,8 @@ void	ft_free_parser_or_n(t_parser *parser)
 		ft_free_parser(parser->parser.or.parsers[i]);
 		i++;
 	}
-	if (parser->retained)
-		free(parser->parser.or.parsers);
-	ft_put_parser_tree(parser);
-	free(parser);
+	free(parser->parser.or.parsers);
+	ft_free_parser_struct(parser);
 }
 
 void	ft_free_parser_plus(t_parser *parser)
@@ -183,5 +182,7 @@ void	ft_free_parser(t_parser *parser)
 		{ft_free_parser_plus},
 		{ft_free_parser_multiply}};
 
+	if (!parser)
+		return ;
 	free_parsers[parser->id].f(parser);
 }

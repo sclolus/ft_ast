@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_optimizer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 09:38:43 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 22:47:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/31 02:46:43 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ uint32_t	ft_is_case_str_any_of(t_parser *parser)
 	return (1);
 }
 
-void		ft_optimize_case_str_any_of(t_parser *parser)
+void	ft_optimize_case_str_any_of(t_parser *parser)
 {
 	char		*charset;
 	uint32_t	i;
@@ -41,10 +41,10 @@ void		ft_optimize_case_str_any_of(t_parser *parser)
 		charset[i] = parser->parser.plus.parser->parser.or.parsers[i]->parser.onechar.c;
 		i++;
 	}
-//	ft_free_parser(parser->parser.plus.parser);
+	ft_free_parser(parser->parser.plus.parser);
 	parser->id = STR_ANY_OF;
-	parser->parser.str_any_of.charset = charset;
 	parser->retained = UNRETAINED;
+	parser->parser.str_any_of.charset = charset;
 	parser->parser.str_any_of.str = NULL;
 }
 

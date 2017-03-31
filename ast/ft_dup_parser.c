@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 06:35:55 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 10:31:06 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/31 02:36:10 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ static t_parser		*ft_assign_parsers(t_parser *parser, t_parser *new_parser)
 	}
 	// ft_put_id(parser);
 	ft_memcpy(new_parser, parser, sizeof(t_parser));
+	new_parser->alloc = GROUPED;
+	if (parser->name)
+		new_parser->name = ft_strdup(parser->name);
 	// ft_putchar('\n');
 	if (parser->id >= FUNC)
 		return (ft_assign_parser_data(parser, new_parser));
@@ -118,9 +121,10 @@ static t_parser		*ft_assign_parsers(t_parser *parser, t_parser *new_parser)
 			if (!(new_parser->parser.oneof.charset = ft_strdup(parser->parser.oneof.charset)))
 				exit(EXIT_FAILURE);
 		}
-		else if (parser->id == REF)
+		else if (parser->id == STR_ANY_OF)
 		{
-			// printf("DRGOSDOGSRDGJRSODFNODR\n");
+			if (!(new_parser->parser.str_any_of.charset = ft_strdup(parser->parser.str_any_of.charset)))
+				exit(EXIT_FAILURE);
 		}
 		else if (parser->id == REGEXP)
 		{
@@ -144,5 +148,6 @@ t_parser		*ft_dup_parser(t_parser *parser)
 	if (!(new_parser = (t_parser*)malloc(size * sizeof(t_parser))))
 		exit (EXIT_FAILURE);
 	ft_assign_parsers(parser, new_parser);
+	new_parser->alloc = ALONE;
 	return (new_parser);
 }

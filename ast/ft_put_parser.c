@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/14 06:13:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/30 01:13:10 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/31 02:36:14 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void		ft_put_ast_tokens(t_parser *parser)
 		default :
 			ft_putstr("broken");
 			ft_putnbr(parser->id);
-			break;		
+			break;
 		}
 	}
 }

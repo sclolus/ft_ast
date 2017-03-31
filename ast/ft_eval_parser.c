@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/30 01:10:35 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/31 02:36:13 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ uint32_t		ft_eval_parser_plus(t_parser *parser, char **string)
 		// ft_put_parser_tree(link->content);
 		if (!ft_eval_parser(link->content, string))
 		{
+			ft_free_parser(link->content);
 			free(link); //free le parser
 			break;
 		}
@@ -226,7 +227,8 @@ uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string)
 		link->content = ft_dup_parser(parser->parser.multiply.parser);
 		if (!ft_eval_parser(link->content, string))
 		{
-			free(link); //free le parser
+			ft_free_parser(link->content);
+			free(link);
 			break;
 		}
 		ft_lstadd(&head, link);
@@ -333,7 +335,7 @@ uint32_t		ft_eval_parser_str_any_of(t_parser *parser, char **string)
 			else
 			{
 				ft_t_string_concat_len(str, buf, 4096);
-				offset = 0; 
+				offset = 0;
 			}
 		}
 		else
@@ -393,7 +395,7 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 	{
 		ft_putstr(parser->name);
 		ft_put_id(parser);
-		
+
 	}
 	else
 	{
@@ -406,7 +408,7 @@ uint32_t		ft_eval_parser(t_parser *parser, char **string)
 	{
 		ft_putstr(parser->name);
 		ft_put_id(parser);
-		
+
 	}
 	else
 	ft_put_id(parser);
