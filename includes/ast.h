@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/31 01:19:31 by aalves           ###   ########.fr       */
+/*   Updated: 2017/04/01 22:21:04 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ typedef uint32_t	t_id;
 # define CHECK(x) do {  ft_putendl("___"); \
 ft_putendl(#x);			\
 ft_putendl("____");		} while (0);
+
+# define RETAINED(parser) (parser->retained == 1)
 
 # define UNRETAINED 0
 # define RETAINED 1

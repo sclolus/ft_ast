@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 04:43:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/29 16:33:22 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/03/31 15:28:08 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ t_parser	*ft_find_rule_name(t_parser **ruleset, char *name)
 			return (ruleset[i]);
 		++i;
 	}
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd("not found", 2);
 	exit(EXIT_FAILURE);
 }
 
