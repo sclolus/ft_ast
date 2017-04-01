@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/01 22:21:04 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/01 22:26:19 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,17 @@ typedef uint32_t	t_id;
 ft_putendl(#x);			\
 ft_putendl("____");		} while (0);
 
+# define PARSER_TYPE(parser) (parser->id)
 # define RETAINED(parser) (parser->retained == 1)
+# define OR_PARSER_N(parser, n) (parser->parser.or.parsers[n])
+# define AND_PARSER_N(parser, n) (parser->parser.and.parsers[n])
+# define OR_N(parser) (parser->parser.or.n)
+# define AND_N(parser) (parser->parser.and.n)
+# define PLUS_N(parser) (parser->parser.plus.n)
+# define MULTIPLY_N(parser) (parser->parser.multiply.n)
+# define PLUS_PARSERS_N(parser, n) (parser->parser.plus.parsers[n])
+# define MULTIPLY_PARSER_N(parser, n) (parser->parser.multiply.parsers[n])
+
 
 # define UNRETAINED 0
 # define RETAINED 1
