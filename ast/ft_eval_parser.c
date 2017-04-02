@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/31 02:36:13 by aalves           ###   ########.fr       */
+/*   Updated: 2017/04/02 02:33:16 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,15 @@ uint32_t		ft_eval_parser_or(t_parser	*parser, char **string)
 	i = 0;
 	while (!ret && i < parser->parser.or.n)
 	{
-			if (parser->parser.or.parsers[i]->id == STR_ANY)
-				parser->parser.or.parsers[i]->parser.str_any.end
-					= i + 1 < parser->parser.or.n ? parser->parser.or.parsers[i + i]
-					: NULL;
-			ret |= ft_eval_parser(parser->parser.or.parsers[i], string);
+		if (parser->parser.or.parsers[i]->id == STR_ANY)
+			parser->parser.or.parsers[i]->parser.str_any.end
+				= i + 1 < parser->parser.or.n ? parser->parser.or.parsers[i + i]
+				: NULL;
+		ret |= ft_eval_parser(parser->parser.or.parsers[i], string);
 		i++;
 	}
+	if (ret)
+		parser->parser.or.matched = parser->parser.or.parsers[i - 1];
 	return (ret);
 }
 

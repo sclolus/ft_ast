@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/01 22:26:19 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/02 02:35:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ ft_putendl(#x);			\
 ft_putendl("____");		} while (0);
 
 # define PARSER_TYPE(parser) (parser->id)
-# define RETAINED(parser) (parser->retained == 1)
+# define IS_RETAINED(parser) (parser->retained == 1)
 # define OR_PARSER_N(parser, n) (parser->parser.or.parsers[n])
 # define AND_PARSER_N(parser, n) (parser->parser.and.parsers[n])
 # define OR_N(parser) (parser->parser.or.n)
@@ -128,6 +128,7 @@ typedef struct	s_mpc_or_n
 {
 	t_parser	**parsers;
 	uint32_t	n;
+	t_parser	*matched;
 }				t_mpc_or_n;
 
 typedef struct	s_mpc_not
