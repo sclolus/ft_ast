@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/27 09:38:43 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/31 02:46:43 by aalves           ###   ########.fr       */
+/*   Updated: 2017/04/02 05:43:11 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ uint32_t	ft_is_case_str_any_of(t_parser *parser)
 	uint32_t	i;
 
 	i = 0;
+	if (parser->id != OR)
+		return (0);
 	while (i < parser->parser.or.n)
 	{
 		if (parser->parser.or.parsers[i]->id != ONECHAR)

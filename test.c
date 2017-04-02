@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:05:23 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/31 02:28:36 by aalves           ###   ########.fr       */
+/*   Updated: 2017/04/02 05:42:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,15 @@ maths           : /^/ <expression> /$/ ;"))
 					  <and_or>	::= \"&&\" | \"||\" \n\
 					  <separator> ::= ';' | '&' \n\
 					  <spe>		::= (' ' | '\t')* \n");*/
-	if (!(test = ft_strdup("<command>		::= <sp> <list> <sp> <separator> <sp> | <sp> <list> <sp> \n\
-							   <list>			::= (<simple_cmd> <sp> <and_or> <sp>)* <simple_cmd> \n\
-							   <simple_cmd>		::= <command_name> <sp> (<arg> <sp>)* \n\
-							   <command_name>	::= ('a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z')+ \n\
-							   <arg>			::= ('a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z')+ \n\
-							   <and_or>			::= \"&&\" | \"||\" \n\
-							   <sp>				::= (\' \' | \'\t\')* \n\
-							   <separator>		::= \'&\' | \';\' \n")))
+	if (!(test = ft_strdup("<command>		::= \"asdf\" \n")))
 		exit(EXIT_FAILURE);
 	char	*input;
-	if (!(input = ft_strdup("ls les gens &&  super toto du ; turfu")))
+	if (!(input = ft_strdup("asdf")))
 		exit (EXIT_FAILURE);
 	if (ft_eval_input(parser, &test))
 	{
 		new_parser = ft_get_grammar_syntax(parser);
+		ft_put_parser_tree(new_parser);
 		ft_optimizer(new_parser);
 		ft_put_parser_tree(new_parser);
 		if (ft_eval_input(new_parser, &input))
