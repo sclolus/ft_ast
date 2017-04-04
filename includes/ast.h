@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/02 02:35:03 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 01:38:29 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ typedef struct	s_mpc_or_n
 {
 	t_parser	**parsers;
 	uint32_t	n;
-	t_parser	*matched;
+	int32_t		matched;
 }				t_mpc_or_n;
 
 typedef struct	s_mpc_not
