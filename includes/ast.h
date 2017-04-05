@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 01:58:00 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/05 02:00:46 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ ft_putendl("____");		} while (0);
 # define AND_N(t_parser) t_parser->parser.and.n
 # define PLUS_N(t_parser) t_parser->parser.plus.n
 # define MULTIPLY_N(t_parser) t_parser->parser.multiply.n
-# define PLUS_PARSERS_N(t_parser, n) t_parser->parser.plus.parsers[n]
+# define PLUS_PARSER_N(t_parser, n) t_parser->parser.plus.parsers[n]
 # define MULTIPLY_PARSER_N(t_parser, n) t_parser->parser.multiply.parsers[n]
 
 
