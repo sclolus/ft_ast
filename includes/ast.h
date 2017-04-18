@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/05 02:00:46 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/18 04:10:57 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,30 @@ void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_undefined(t_parser *parser);
 
+
+/*
+**	Sanitizer
+*/
+
+void			ft_sanitize_parser(t_parser *parser);
+void			ft_sanitize_parser_undefined(t_parser *parser);
+void			ft_sanitize_parser_func(t_parser *parser);
+void			ft_sanitize_parser_not(t_parser *parser);
+void			ft_sanitize_parser_oneof(t_parser *parser);
+void			ft_sanitize_parser_satisfy_str(t_parser *parser);
+void			ft_sanitize_parser_satisfy(t_parser *parser);
+void			ft_sanitize_parser_char_range(t_parser *parser);
+void			ft_sanitize_parser_multiply(t_parser *parser);
+void			ft_sanitize_parser_plus(t_parser *parser);
+void			ft_sanitize_parser_or_n(t_parser *parser);
+void			ft_sanitize_parser_and_n(t_parser *parser);
+void			ft_sanitize_parser_regexp(t_parser *parser);
+void			ft_sanitize_parser_str(t_parser *parser);
+void			ft_sanitize_parser_str_any(t_parser *parser);
+void			ft_sanitize_parser_any(t_parser *parser);
+void			ft_sanitize_parser_str_any_of(t_parser *parser);
+void			ft_sanitize_parser_ref(t_parser *parser);
+void			ft_sanitize_parser_onechar(t_parser *parser);
 
 void			ft_optimizer(t_parser *parser);
 
