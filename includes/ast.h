@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 12:05:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 13:25:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,17 +224,17 @@ typedef struct	s_eval_parser
 	uint32_t	(*f)(t_parser*, char **);
 }				t_eval_parser;
 
-typedef struct	s_eval_tokens
-{
-	uint32_t	(*f)(t_parser*, char **, uint32 index);
-}				t_eval_tokens;
-
 typedef struct	s_tokens
 {
 	char		**tokens;
 	uint32_t	*lens;
 	uint32_t	index;
 }				t_tokens;
+
+typedef struct	s_eval_tokens
+{
+	uint32_t	(*f)(t_parser*, t_tokens*);
+}				t_eval_tokens;
 
 typedef struct	s_free_parser
 {
@@ -303,6 +303,10 @@ uint32_t		ft_eval_tokens_and(t_parser	*parser, t_tokens *tokens);
 uint32_t		ft_eval_tokens_not(t_parser	*parser, t_tokens *tokens);
 uint32_t		ft_eval_tokens_plus(t_parser *parser, t_tokens *tokens);
 uint32_t		ft_eval_tokens_multiply(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_satisfy_str(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_str(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_str_any_of(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_undefined(t_parser *parser, t_tokens *tokens);
 
 t_parser		*ft_get_grammar_literal(t_parser *literal);
 t_parser		*ft_get_grammar_term(t_parser *term);

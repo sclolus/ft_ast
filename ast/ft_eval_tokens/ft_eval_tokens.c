@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 10:50:13 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 11:46:52 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 13:24:21 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ uint32_t		ft_eval_tokens_input(t_parser *parser, t_tokens *tokens)
 {
 	uint32_t	ret;
 
-	if ((ret = ft_eval_tokens(parser, tokens)) && !tokens->tokens[index])
+	if ((ret = ft_eval_tokens(parser, tokens)) && !tokens->tokens[tokens->index])
 		return (1);
 	return (0);
 }
@@ -46,7 +46,7 @@ uint32_t		ft_eval_tokens(t_parser *parser, t_tokens *tokens)
 	uint32_t	ret;
 
 	base = tokens->index;
-	if (tokens->tokens[index] == NULL)
+	if (tokens->tokens[tokens->index] == NULL)
 		return (1);
 	ret = eval_tokens[parser->id].f(parser, tokens);
 	if (ret)

@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 10:51:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 11:48:54 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 14:27:00 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ uint32_t		ft_eval_tokens_onechar(t_parser *parser, t_tokens *tokens)
 
 uint32_t		ft_eval_tokens_any(t_parser *parser, t_tokens *tokens)
 {
-	if (tokens->lens[index] == 1
-		&& tokens->tokens[index][0] != '\0')
+	if (tokens->lens[index] == 1)
 	{
 		parser->parser.any.matched = tokens->tokens[index][0];
 		tokens->index++;
@@ -69,6 +68,7 @@ uint32_t		ft_eval_tokens_satisfy(t_parser *parser, t_tokens *tokens)
 	if (tokens->lens[index] == 1
 		&& parser->parser.satisfy.f(tokens->tokens[index][0]))
 	{
+		parser->parser.satisfy.c = tokens->tokens[index][0];
 		tokens->index++;
 		return (1);
 	}
