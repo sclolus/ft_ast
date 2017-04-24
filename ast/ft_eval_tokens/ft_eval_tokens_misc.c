@@ -12,17 +12,17 @@
 
 #include "ast.h"
 
-uint32_t		ft_eval_tokens_undefined(t_parser *parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_undefined(t_parser *parser, t_tokens *tokens)
 {
 	if (parser)
 		;
 	ft_putstr_fd("error: undefined parser\n", 2);
 	ft_putstr_fd("current tokens: ", 2);
-	ft_putstr_fd(tokens[index], 2);
+	ft_putstr_fd(tokens->tokens[tokens->index], 2);
 	exit (EXIT_FAILURE);
 }
 
-uint32_t		ft_eval_tokens_invocations(t_parser *parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_invocations(t_parser *parser, t_tokens *tokens)
 {
 	uint32_t	i;
 
@@ -43,12 +43,12 @@ uint32_t		ft_eval_tokens_invocations(t_parser *parser, char **tokens, uint32_t i
 	return (1);
 }
 
-uint32_t		ft_eval_delayed(t_parser *parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_delayed(t_parser *parser, t_tokens *tokens)
 {
 	return (ft_eval_tokens(parser, tokens));
 }
 
-uint32_t		ft_eval_tokens_func(t_parser *parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_func(t_parser *parser, t_tokens *tokens)
 {
 	parser->parser.func.parser = parser->parser.func.gene();
 	return (parser->parser.func.f(parser->parser.func.parser, tokens));
