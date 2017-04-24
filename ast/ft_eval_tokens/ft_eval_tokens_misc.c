@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 10:12:09 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 13:23:51 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 14:32:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ uint32_t		ft_eval_tokens_undefined(t_parser *parser, t_tokens *tokens)
 	ft_putstr_fd("error: undefined parser\n", 2);
 	ft_putstr_fd("current tokens: ", 2);
 	ft_putstr_fd(tokens->tokens[tokens->index], 2);
-	exit (EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }
 
 uint32_t		ft_eval_tokens_invocations(t_parser *parser, t_tokens *tokens)

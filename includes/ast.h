@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 13:25:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 14:30:03 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,7 +338,6 @@ void			ft_free_parser_oneof(t_parser *parser);
 void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_undefined(t_parser *parser);
-
 
 /*
 **	Sanitizer
