@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/29 16:42:01 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/18 04:10:57 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ typedef uint32_t	t_id;
 ft_putendl(#x);			\
 ft_putendl("____");		} while (0);
 
+# define PARSER_TYPE(t_parser) t_parser->id
+# define IS_RETAINED(t_parser) t_parser->retained == 1
+# define OR_PARSER_N(t_parser, n) t_parser->parser.or.parsers[n]
+# define AND_PARSER_N(t_parser, n) t_parser->parser.and.parsers[n]
+# define OR_N(t_parser) t_parser->parser.or.n
+# define AND_N(t_parser) t_parser->parser.and.n
+# define PLUS_N(t_parser) t_parser->parser.plus.n
+# define MULTIPLY_N(t_parser) t_parser->parser.multiply.n
+# define PLUS_PARSER_N(t_parser, n) t_parser->parser.plus.parsers[n]
+# define MULTIPLY_PARSER_N(t_parser, n) t_parser->parser.multiply.parsers[n]
+
+
 # define UNRETAINED 0
 # define RETAINED 1
 
@@ -31,6 +43,9 @@ ft_putendl("____");		} while (0);
 
 # define TO_BE_USED 1
 # define USED 2
+
+# define ALONE 0
+# define GROUPED 1
 
 typedef struct	s_metachar_stack
 {
@@ -105,14 +120,15 @@ typedef struct	s_mpc_regexp
 
 typedef struct	s_mpc_and_n
 {
-	uint32_t	n;
 	t_parser	**parsers;
+	uint32_t	n;
 }				t_mpc_and_n;
 
 typedef struct	s_mpc_or_n
 {
-	uint32_t	n;
 	t_parser	**parsers;
+	uint32_t	n;
+	int32_t		matched;
 }				t_mpc_or_n;
 
 typedef struct	s_mpc_not
@@ -195,10 +211,11 @@ typedef union	s_mpc
 
 typedef struct	s_parser
 {
+	t_mpc	parser;
 	char	*name;
 	t_e_id	id;
 	char	retained;
-	t_mpc	parser;
+	char	alloc;
 }				t_parser;
 
 
@@ -293,6 +310,30 @@ void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_func(t_parser *parser);
 void			ft_free_parser_undefined(t_parser *parser);
 
+
+/*
+**	Sanitizer
+*/
+
+void			ft_sanitize_parser(t_parser *parser);
+void			ft_sanitize_parser_undefined(t_parser *parser);
+void			ft_sanitize_parser_func(t_parser *parser);
+void			ft_sanitize_parser_not(t_parser *parser);
+void			ft_sanitize_parser_oneof(t_parser *parser);
+void			ft_sanitize_parser_satisfy_str(t_parser *parser);
+void			ft_sanitize_parser_satisfy(t_parser *parser);
+void			ft_sanitize_parser_char_range(t_parser *parser);
+void			ft_sanitize_parser_multiply(t_parser *parser);
+void			ft_sanitize_parser_plus(t_parser *parser);
+void			ft_sanitize_parser_or_n(t_parser *parser);
+void			ft_sanitize_parser_and_n(t_parser *parser);
+void			ft_sanitize_parser_regexp(t_parser *parser);
+void			ft_sanitize_parser_str(t_parser *parser);
+void			ft_sanitize_parser_str_any(t_parser *parser);
+void			ft_sanitize_parser_any(t_parser *parser);
+void			ft_sanitize_parser_str_any_of(t_parser *parser);
+void			ft_sanitize_parser_ref(t_parser *parser);
+void			ft_sanitize_parser_onechar(t_parser *parser);
 
 void			ft_optimizer(t_parser *parser);
 

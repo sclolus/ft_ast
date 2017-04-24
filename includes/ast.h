@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/18 04:10:57 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 10:20:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,11 @@ typedef struct	s_eval_parser
 {
 	uint32_t	(*f)(t_parser*, char **);
 }				t_eval_parser;
+
+typedef struct	s_eval_tokens
+{
+	uint32_t	(*f)(t_parser*, char **, uint32 index);
+}				t_eval_tokens;
 
 typedef struct	s_free_parser
 {
