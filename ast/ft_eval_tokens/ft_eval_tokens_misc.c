@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 10:12:09 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 14:32:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 15:40:32 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,4 @@ uint32_t		ft_eval_tokens_invocations(t_parser *parser, t_tokens *tokens)
 		i++;
 	}
 	return (1);
-}
-
-uint32_t		ft_eval_delayed(t_parser *parser, t_tokens *tokens)
-{
-	return (ft_eval_tokens(parser, tokens));
-}
-
-uint32_t		ft_eval_tokens_func(t_parser *parser, t_tokens *tokens)
-{
-	parser->parser.func.parser = parser->parser.func.gene();
-	return (parser->parser.func.f(parser->parser.func.parser, tokens));
 }

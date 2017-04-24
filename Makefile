@@ -6,7 +6,7 @@
 #    By: aalves <aalves@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/03/08 03:04:06 by aalves            #+#    #+#              #
-#    Updated: 2017/04/24 09:06:15 by sclolus          ###   ########.fr        #
+#    Updated: 2017/04/24 15:47:37 by sclolus          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ export CC = gcc
 export FLAGS = -Werror -Wall -Wextra -g -O0 -fsanitize=address -fsanitize-blacklist=my_ignores.txt
 export VERBOSE = 0
 
-SRCS =
+SRCS = 
 
 OBJS = $(SRCS:.c=.o)
 
@@ -61,7 +61,7 @@ $(NAME): $(OBJS) modules
 	@ranlib $@
 
 test: all
-	gcc $(FLAGS) -I./includes -o test ft_lexer.c test.c -L. -lft
+	gcc $(FLAGS) -I./includes -o test ft_lexer.c ft_is_quoted.c test.c -L. -lft
 clean:
 	@$(ECHO) "$(CYAN)Cleaning objects $(NC)"
 	@$(foreach mod, $(MODULES), make -C $(mod) clean;)

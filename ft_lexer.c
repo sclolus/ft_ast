@@ -6,11 +6,11 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/23 09:54:09 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 09:01:26 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 15:46:51 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ast.h"
 
 #define CHARSET_WHITESPACES " \t\n"
 
@@ -21,7 +21,6 @@ static int32_t	ft_is_shell_reserved(char *buf, uint32_t i)
 		return (1);
 	return (0);
 }
-
 
 void	ft_add_token_to_list(t_list **token_list
 							, char *input, uint32_t start, uint32_t i)
