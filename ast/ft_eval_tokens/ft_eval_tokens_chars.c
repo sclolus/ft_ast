@@ -6,58 +6,72 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 10:51:51 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 11:09:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 11:26:34 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 
-uint32_t		ft_eval_tokens_oneof(t_parser *parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_oneof(t_parser *parser, t_tokens *tokens)
 {
-	if (ft_strchr(parser->parser.oneof.charset, *tokens[index]))
+	if (tokens->lens[index] == 1
+		&& ft_strchr(parser->parser.oneof.charset, tokens->tokens[index][0]))
 	{
-		parser->parser.oneof.c = *tokens[index];
+		parser->parser.oneof.c = tokens->tokens[index][0];
+		tokens->index++;
 		return (1);
 	}
 	else
 		return (0);
 }
 
-uint32_t		ft_eval_tokens_onechar(t_parser *parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_onechar(t_parser *parser, t_tokens *tokens)
 {
-	if (parser->parser.onechar.c == tokens[index][0])
-		return (1);
-	else
-		return (0);
-}
-
-uint32_t		ft_eval_tokens_any(t_parser *parser, char **tokens, uint32_t index)
-{
-	if (*tokens[index] != '\0')
+	if (tokens->lens[index] == 1
+		&& parser->parser.onechar.c == tokens->tokens[index][0])
 	{
-		parser->parser.any.matched = *tokens[index];
+		tokens->index++;
 		return (1);
 	}
 	else
 		return (0);
 }
 
-uint32_t		ft_eval_tokens_char_range(t_parser *parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_any(t_parser *parser, t_tokens *tokens)
 {
-	if (*tokens[index] >= parser->parser.range.start
-		&& *tokens[index] <= parser->parser.range.end)
+	if (tokens->lens[index] == 1
+		&& tokens->tokens[index][0] != '\0')
 	{
-		parser->parser.range.matched = *tokens[index];
+		parser->parser.any.matched = tokens->tokens[index][0];
+		tokens->index++;
 		return (1);
 	}
 	else
 		return (0);
 }
 
-uint32_t		ft_eval_tokens_satisfy(t_parser *parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_char_range(t_parser *parser, t_tokens *tokens)
 {
-	if (parser->parser.satisfy.f(*tokens[index]))
+	if (tokens->lens[index] == 1
+		&& tokens->tokens[index][0] <= parser->parser.range.end
+		&& tokens->tokens[index][0] >= parser->parser.range.start)
+	{
+		parser->parser.range.matched = tokens->tokens[index][0];
+		tokens->index++;
 		return (1);
+	}
+	else
+		return (0);
+}
+
+uint32_t		ft_eval_tokens_satisfy(t_parser *parser, t_tokens *tokens)
+{
+	if (tokens->lens[index] == 1
+		&& parser->parser.satisfy.f(tokens->tokens[index][0]))
+	{
+		tokens->index++;
+		return (1);
+	}
 	else
 		return (0);
 }
