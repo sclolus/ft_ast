@@ -37,10 +37,17 @@ uint32_t		ft_eval_tokens_str_any_of(t_parser *parser, t_tokens *tokens)
     uint32_t i;
 
     i = 0;
-    while
+    while (tokens[tokens->index][i])
        	if (ft_strchr(parser->parser.str_any_of.charset, tokens[tokens->index][i]))
             ++i;
         else
             return (0);
+    return (1);
+}
+
+uint32_t		ft_eval_tokens_str_any(t_parser *parser, t_tokens *tokens)
+{
+    parser->parser.str_any.str = ft_strdup(tokens->tokens[tokens->index]);
+    parser->parser.str_any.len = tokens->lens[tokens->index];
     return (1);
 }

@@ -37,7 +37,7 @@ uint32_t		ft_eval_tokens(t_parser *parser, t_tokens *tokens)
 		{&ft_eval_tokens_satisfy_str},
 		{&ft_eval_tokens_str_any},
 		{&ft_eval_tokens_oneof},
-		{&ft_eval_tokens_func},
+		{&ft_eval_tokens_undefined},
 		{&ft_eval_tokens_and},
 		{&ft_eval_tokens_or},
 		{&ft_eval_tokens_not},

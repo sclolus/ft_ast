@@ -306,6 +306,7 @@ uint32_t		ft_eval_tokens_multiply(t_parser *parser, t_tokens *tokens);
 uint32_t		ft_eval_tokens_satisfy_str(t_parser *parser, t_tokens *tokens);
 uint32_t		ft_eval_tokens_str(t_parser *parser, t_tokens *tokens);
 uint32_t		ft_eval_tokens_str_any_of(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_str_any(t_parser *parser, t_tokens *tokens);
 uint32_t		ft_eval_tokens_undefined(t_parser *parser, t_tokens *tokens);
 
 t_parser		*ft_get_grammar_literal(t_parser *literal);
