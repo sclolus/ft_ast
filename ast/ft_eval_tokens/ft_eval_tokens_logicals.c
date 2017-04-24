@@ -6,13 +6,13 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/24 10:53:22 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 10:54:15 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 11:49:01 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 
-uint32_t		ft_eval_tokens_or(t_parser	*parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_or(t_parser	*parser, t_tokens *tokens)
 {
 	uint32_t	ret;
 	uint32_t	i;
@@ -34,7 +34,7 @@ uint32_t		ft_eval_tokens_or(t_parser	*parser, char **tokens, uint32_t index)
 }
 
 
-uint32_t		ft_eval_tokens_and(t_parser	*parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_and(t_parser	*parser, t_tokens *tokens)
 {
 	uint32_t	ret;
 	uint32_t	i;
@@ -53,13 +53,12 @@ uint32_t		ft_eval_tokens_and(t_parser	*parser, char **tokens, uint32_t index)
 	return (ret);
 }
 
-uint32_t		ft_eval_tokens_not(t_parser	*parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_not(t_parser	*parser, t_tokens *tokens)
 {
-	return (!ft_eval_tokens(parser, tokens, index));
+	return (!ft_eval_tokens(parser, tokens));
 }
 
-
-uint32_t		ft_eval_tokens_plus(t_parser *parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_plus(t_parser *parser, t_tokens *tokens)
 {
 	t_list		*head;
 	t_list		*link;
@@ -101,7 +100,7 @@ uint32_t		ft_eval_tokens_plus(t_parser *parser, char **tokens, uint32_t index)
 	return (n != 0);
 }
 
-uint32_t		ft_eval_tokens_multiply(t_parser *parser, char **tokens, uint32_t index)
+uint32_t		ft_eval_tokens_multiply(t_parser *parser, t_tokens *tokens)
 {
 	t_list		*head;
 	t_list		*link;

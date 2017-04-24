@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 11:10:49 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 11:48:53 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,6 +290,19 @@ uint32_t		ft_eval_parser_plus(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_oneof(t_parser *parser, char **string);
 uint32_t		ft_eval_delayed(t_parser *parser, char **string);
+
+uint32_t		ft_eval_tokens(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_input(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_oneof(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_onechar(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_any(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_char_range(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_satisfy(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_or(t_parser	*parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_and(t_parser	*parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_not(t_parser	*parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_plus(t_parser *parser, t_tokens *tokens);
+uint32_t		ft_eval_tokens_multiply(t_parser *parser, t_tokens *tokens);
 
 t_parser		*ft_get_grammar_literal(t_parser *literal);
 t_parser		*ft_get_grammar_term(t_parser *term);
