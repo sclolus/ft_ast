@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 11:48:53 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/04/24 12:05:15 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ typedef struct	s_eval_tokens
 typedef struct	s_tokens
 {
 	char		**tokens;
-	uint32_t	lens;
+	uint32_t	*lens;
 	uint32_t	index;
 }				t_tokens;
 
