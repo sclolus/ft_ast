@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/04/24 14:30:03 by sclolus          ###   ########.fr       */
+/*   Updated: 2017/05/05 21:23:36 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <stdint.h>
 
 typedef uint32_t	t_id;
-
-# define CHECK(x) do {  ft_putendl("___"); \
-ft_putendl(#x);			\
-ft_putendl("____");		} while (0);
 
 # define PARSER_TYPE(t_parser) t_parser->id
 # define IS_RETAINED(t_parser) t_parser->retained == 1
@@ -290,6 +287,7 @@ uint32_t		ft_eval_parser_plus(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_multiply(t_parser *parser, char **string);
 uint32_t		ft_eval_parser_oneof(t_parser *parser, char **string);
 uint32_t		ft_eval_delayed(t_parser *parser, char **string);
+uint32_t		ft_eval_parser_func(t_parser *parser, char **string);
 
 uint32_t		ft_eval_tokens(t_parser *parser, t_tokens *tokens);
 uint32_t		ft_eval_tokens_input(t_parser *parser, t_tokens *tokens);
@@ -321,6 +319,7 @@ t_parser		*ft_find_rule_name(t_parser **ruleset, char *name);
 void			ft_link_rule_name(t_parser **ruleset, t_parser **node);
 
 void			ft_free_parser(t_parser *parser);
+void			ft_free_parser_struct(t_parser *parser);
 void			ft_free_parser_onechar(t_parser *parser);
 void			ft_free_parser_ref(t_parser *parser);
 void			ft_free_parser_str_any_of(t_parser *parser);
@@ -332,6 +331,7 @@ void			ft_free_parser_and_n(t_parser *parser);
 void			ft_free_parser_or_n(t_parser *parser);
 void			ft_free_parser_plus(t_parser *parser);
 void			ft_free_parser_multiply(t_parser *parser);
+void			ft_free_parser_not(t_parser *parser);
 void			ft_free_parser_char_range(t_parser *parser);
 void			ft_free_parser_satisfy(t_parser *parser);
 void			ft_free_parser_satisfy_str(t_parser *parser);
@@ -374,6 +374,7 @@ uint32_t		ft_count_metachar(char *start, char *end);
 int32_t			ft_count_rules(char *grammar);
 
 t_parser		*ft_dup_parser(t_parser *parser);
+t_parser		*ft_assign_parsers(t_parser *parser, t_parser *new_parser);
 
 void			ft_put_parser(t_parser *parser);
 void			ft_put_id(t_parser *parser);

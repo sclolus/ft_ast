@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_free_parser_misc.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/14 05:47:06 by sclolus           #+#    #+#             */
-/*   Updated: 2017/03/27 21:32:27 by sclolus          ###   ########.fr       */
+/*   Created: 2017/05/05 20:13:16 by sclolus           #+#    #+#             */
+/*   Updated: 2017/05/05 20:15:57 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ast.h"
 
-void	ft_putnbr_tab(uint32_t n, int32_t *tab)
+void	ft_free_parser_ref(t_parser *parser)
 {
-	while (n--)
-	{
-		ft_putnbr(tab[n]);
-	}
+	free(parser->parser.ref.rule_name);
+	ft_free_parser_struct(parser);
 }
 
-int main(void)
+void	ft_free_parser_func(t_parser *parser)
 {
-	int	*tab;
+	ft_free_parser(parser->parser.func.parser);
+	ft_free_parser_struct(parser);
+}
 
-	tab = (int[]){12, 11, 13};
-	ft_putnbr_tab(3, tab);
-	return (0);
+void	ft_free_parser_undefined(t_parser *parser)
+{
+	ft_putstr("feels bad man");
+	(void)parser;
+	ft_free_parser_struct(parser);
 }
