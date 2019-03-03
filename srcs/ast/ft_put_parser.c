@@ -175,7 +175,7 @@ void	ft_put_tree_level(t_parser *parser, uint32_t level)
 			{
 				if (parser->retained)
 					ft_putchar('~');
-				
+
 				ft_putchar(parser->parser.onechar.c);
 			}
 		}
@@ -262,7 +262,7 @@ void	ft_put_id(t_parser *parser)
 		ft_putstr("FUNC");
 		break;
 	case REF:
-		ft_putstr("REF");
+		ft_put_id(parser->parser.ref.ref);
 		break;
 	case ONEOF:
 		ft_putstr("ONEOF");
@@ -271,7 +271,7 @@ void	ft_put_id(t_parser *parser)
 		ft_putstr("STR_ANY_OF");
 		break;
 	default :
-	ft_putstr("broken");
+		ft_putstr("broken");
 		ft_putnbr(parser->id);
 		break;
 	}
@@ -291,7 +291,7 @@ void	ft_put_parser(t_parser *parser)
 		ft_putchar('\n');
 		while (i < parser->parser.or.n)
 		{
-				ft_put_id(parser->parser.or.parsers[i]);
+			ft_put_id(parser->parser.or.parsers[i]);
 			ft_putchar('\t');
 			ft_put_parser(parser->parser.or.parsers[i]);
 			i++;
@@ -308,7 +308,7 @@ void	ft_put_parser(t_parser *parser)
 //			printf("%d \n", parser->parser.or.parsers[i]->id);
 			ft_put_id(parser->parser.and.parsers[i]);
 			ft_putchar('\t');
-			ft_put_parser(parser->parser.or.parsers[i]);
+			ft_put_parser(parser->parser.and.parsers[i]);
 			i++;
 		}
 	}
@@ -330,7 +330,8 @@ void	ft_put_parser(t_parser *parser)
 		ft_put_parser(parser->parser.plus.parser);
 		ft_putchar('\n');
 	}
-	else
+	else {
+	}
 //		ft_putstr("node ");
 		;
 }

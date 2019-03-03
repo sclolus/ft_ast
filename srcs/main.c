@@ -23,14 +23,29 @@ int main(int argc, char **argv) {
 		exit(EXIT_FAILURE);
 	}
 
-	if (ft_eval_input(bnf_parser, &grammar)) {
-		parser = ft_get_grammar_syntax(bnf_parser);
-	} else {
-		ERR("Failed to evaluted grammar");
-		exit(EXIT_FAILURE);
-	}
+	/* if (ft_eval_input(bnf_parser, &grammar)) { */
+	/* 	parser = ft_get_grammar_syntax(bnf_parser); */
+	/* } else { */
+	/* 	ERR("Failed to evaluted grammar"); */
+	/* 	exit(EXIT_FAILURE); */
+	/* } */
+
+
 	/* ft_put_parser(parser); */
-	ft_optimizer(parser);
+	/* ft_optimizer(parser); */
+	t_parser   *onechar = ft_get_parser_onechar('1');
+
+	t_parser   *ref_onechar = ft_get_parser_ref(onechar);
+
+	parser = ft_get_parser_or_n(2, (t_parser *[]){ft_get_parser_and_n(2, (t_parser*[]){
+					ref_onechar,
+						ft_get_undefined_parser(),
+						}),
+				ref_onechar}
+		);
+
+	parser->parser.or.parsers[0]->parser.and.parsers[1] = ft_get_parser_ref(parser);
+
 	ft_put_parser(parser);
 	printf("==========END_PARSER==============\n");
 	while (42) {
@@ -39,7 +54,7 @@ int main(int argc, char **argv) {
 		if (!line)
 			break ;
 
-		printf("matched %d: \n", ft_eval_input(parser, &line));
+		printf("matched %d: \n", ft_eval(parser, &line));
 	}
 
 	return (0);

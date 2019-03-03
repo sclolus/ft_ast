@@ -41,8 +41,7 @@ SRC= srcs/main.c \
 	srcs/ast/ft_eval_tokens/ft_eval_tokens_multiply.c \
 	srcs/ast/ft_eval_tokens/ft_eval_tokens_plus.c \
 	srcs/ast/ft_eval_tokens/ft_eval_tokens_misc.c \
-	srcs/ast/ft_eval_tokens/ft_eval_tokens_strings.c \
-	srcs/refactor/ft_eval_parser.c
+	srcs/ast/ft_eval_tokens/ft_eval_tokens_strings.c
 OBJ= $(SRC:.c=.o)
 HDR_PATHS= ./includes ./libft/includes
 HDR_FLAGS= $(addprefix -I, $(HDR_PATHS))

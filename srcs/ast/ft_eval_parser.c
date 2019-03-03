@@ -1,71 +1,174 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_eval_parser.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/15 00:55:46 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/05 17:10:19 by sclolus          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ast.h"
 
-uint32_t		ft_eval_input_file(uint32_t fd, t_parser *parser)
-{
-	char		*string;
-	char		*tmp;
-	static char	buf[2048];
-	int32_t		ret;
+static t_mpc_ref *get_p_ref(t_parser *parser) {
+	assert(parser->id == REF);
+	return &parser->parser.ref;
+}
 
-	ret = 0;
-	if (!(string = ft_strnew(0)))
-		exit(EXIT_FAILURE);
-	while ((ret = read(fd, buf, 2047)) > 0)
-	{
-		buf[ret] = 0;
-		if (!(string = ft_strjoin_f(string, buf, 0)))
-			exit(EXIT_FAILURE);
+static t_mpc_or_n	*get_p_or(t_parser *parser) {
+	assert(parser->id == OR);
+	return &parser->parser.or;
+}
+
+static bool	tokens_left(char **string) {
+	return **string != '\0';
+}
+
+static bool	ft_eval_onechar(t_parser *parser, char **string) {
+	if (!tokens_left(string)) {
+		return false;
 	}
-	tmp = string;
-	ret = ft_eval_input(parser, &string);
-	free(tmp);
-	return (ret);
+	if (parser->parser.onechar.c == **string) {
+		(*string)++;
+		return (true);
+	}
+	return (false);
 }
 
-uint32_t		ft_eval_input(t_parser *parser, char **string)
-{
-	uint32_t	ret;
+static bool	ft_eval_parser_or(t_parser *parser, char **string) {
+	uint32_t	i = 0;
+	t_mpc_or_n	*inner;
+	char		*save = *string;
 
-	if ((ret = ft_eval_parser(parser, string)) && !**string)
-		return (1);
-	return (0);
+	inner = get_p_or(parser);
+	while (i < inner->n) {
+		*string = save;
+		if(ft_eval_parser(inner->parsers[i], string)) {
+			return true;
+		}
+		i++;
+	}
+	*string = save; // not necessary if invariant holds: good luck.
+	return false;
 }
 
-uint32_t		ft_eval_parser(t_parser *parser, char **string)
+static t_mpc_and_n *get_p_and(t_parser *parser) {
+	assert(parser->id == AND);
+	return &parser->parser.and;
+}
+
+static bool	ft_eval_parser_and(t_parser *parser, char **string) {
+	uint32_t    i = 0;
+	t_mpc_or_n    *inner;
+	char	      *save = *string;
+
+	inner = get_p_and(parser);
+	while (i < inner->n) {
+		if (!ft_eval_parser(inner->parsers[i], string)) {
+			*string = save;
+			return false;
+		}
+		i++;
+	}
+	return true;
+}
+
+static t_mpc_plus   *get_p_plus(t_parser *parser) {
+	assert(parser->id == PLUS);
+	return &parser->parser.plus;
+}
+
+static bool ft_eval_parser_plus(t_parser *parser, char **string) {
+	uint32_t    i = 0;
+	t_mpc_plus  *inner;
+	char	    *save;
+
+	inner = get_p_plus(parser);
+	while (42) {
+		save = *string;
+		if (!ft_eval_parser(inner->parser, string)) {
+			*string = save;
+			return i != 0 ? true : false;
+		}
+		i++;
+	}
+}
+
+static t_mpc_plus   *get_p_multiply(t_parser *parser) {
+	assert(parser->id == MULTIPLY);
+	return &parser->parser.multiply;
+}
+
+static bool ft_eval_parser_multiply(t_parser *parser, char **string) {
+	uint32_t    i = 0;
+	t_mpc_multiply  *inner;
+	char	    *save;
+
+	inner = get_p_multiply(parser);
+	while (42) {
+		save = *string;
+		if (!ft_eval_parser(inner->parser, string)) {
+			*string = save;
+			return true;
+		}
+		i++;
+	}
+}
+
+static t_mpc_str    *get_p_str(t_parser *parser) {
+	assert(parser->id == STRING);
+}
+
+static bool ft_eval_parser_str(t_parser *parser, char **string) {
+	t_mpc_str   *inner = get_p_str(parser);
+
+	if (strncmp(inner->str, *string, inner->len)) {
+		*string += inner->len;
+		return true;
+	}
+	return false;
+}
+
+static bool	ft_eval_parser_ref(t_parser *parser, char **string) {
+	t_mpc_ref *inner = get_p_ref(parser);
+
+	return ft_eval_parser(inner->ref, string);
+}
+
+static bool ft_eval_parser_undefined(t_parser *parser, char **string) {
+	(void)string;
+	dprintf(STDERR_FILENO, "Tried to eval undefined parser");
+	assert(false);
+}
+
+bool                ft_eval_input(t_parser *parser, char **string)
 {
-	char						*base;
+        uint32_t        ret;
+
+        if ((ret = ft_eval_parser(parser, string)) && !**string)
+                return (true);
+        return (false);
+}
+
+bool	ft_eval_parser(t_parser *parser, char **string) {
 	uint32_t					ret;
-	static const t_eval_parser	eval_parsers[18] = {
-		{&ft_eval_parser_undefined}, {&ft_eval_parser_undefined},
-		{&ft_eval_parser_onechar}, {&ft_eval_parser_str},
-		{&ft_eval_parser_undefined}, {&ft_eval_parser_char_range},
-		{&ft_eval_parser_any}, {&ft_eval_parser_str_any_of},
-		{&ft_eval_parser_satisfy}, {&ft_eval_parser_satisfy_str},
-		{&ft_eval_parser_str_any}, {&ft_eval_parser_oneof},
-		{&ft_eval_parser_func}, {&ft_eval_parser_and},
-		{&ft_eval_parser_or}, {&ft_eval_parser_not},
-		{&ft_eval_parser_plus}, {&ft_eval_parser_multiply}};
 
-	base = *string;
+	static const t_eval_parser	eval_parsers[18] = {
+		{&ft_eval_parser_undefined}, {&ft_eval_parser_ref},
+		{&ft_eval_onechar}, {NULL},
+		{NULL}, {NULL},
+		{NULL}, {NULL},
+		{NULL}, {NULL},
+		{NULL}, {NULL},
+		{NULL}, {&ft_eval_parser_and},
+		{&ft_eval_parser_or}, {NULL},
+		{NULL}, {NULL}};
+
 	ret = eval_parsers[parser->id].f(parser, string);
-	if (ret)
-		parser->retained = RETAINED;
-	else
-	{
-		parser->retained = UNRETAINED;
-		*string = base;
-	}
 	return (ret);
+}
+
+bool ft_eval(t_parser *parser, char **string) {
+	uint32_t ret;
+	char	*save;
+
+	save = *string;
+	ret = ft_eval_parser(parser, string);
+	printf("Last chars of string: %s:%d\n", *string,strlen(*string));
+	if (ret && **string == '\0') {
+		*string = *save;
+		return true;
+	}
+	*string = *save;
+	return false;
 }

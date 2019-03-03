@@ -25,15 +25,14 @@ t_parser	*ft_get_parser_func(t_parser *(*generator)(void)
 	return (new_parser);
 }
 
-t_parser	*ft_get_parser_ref(char *rule_name)
+t_parser	*ft_get_parser_ref(t_parser *parser)
 {
-	t_parser	*parser;
+	t_parser	*new;
 
-	parser = ft_get_undefined_parser();
-	parser->id = REF;
-	if (!(parser->parser.ref.rule_name = ft_strdup(rule_name)))
-		exit(EXIT_FAILURE);
-	return (parser);
+	new = ft_get_undefined_parser();
+	new->id = REF;
+	new->parser.ref.ref = parser;
+	return (new);
 }
 
 void		ft_set_name_parser(t_parser *parser, char *str)
