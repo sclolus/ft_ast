@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 21:24:32 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/05 21:28:07 by sclolus          ###   ########.fr       */
+/*   Updated: 2019/03/06 21:42:05 by aalves           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ static t_parser		*ft_assign_unary_parsers(t_parser *parser
 		!(new_parser->parser.str_any_of.charset = ft_strdup(
 			parser->parser.str_any_of.charset))
 			? exit(EXIT_FAILURE) : 0;
-	else if (parser->id == REF)
-		!(new_parser->parser.ref.rule_name = ft_strdup(
-			parser->parser.ref.rule_name))
-			? exit(EXIT_FAILURE) : 0;
+	/* else if (parser->id == REF) */
+	/* 	!(new_parser->parser.ref.rule_name = ft_strdup( */
+	/* 		parser->parser.ref.rule_name)) */
+	/* 		? exit(EXIT_FAILURE) : 0; */
 	else if (parser->id == REGEXP)
 		!(new_parser->parser.regexp.regexp = ft_strdup(
 			parser->parser.regexp.regexp))

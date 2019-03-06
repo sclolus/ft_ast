@@ -6,7 +6,7 @@
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/05 18:59:53 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/05 19:00:34 by sclolus          ###   ########.fr       */
+/*   Updated: 2019/03/04 19:21:58 by aalvess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_parser	*ft_get_parser_invocations(void)
 
 	parser = ft_get_parser_and_n(8, (t_parser *[]){ft_get_parser_whitespace(),
 		ft_get_parser_onechar('('), ft_get_parser_whitespace(),
-		ft_get_parser_func(&ft_get_parser_expression, &ft_eval_delayed),
+		/* ft_get_parser_func(&ft_get_parser_expression, &ft_eval_delayed), */
 		ft_get_parser_whitespace(), ft_get_parser_onechar(')'),
 		ft_get_parser_oneof("+*"), ft_get_parser_whitespace()});
 	ft_set_name_parser(parser, "<invocations>");

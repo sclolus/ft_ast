@@ -4,44 +4,58 @@ FLAGS= -Wall  -Wextra -g3 -fsanitize=address
 SRC= srcs/main.c \
 	srcs/ast/ast.c \
 	srcs/ast/ft_put_parser.c \
-	srcs/ast/ft_assign_parsers.c \
-	srcs/ast/ft_dup_parser/ft_dup_parser.c \
-	srcs/ast/ft_eval_parser.c \
-	srcs/ast/ft_eval_parser_chars.c \
-	srcs/ast/ft_eval_parser_logical.c \
-	srcs/ast/ft_eval_parser_misc.c \
-	srcs/ast/ft_eval_parser_multiply.c \
-	srcs/ast/ft_eval_parser_plus.c \
-	srcs/ast/ft_eval_parser_strings.c \
-	srcs/ast/ft_eval_parser_str_any_of.c \
-	srcs/ast/ft_free_parser/ft_free_parser.c \
-	srcs/ast/ft_free_parser/ft_free_parser_chars.c \
-	srcs/ast/ft_free_parser/ft_free_parser_logicals.c \
-	srcs/ast/ft_free_parser/ft_free_parser_misc.c \
-	srcs/ast/ft_free_parser/ft_free_parser_strings.c \
-	srcs/ast/ft_get_grammar.c \
-	srcs/ast/ft_get_grammar_linker.c \
-	srcs/ast/ft_get_grammar_syntax.c \
-	srcs/ast/ft_get_parser.c \
-	srcs/ast/ft_get_parser_chars.c \
-	srcs/ast/ft_get_parser_grammar.c \
-	srcs/ast/ft_get_parser_logicals.c \
-	srcs/ast/ft_get_parser_misc.c \
-	srcs/ast/ft_get_parser_strings.c \
-	srcs/ast/ft_get_parser_terminals.c \
-	srcs/ast/ft_optimizer.c \
-	srcs/ast/ft_sanitizer/ft_sanitizer.c \
-	srcs/ast/ft_sanitizer/ft_sanitizer_chars.c \
-	srcs/ast/ft_sanitizer/ft_sanitizer_logicals.c \
-	srcs/ast/ft_sanitizer/ft_sanitizer_misc.c \
-	srcs/ast/ft_sanitizer/ft_sanitizer_strings.c \
-	srcs/ast/ft_eval_tokens/ft_eval_tokens.c \
-	srcs/ast/ft_eval_tokens/ft_eval_tokens_chars.c \
-	srcs/ast/ft_eval_tokens/ft_eval_tokens_logicals.c \
-	srcs/ast/ft_eval_tokens/ft_eval_tokens_multiply.c \
-	srcs/ast/ft_eval_tokens/ft_eval_tokens_plus.c \
-	srcs/ast/ft_eval_tokens/ft_eval_tokens_misc.c \
-	srcs/ast/ft_eval_tokens/ft_eval_tokens_strings.c
+        srcs/generation/ft_get_parser.c \
+	srcs/generation/ft_get_parser_chars.c \
+        srcs/generation/ft_get_parser_logicals.c \
+	srcs/generation/ft_get_parser_misc.c \
+	srcs/generation/ft_get_parser_strings.c \
+	srcs/evaluation/ft_eval_parser.c \
+	srcs/evaluation/ft_eval_parser_and.c \
+	srcs/evaluation/ft_eval_parser_char_any.c \
+	srcs/evaluation/ft_eval_parser_char_range.c \
+	srcs/evaluation/ft_eval_parser_multiply.c \
+	srcs/evaluation/ft_eval_parser_not.c \
+	srcs/evaluation/ft_eval_parser_onechar.c \
+	srcs/evaluation/ft_eval_parser_oneof.c \
+	srcs/evaluation/ft_eval_parser_or.c \
+	srcs/evaluation/ft_eval_parser_plus.c \
+	srcs/evaluation/ft_eval_parser_ref.c \
+	srcs/evaluation/ft_eval_parser_str.c \
+	srcs/evaluation/ft_eval_parser_str_any_of.c \
+	srcs/evaluation/ft_eval_parser_undefined.c
+
+	# srcs/ast/ft_assign_parsers.c \
+	# srcs/ast/ft_dup_parser/ft_dup_parser.c \
+        
+	# srcs/ast/ft_eval_parser_chars.c \
+	# srcs/ast/ft_eval_parser_logical.c \
+	# srcs/ast/ft_eval_parser_misc.c \
+	# srcs/ast/ft_eval_parser_multiply.c \
+	# srcs/ast/ft_eval_parser_plus.c \
+	# srcs/ast/ft_eval_parser_strings.c \
+	# srcs/ast/ft_eval_parser_str_any_of.c \
+	# srcs/ast/ft_free_parser/ft_free_parser.c \
+	# srcs/ast/ft_free_parser/ft_free_parser_chars.c \
+	# srcs/ast/ft_free_parser/ft_free_parser_logicals.c \
+	# srcs/ast/ft_free_parser/ft_free_parser_misc.c \
+	# srcs/ast/ft_free_parser/ft_free_parser_strings.c \
+	# srcs/ast/ft_get_grammar.c \
+	# srcs/ast/ft_get_grammar_linker.c \
+	# srcs/ast/ft_get_grammar_syntax.c \
+ 	# srcs/ast/ft_get_parser_terminals.c \
+	# srcs/ast/ft_optimizer.c \
+	# srcs/ast/ft_sanitizer/ft_sanitizer.c \
+	# srcs/ast/ft_sanitizer/ft_sanitizer_chars.c \
+	# srcs/ast/ft_sanitizer/ft_sanitizer_logicals.c \
+	# srcs/ast/ft_sanitizer/ft_sanitizer_misc.c \
+	# srcs/ast/ft_sanitizer/ft_sanitizer_strings.c \
+	# srcs/ast/ft_eval_tokens/ft_eval_tokens.c \
+	# srcs/ast/ft_eval_tokens/ft_eval_tokens_chars.c \
+	# srcs/ast/ft_eval_tokens/ft_eval_tokens_logicals.c \
+	# srcs/ast/ft_eval_tokens/ft_eval_tokens_multiply.c \
+	# srcs/ast/ft_eval_tokens/ft_eval_tokens_plus.c \
+	# srcs/ast/ft_eval_tokens/ft_eval_tokens_misc.c \
+	# srcs/ast/ft_eval_tokens/ft_eval_tokens_strings.c
 OBJ= $(SRC:.c=.o)
 HDR_PATHS= ./includes ./libft/includes
 HDR_FLAGS= $(addprefix -I, $(HDR_PATHS))

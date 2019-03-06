@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_eval_parser.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aalves <aalves@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/04 19:15:19 by aalves            #+#    #+#             */
+/*   Updated: 2019/03/04 19:17:50 by aalves           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "ast.h"
 
 static t_mpc_ref *get_p_ref(t_parser *parser) {
@@ -49,7 +60,7 @@ static t_mpc_and_n *get_p_and(t_parser *parser) {
 
 static bool	ft_eval_parser_and(t_parser *parser, char **string) {
 	uint32_t    i = 0;
-	t_mpc_or_n    *inner;
+	t_mpc_and_n    *inner;
 	char	      *save = *string;
 
 	inner = get_p_and(parser);
@@ -84,7 +95,7 @@ static bool ft_eval_parser_plus(t_parser *parser, char **string) {
 	}
 }
 
-static t_mpc_plus   *get_p_multiply(t_parser *parser) {
+static t_mpc_multiply *get_p_multiply(t_parser *parser) {
 	assert(parser->id == MULTIPLY);
 	return &parser->parser.multiply;
 }
@@ -107,6 +118,7 @@ static bool ft_eval_parser_multiply(t_parser *parser, char **string) {
 
 static t_mpc_str    *get_p_str(t_parser *parser) {
 	assert(parser->id == STRING);
+	return (&parser->parser.string);
 }
 
 static bool ft_eval_parser_str(t_parser *parser, char **string) {
@@ -126,6 +138,7 @@ static bool	ft_eval_parser_ref(t_parser *parser, char **string) {
 }
 
 static bool ft_eval_parser_undefined(t_parser *parser, char **string) {
+	(void)parser;
 	(void)string;
 	dprintf(STDERR_FILENO, "Tried to eval undefined parser");
 	assert(false);
@@ -164,11 +177,11 @@ bool ft_eval(t_parser *parser, char **string) {
 
 	save = *string;
 	ret = ft_eval_parser(parser, string);
-	printf("Last chars of string: %s:%d\n", *string,strlen(*string));
+	printf("Last chars of string: %s:%ld\n", *string,strlen(*string));
 	if (ret && **string == '\0') {
-		*string = *save;
+		*string = save;
 		return true;
 	}
-	*string = *save;
+	*string = save;
 	return false;
 }

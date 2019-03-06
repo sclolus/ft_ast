@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_parser_misc.c                              :+:      :+:    :+:   */
+/*   ft_get_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sclolus <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/05 20:13:16 by sclolus           #+#    #+#             */
-/*   Updated: 2019/03/04 19:19:14 by aalvess          ###   ########.fr       */
+/*   Created: 2017/05/05 18:58:36 by sclolus           #+#    #+#             */
+/*   Updated: 2017/05/05 19:00:50 by sclolus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
 
-void	ft_free_parser_ref(t_parser *parser)
+t_parser	*ft_get_undefined_parser(void)
 {
-	/* free(parser->parser.ref.rule_name); */
-	ft_free_parser_struct(parser);
-}
+	t_parser	*parser;
 
-void	ft_free_parser_func(t_parser *parser)
-{
-	ft_free_parser(parser->parser.func.parser);
-	ft_free_parser_struct(parser);
-}
-
-void	ft_free_parser_undefined(t_parser *parser)
-{
-	ft_putstr("feels bad man");
-	(void)parser;
-	ft_free_parser_struct(parser);
+	if (!(parser = (t_parser*)malloc(sizeof(t_parser))))
+		exit(EXIT_FAILURE);
+	parser->id = UNDEFINED;
+	parser->retained = UNRETAINED;
+	parser->alloc = ALONE;
+	parser->name = NULL;
+	return (parser);
 }

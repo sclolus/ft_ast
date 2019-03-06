@@ -1,0 +1,9 @@
+* Parsers types
+** Satisfy
+Not ported atm, maybe later when needed
+** str_any_of
+Useful when doing optimization, not needed for now
+
+
+* Tree representation
+Eval checks validity of str, then puts parsed content on stack

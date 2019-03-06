@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2017/05/07 10:15:48 by sclolus          ###   ########.fr       */
+/*   Updated: 2019/03/06 21:19:46 by aalvess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <stdbool.h>
 
 typedef uint32_t	t_id;
+
+//When enabled, compiles lib with asserts
+# define ASSERT 1
 
 # define PARSER_TYPE(t_parser) t_parser->id
 # define IS_RETAINED(t_parser) t_parser->retained == 1
@@ -74,6 +77,9 @@ typedef enum		e_id
 	MULTIPLY,
 }					t_e_id;
 
+/*
+** Micro parsers
+*/
 struct s_parser;
 typedef struct s_parser t_parser;
 
@@ -98,6 +104,7 @@ typedef struct		s_mpc_any
 	char			matched;
 }					t_mpc_any;
 
+//Useful ?
 typedef struct		s_mpc_str_any
 {
 	char			*str;
@@ -111,6 +118,7 @@ typedef struct		s_mpc_str
 	uint32_t		len;
 }					t_mpc_str;
 
+//Create state machine to parse || replace by parsing sub-tree
 typedef struct		s_mpc_regexp
 {
 	char			*regexp;
@@ -172,6 +180,7 @@ typedef struct		s_mpc_oneof
 	char			c;
 }					t_mpc_oneof;
 
+//Old stuff
 typedef struct		s_mpc_func
 {
 	struct s_parser	*parser;
@@ -179,6 +188,7 @@ typedef struct		s_mpc_func
 	uint32_t		(*f)(struct s_parser*, char **);
 }					t_mpc_func;
 
+//Old stuff
 typedef struct		s_mpc_recursive
 {
 	struct s_parser	*ref;
@@ -212,7 +222,7 @@ typedef struct		s_parser
 	union u_mpc		parser;
 	char			*name;
 	t_e_id			id;
-	char			retained;
+	char			retained; //Parsed data will not be on the parsing tree anymore
 	char			alloc;
 }					t_parser;
 
@@ -269,10 +279,33 @@ t_parser			*ft_get_parser_line_end(void);
 t_parser			*ft_get_parser_rule(void);
 t_parser			*ft_get_parser_syntax(void);
 
-bool	ft_eval(t_parser *parser, char **string);
-bool	ft_eval_parser(t_parser *parser, char **string);
-bool                ft_eval_input(t_parser *parser, char **string);
 
+/*
+**	Parser evaluation
+*/
+bool				ft_eval(t_parser *parser, char **string);
+bool				ft_eval_parser(t_parser *parser, char **string);
+bool				ft_eval_input(t_parser *parser, char **string);
+/*
+**	Leaves
+*/
+bool				ft_eval_parser_undefined(t_parser *parser, char **string);
+bool				ft_eval_onechar(t_parser *parser, char **string);
+bool				ft_eval_parser_char_any(t_parser *parser, char **string);
+bool				ft_eval_parser_char_range(t_parser *parser, char **string);
+bool				ft_eval_parser_oneof(t_parser *parser, char **string);
+bool				ft_eval_parser_str(t_parser *parser, char **string);
+/*
+**	Nodes
+*/
+bool				ft_eval_parser_not(t_parser *parser, char **string);
+bool				ft_eval_parser_and(t_parser *parser, char **string);
+bool				ft_eval_parser_or(t_parser *parser, char **string);
+bool				ft_eval_parser_multiply(t_parser *parser, char **string);
+bool				ft_eval_parser_plus(t_parser *parser, char **string);
+bool				ft_eval_parser_ref(t_parser *parser, char **string);
+
+//OLD EVAL SHIET
 /* uint32_t			ft_eval_input(t_parser *parser, char **string); */
 /* uint32_t			ft_eval_input_file(uint32_t fd, t_parser *parser); */
 /* uint32_t			ft_eval_parser(t_parser *parser, char **string); */
