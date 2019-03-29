@@ -6,7 +6,7 @@
 /*   By: sclolus <sclolus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 12:06:56 by sclolus           #+#    #+#             */
-/*   Updated: 2019/03/06 21:19:46 by aalvess          ###   ########.fr       */
+/*   Updated: 2019/03/06 22:24:08 by aalvess          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,17 @@ typedef enum		e_id
 	PLUS,
 	MULTIPLY,
 }					t_e_id;
+
+//Stack, autogrowth could be in libft
+
+# define STACK_DEFAULT_SIZE 4096
+
+typedef struct		s_stack
+{
+	void			*base;
+	size_t			max;
+	size_t			pos;
+}					t_stack;
 
 /*
 ** Micro parsers
@@ -279,9 +290,8 @@ t_parser			*ft_get_parser_line_end(void);
 t_parser			*ft_get_parser_rule(void);
 t_parser			*ft_get_parser_syntax(void);
 
-
 /*
-**	Parser evaluation
+**	Parser evaluation via string
 */
 bool				ft_eval(t_parser *parser, char **string);
 bool				ft_eval_parser(t_parser *parser, char **string);

@@ -1,7 +1,7 @@
 NAME= ft_ast
 CC= gcc
 FLAGS= -Wall  -Wextra -g3 -fsanitize=address
-SRC= srcs/main.c \
+SRC=	srcs/main.c \
 	srcs/ast/ast.c \
 	srcs/ast/ft_put_parser.c \
         srcs/generation/ft_get_parser.c \
@@ -26,7 +26,6 @@ SRC= srcs/main.c \
 
 	# srcs/ast/ft_assign_parsers.c \
 	# srcs/ast/ft_dup_parser/ft_dup_parser.c \
-        
 	# srcs/ast/ft_eval_parser_chars.c \
 	# srcs/ast/ft_eval_parser_logical.c \
 	# srcs/ast/ft_eval_parser_misc.c \
@@ -42,7 +41,7 @@ SRC= srcs/main.c \
 	# srcs/ast/ft_get_grammar.c \
 	# srcs/ast/ft_get_grammar_linker.c \
 	# srcs/ast/ft_get_grammar_syntax.c \
- 	# srcs/ast/ft_get_parser_terminals.c \
+	# srcs/ast/ft_get_parser_terminals.c \
 	# srcs/ast/ft_optimizer.c \
 	# srcs/ast/ft_sanitizer/ft_sanitizer.c \
 	# srcs/ast/ft_sanitizer/ft_sanitizer_chars.c \
@@ -56,6 +55,7 @@ SRC= srcs/main.c \
 	# srcs/ast/ft_eval_tokens/ft_eval_tokens_plus.c \
 	# srcs/ast/ft_eval_tokens/ft_eval_tokens_misc.c \
 	# srcs/ast/ft_eval_tokens/ft_eval_tokens_strings.c
+
 OBJ= $(SRC:.c=.o)
 HDR_PATHS= ./includes ./libft/includes
 HDR_FLAGS= $(addprefix -I, $(HDR_PATHS))
